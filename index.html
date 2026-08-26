@@ -2,586 +2,1402 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>NEXORA BLOCKS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GUDU.X — Digital Toolbox</title>
 
 <style>
 *{
-    box-sizing:border-box;
     margin:0;
     padding:0;
+    box-sizing:border-box;
 }
 
-html,body{
+:root{
+    --bg:#050509;
+    --card:rgba(255,255,255,.055);
+    --border:rgba(255,255,255,.11);
+    --text:#fff;
+    --muted:#9696a5;
+    --purple:#8b5cf6;
+    --cyan:#06b6d4;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+    background:var(--bg);
+    color:var(--text);
+    font-family:Arial,Helvetica,sans-serif;
+    overflow-x:hidden;
+}
+
+/* BACKGROUND GLOW */
+
+body::before{
+    content:"";
+    position:fixed;
+    width:520px;
+    height:520px;
+    background:var(--purple);
+    filter:blur(190px);
+    opacity:.16;
+    top:-240px;
+    left:-180px;
+    z-index:-2;
+}
+
+body::after{
+    content:"";
+    position:fixed;
+    width:520px;
+    height:520px;
+    background:var(--cyan);
+    filter:blur(190px);
+    opacity:.10;
+    right:-220px;
+    bottom:-220px;
+    z-index:-2;
+}
+
+/* NAVBAR */
+
+nav{
+    height:76px;
     width:100%;
-    height:100%;
-    overflow:hidden;
-    background:#000;
-    font-family:Arial,sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 7%;
+    border-bottom:1px solid var(--border);
+    background:rgba(5,5,9,.72);
+    backdrop-filter:blur(20px);
+    position:sticky;
+    top:0;
+    z-index:100;
 }
 
-canvas{
-    display:block;
+.logo{
+    font-size:24px;
+    font-weight:900;
+    letter-spacing:2px;
 }
 
-#crosshair{
-    position:fixed;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
+.logo span{
+    color:var(--purple);
+}
+
+.navlinks{
+    display:flex;
+    gap:28px;
+}
+
+.navlinks a{
+    color:#aaa;
+    text-decoration:none;
+    font-size:14px;
+    transition:.25s;
+}
+
+.navlinks a:hover{
     color:white;
+}
+
+.menu{
+    display:none;
     font-size:25px;
-    pointer-events:none;
-    z-index:10;
-    text-shadow:0 0 5px #000;
 }
 
-#menu{
-    position:fixed;
-    top:15px;
-    left:15px;
-    z-index:20;
-    color:white;
-    background:rgba(0,0,0,.45);
-    padding:12px 16px;
-    border-radius:12px;
-    backdrop-filter:blur(8px);
-}
+/* HERO */
 
-#menu b{
-    font-size:18px;
-}
-
-#menu small{
-    display:block;
-    margin-top:5px;
-    opacity:.8;
-}
-
-#hotbar{
-    position:fixed;
-    bottom:20px;
-    left:50%;
-    transform:translateX(-50%);
-    display:flex;
-    gap:6px;
-    z-index:20;
-}
-
-.slot{
-    width:55px;
-    height:55px;
-    border:2px solid rgba(255,255,255,.5);
-    background:rgba(0,0,0,.55);
-    border-radius:8px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:white;
-    font-weight:bold;
-}
-
-.slot.active{
-    border:3px solid white;
-    transform:translateY(-4px);
-}
-
-#start{
-    position:fixed;
-    inset:0;
-    z-index:50;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    background:linear-gradient(#07111dcc,#000000ee);
-    color:white;
+.hero{
+    max-width:1100px;
+    margin:auto;
+    padding:115px 25px 75px;
     text-align:center;
 }
 
-#start h1{
-    font-size:48px;
-    letter-spacing:4px;
+.badge{
+    display:inline-block;
+    padding:8px 15px;
+    border:1px solid var(--border);
+    background:var(--card);
+    border-radius:50px;
+    color:#bbb;
+    font-size:13px;
+    margin-bottom:27px;
 }
 
-#start p{
-    margin:12px 0 25px;
-    opacity:.8;
+.hero h1{
+    font-size:clamp(52px,8vw,95px);
+    line-height:.95;
+    letter-spacing:-5px;
 }
 
-#play{
+.gradient{
+    background:linear-gradient(
+        90deg,
+        #ffffff,
+        #a78bfa,
+        #22d3ee
+    );
+
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.hero p{
+    max-width:630px;
+    margin:28px auto;
+    color:var(--muted);
+    font-size:17px;
+    line-height:1.6;
+}
+
+/* SEARCH */
+
+.search{
+    max-width:650px;
+    margin:38px auto 0;
+}
+
+.search input{
+    width:100%;
+    padding:18px 22px;
+    border-radius:16px;
+    border:1px solid var(--border);
+    outline:none;
+    background:rgba(255,255,255,.06);
+    color:white;
+    font-size:15px;
+    backdrop-filter:blur(15px);
+    transition:.25s;
+}
+
+.search input:focus{
+    border-color:var(--purple);
+    box-shadow:0 0 35px rgba(139,92,246,.18);
+}
+
+/* SECTIONS */
+
+section{
+    max-width:1150px;
+    margin:auto;
+    padding:50px 25px;
+}
+
+.sectionhead{
+    margin-bottom:25px;
+}
+
+.sectionhead h2{
+    font-size:29px;
+}
+
+.sectionhead p{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:6px;
+}
+
+/* CARDS */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.card{
+    border:1px solid var(--border);
+    background:var(--card);
+    border-radius:20px;
+    padding:24px;
+    min-height:190px;
+    transition:.3s;
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+}
+
+.card::before{
+    content:"";
+    position:absolute;
+    width:130px;
+    height:130px;
+    background:var(--purple);
+    filter:blur(70px);
+    opacity:0;
+    transition:.3s;
+    top:-45px;
+    right:-45px;
+}
+
+.card:hover{
+    transform:translateY(-7px);
+    border-color:rgba(255,255,255,.22);
+}
+
+.card:hover::before{
+    opacity:.25;
+}
+
+.icon{
+    font-size:34px;
+    margin-bottom:20px;
+}
+
+.card h3{
+    font-size:17px;
+    margin-bottom:8px;
+}
+
+.card p{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.5;
+}
+
+/* AI */
+
+.feature{
+    border:1px solid var(--border);
+    background:linear-gradient(
+        135deg,
+        rgba(139,92,246,.13),
+        rgba(6,182,212,.06)
+    );
+    border-radius:25px;
+    padding:36px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.feature h2{
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+.feature p{
+    color:var(--muted);
+    max-width:520px;
+    line-height:1.5;
+}
+
+.button{
     border:0;
-    padding:15px 35px;
-    border-radius:12px;
     background:white;
     color:black;
-    font-size:18px;
+    padding:13px 21px;
+    border-radius:12px;
     font-weight:bold;
     cursor:pointer;
 }
 
-#mobile{
+/* MODALS */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.80);
+    backdrop-filter:blur(12px);
     display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:999;
+    padding:20px;
 }
 
-@media(max-width:700px){
-    #start h1{
-        font-size:32px;
+.modalBox{
+    width:min(100%,430px);
+    max-height:90vh;
+    overflow:auto;
+    background:#101118;
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:24px;
+    padding:30px;
+    text-align:center;
+    position:relative;
+    box-shadow:0 25px 90px rgba(0,0,0,.6);
+}
+
+.modalBox h2{
+    margin-bottom:8px;
+}
+
+.modalBox > p{
+    color:#999;
+    margin-bottom:20px;
+}
+
+.close{
+    position:absolute;
+    right:14px;
+    top:10px;
+    background:transparent !important;
+    color:white;
+    font-size:27px;
+    padding:5px 10px !important;
+}
+
+.toolInput{
+    width:100%;
+    padding:14px;
+    border-radius:12px;
+    border:1px solid #333;
+    background:#08090d;
+    color:white;
+    outline:none;
+    margin-bottom:12px;
+    font-size:14px;
+}
+
+.toolInput:focus{
+    border-color:var(--purple);
+}
+
+.primaryBtn{
+    width:100%;
+    padding:13px;
+    border:0;
+    border-radius:12px;
+    background:white;
+    color:#050505;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* QR */
+
+#qrResult{
+    margin-top:20px;
+    display:flex;
+    justify-content:center;
+}
+
+#qrResult img{
+    background:white;
+    padding:8px;
+    border-radius:8px;
+}
+
+/* PASSWORD */
+
+.passwordResult{
+    display:flex;
+    gap:8px;
+    margin-bottom:15px;
+}
+
+.passwordResult input{
+    flex:1;
+    min-width:0;
+    padding:14px;
+    border-radius:12px;
+    border:1px solid #333;
+    background:#08090d;
+    color:white;
+    outline:none;
+}
+
+.copyBtn{
+    border:0;
+    border-radius:12px;
+    padding:0 15px;
+    cursor:pointer;
+}
+
+/* TEXT */
+
+#textArea{
+    width:100%;
+    height:180px;
+    resize:none;
+    padding:15px;
+    border-radius:12px;
+    border:1px solid #333;
+    background:#08090d;
+    color:white;
+    outline:none;
+    margin-bottom:15px;
+}
+
+.counterStats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+.stat{
+    background:rgba(255,255,255,.05);
+    border:1px solid var(--border);
+    padding:15px 5px;
+    border-radius:12px;
+}
+
+.stat b{
+    display:block;
+    font-size:20px;
+}
+
+.stat span{
+    color:#888;
+    font-size:11px;
+}
+
+/* STOPWATCH */
+
+.timer{
+    font-size:55px;
+    font-weight:bold;
+    margin:25px 0;
+    letter-spacing:3px;
+}
+
+.timerBtns{
+    display:flex;
+    gap:8px;
+}
+
+.timerBtns button{
+    flex:1;
+    padding:13px;
+    border:0;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* FOOTER */
+
+footer{
+    text-align:center;
+    padding:55px 20px;
+    color:#666;
+    border-top:1px solid var(--border);
+    margin-top:50px;
+}
+
+footer strong{
+    color:#aaa;
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+    .navlinks{
+        display:none;
     }
 
-    #mobile{
+    .menu{
         display:block;
-        position:fixed;
-        bottom:95px;
-        left:20px;
-        z-index:30;
     }
 
-    .mrow{
-        display:flex;
-        justify-content:center;
+    .hero{
+        padding-top:85px;
     }
 
-    .mbtn{
-        width:55px;
-        height:55px;
-        margin:3px;
-        border:1px solid #ffffff66;
-        background:#0008;
-        color:white;
-        border-radius:12px;
-        font-size:20px;
+    .hero h1{
+        letter-spacing:-3px;
     }
 
-    #jump{
-        position:fixed;
-        right:20px;
-        bottom:100px;
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .feature{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:25px;
     }
 }
+
+@media(max-width:500px){
+
+    nav{
+        padding:0 5%;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero p{
+        font-size:15px;
+    }
+
+    section{
+        padding-left:18px;
+        padding-right:18px;
+    }
+}
+
 </style>
 </head>
 
 <body>
 
-<div id="start">
-    <h1>NEXORA BLOCKS</h1>
-    <p>A tiny browser-based block world</p>
-    <button id="play">PLAY WORLD</button>
-</div>
 
-<div id="menu">
-    <b>🌍 NEXORA BLOCKS</b>
-    <small>WASD • Mouse • Space • Left/Right Click</small>
-</div>
+<!-- NAVBAR -->
 
-<div id="crosshair">+</div>
+<nav>
 
-<div id="hotbar">
-    <div class="slot active">🌱</div>
-    <div class="slot">🟫</div>
-    <div class="slot">🪨</div>
-    <div class="slot">🟨</div>
-</div>
-
-<div id="mobile">
-    <div class="mrow">
-        <button class="mbtn" data-key="w">▲</button>
+    <div class="logo">
+        GUDU<span>.X</span>
     </div>
-    <div class="mrow">
-        <button class="mbtn" data-key="a">◀</button>
-        <button class="mbtn" data-key="s">▼</button>
-        <button class="mbtn" data-key="d">▶</button>
+
+    <div class="navlinks">
+
+        <a href="#home">
+            Home
+        </a>
+
+        <a href="#tools">
+            Tools
+        </a>
+
+        <a href="#ai">
+            AI
+        </a>
+
+        <a href="#games">
+            Games
+        </a>
+
     </div>
+
+    <div class="menu">
+        ☰
+    </div>
+
+</nav>
+
+
+<!-- HERO -->
+
+<div class="hero" id="home">
+
+    <div class="badge">
+        ✦ GUDU.X DIGITAL TOOLBOX
+    </div>
+
+    <h1>
+
+        Everything you need.<br>
+
+        <span class="gradient">
+            In one place.
+        </span>
+
+    </h1>
+
+    <p>
+        Powerful tools, utilities and digital experiences
+        designed to make your everyday life easier.
+    </p>
+
+    <div class="search">
+
+        <input
+            id="search"
+            type="text"
+            placeholder="Search tools..."
+        >
+
+    </div>
+
 </div>
 
-<button id="jump" class="mbtn" style="display:none">↑</button>
 
-<script type="module">
+<!-- TOOLS -->
 
-import * as THREE from
-"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
+<section id="tools">
 
-import {PointerLockControls} from
-"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/controls/PointerLockControls.js";
+    <div class="sectionhead">
 
-const scene = new THREE.Scene();
+        <h2>
+            Popular Tools
+        </h2>
 
-scene.background = new THREE.Color(0x87ceeb);
+        <p>
+            Useful tools for everyday tasks
+        </p>
 
-scene.fog = new THREE.Fog(0x87ceeb,25,100);
+    </div>
 
-const camera = new THREE.PerspectiveCamera(
-    75,
-    innerWidth/innerHeight,
-    0.1,
-    200
-);
 
-camera.position.set(0,3,6);
+    <div class="grid">
 
-const renderer = new THREE.WebGLRenderer({
-    antialias:true
+
+        <!-- QR -->
+
+        <div
+            class="card"
+            data-name="qr generator"
+            onclick="openTool('qrModal')"
+        >
+
+            <div class="icon">
+                🔗
+            </div>
+
+            <h3>
+                QR Generator
+            </h3>
+
+            <p>
+                Create QR codes from any
+                text or link.
+            </p>
+
+        </div>
+
+
+        <!-- PASSWORD -->
+
+        <div
+            class="card"
+            data-name="password generator"
+            onclick="openTool('passwordModal')"
+        >
+
+            <div class="icon">
+                🔐
+            </div>
+
+            <h3>
+                Password Generator
+            </h3>
+
+            <p>
+                Generate strong random
+                passwords instantly.
+            </p>
+
+        </div>
+
+
+        <!-- TEXT -->
+
+        <div
+            class="card"
+            data-name="text counter"
+            onclick="openTool('textModal')"
+        >
+
+            <div class="icon">
+                📝
+            </div>
+
+            <h3>
+                Text Counter
+            </h3>
+
+            <p>
+                Count words, characters
+                and lines instantly.
+            </p>
+
+        </div>
+
+
+        <!-- STOPWATCH -->
+
+        <div
+            class="card"
+            data-name="stopwatch timer"
+            onclick="openTool('timerModal')"
+        >
+
+            <div class="icon">
+                ⏱️
+            </div>
+
+            <h3>
+                Stopwatch
+            </h3>
+
+            <p>
+                Track time with a simple
+                digital stopwatch.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- AI -->
+
+<section id="ai">
+
+    <div class="sectionhead">
+
+        <h2>
+            AI Zone 🤖
+        </h2>
+
+        <p>
+            Smart tools coming to GUDU.X
+        </p>
+
+    </div>
+
+
+    <div class="feature">
+
+        <div>
+
+            <h2>
+                Meet GUDU.X AI
+            </h2>
+
+            <p>
+                A future collection of AI-powered
+                tools for writing, ideas,
+                productivity and more.
+            </p>
+
+        </div>
+
+        <button
+            class="button"
+            onclick="alert('GUDU.X AI is coming soon 🚀')"
+        >
+            Coming Soon
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- GAMES -->
+
+<section id="games">
+
+    <div class="sectionhead">
+
+        <h2>
+            Mini Games 🎮
+        </h2>
+
+        <p>
+            Take a break and have some fun
+        </p>
+
+    </div>
+
+
+    <div class="grid">
+
+
+        <div class="card">
+
+            <div class="icon">
+                🧠
+            </div>
+
+            <h3>
+                Memory
+            </h3>
+
+            <p>
+                Test how good your memory is.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="icon">
+                ❌
+            </div>
+
+            <h3>
+                Tic Tac Toe
+            </h3>
+
+            <p>
+                Classic game against the computer.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="icon">
+                🟩
+            </div>
+
+            <h3>
+                Snake
+            </h3>
+
+            <p>
+                Classic snake game in your browser.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="icon">
+                🧩
+            </div>
+
+            <h3>
+                Puzzle
+            </h3>
+
+            <p>
+                Challenge yourself with puzzles.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- QR MODAL -->
+
+<div id="qrModal" class="modal">
+
+    <div class="modalBox">
+
+        <button
+            class="close"
+            onclick="closeTool('qrModal')"
+        >
+            ×
+        </button>
+
+        <h2>
+            🔗 QR Generator
+        </h2>
+
+        <p>
+            Enter text or a link
+        </p>
+
+        <input
+            id="qrInput"
+            class="toolInput"
+            placeholder="https://example.com"
+        >
+
+        <button
+            class="primaryBtn"
+            onclick="generateQR()"
+        >
+            Generate QR
+        </button>
+
+        <div id="qrResult"></div>
+
+    </div>
+
+</div>
+
+
+<!-- PASSWORD MODAL -->
+
+<div id="passwordModal" class="modal">
+
+    <div class="modalBox">
+
+        <button
+            class="close"
+            onclick="closeTool('passwordModal')"
+        >
+            ×
+        </button>
+
+        <h2>
+            🔐 Password Generator
+        </h2>
+
+        <p>
+            Create a strong random password
+        </p>
+
+        <div class="passwordResult">
+
+            <input
+                id="passwordOutput"
+                readonly
+                placeholder="Your password"
+            >
+
+            <button
+                class="copyBtn"
+                onclick="copyPassword()"
+            >
+                Copy
+            </button>
+
+        </div>
+
+        <button
+            class="primaryBtn"
+            onclick="generatePassword()"
+        >
+            Generate Password
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- TEXT MODAL -->
+
+<div id="textModal" class="modal">
+
+    <div class="modalBox">
+
+        <button
+            class="close"
+            onclick="closeTool('textModal')"
+        >
+            ×
+        </button>
+
+        <h2>
+            📝 Text Counter
+        </h2>
+
+        <p>
+            Type or paste your text below
+        </p>
+
+        <textarea
+            id="textArea"
+            placeholder="Start typing..."
+        ></textarea>
+
+        <div class="counterStats">
+
+            <div class="stat">
+
+                <b id="wordCount">
+                    0
+                </b>
+
+                <span>
+                    Words
+                </span>
+
+            </div>
+
+            <div class="stat">
+
+                <b id="charCount">
+                    0
+                </b>
+
+                <span>
+                    Characters
+                </span>
+
+            </div>
+
+            <div class="stat">
+
+                <b id="lineCount">
+                    0
+                </b>
+
+                <span>
+                    Lines
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TIMER MODAL -->
+
+<div id="timerModal" class="modal">
+
+    <div class="modalBox">
+
+        <button
+            class="close"
+            onclick="closeTool('timerModal')"
+        >
+            ×
+        </button>
+
+        <h2>
+            ⏱️ Stopwatch
+        </h2>
+
+        <p>
+            Track your time
+        </p>
+
+        <div
+            id="timerDisplay"
+            class="timer"
+        >
+            00:00:00
+        </div>
+
+        <div class="timerBtns">
+
+            <button onclick="startTimer()">
+                Start
+            </button>
+
+            <button onclick="pauseTimer()">
+                Pause
+            </button>
+
+            <button onclick="resetTimer()">
+                Reset
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <strong>
+        GUDU.X
+    </strong>
+
+    <br><br>
+
+    Your digital toolbox.
+
+    <br><br>
+
+    © 2026 GUDU.X
+
+</footer>
+
+
+<!-- QR CODE LIBRARY -->
+
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+
+<script>
+
+/* =========================
+   MODALS
+========================= */
+
+function openTool(id){
+
+    document.getElementById(id).style.display="flex";
+
+}
+
+function closeTool(id){
+
+    document.getElementById(id).style.display="none";
+
+}
+
+
+/* CLICK OUTSIDE MODAL */
+
+document.querySelectorAll(".modal").forEach(modal=>{
+
+    modal.addEventListener("click",function(e){
+
+        if(e.target===modal){
+
+            modal.style.display="none";
+
+        }
+
+    });
+
 });
 
-renderer.setSize(innerWidth,innerHeight);
-renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 
-document.body.appendChild(renderer.domElement);
+/* =========================
+   QR GENERATOR
+========================= */
 
+function generateQR(){
 
-/* LIGHT */
+    const text=
+        document
+        .getElementById("qrInput")
+        .value
+        .trim();
 
-const sun = new THREE.DirectionalLight(0xffffff,1.5);
-sun.position.set(20,30,10);
-scene.add(sun);
+    if(!text){
 
-scene.add(new THREE.HemisphereLight(
-    0xffffff,
-    0x555555,
-    1
-));
-
-
-/* CONTROLS */
-
-const controls = new PointerLockControls(
-    camera,
-    document.body
-);
-
-
-/* BLOCK MATERIALS */
-
-const materials = {
-
-    grass:new THREE.MeshLambertMaterial({
-        color:0x4caf50
-    }),
-
-    dirt:new THREE.MeshLambertMaterial({
-        color:0x795548
-    }),
-
-    stone:new THREE.MeshLambertMaterial({
-        color:0x777777
-    }),
-
-    sand:new THREE.MeshLambertMaterial({
-        color:0xd8c27a
-    })
-
-};
-
-
-/* BLOCKS */
-
-const blockSize = 1;
-
-const blocks = [];
-
-function createBlock(x,y,z,type="grass"){
-
-    const geometry = new THREE.BoxGeometry(
-        blockSize,
-        blockSize,
-        blockSize
-    );
-
-    const cube = new THREE.Mesh(
-        geometry,
-        materials[type]
-    );
-
-    cube.position.set(x,y,z);
-
-    cube.userData.type = type;
-
-    scene.add(cube);
-
-    blocks.push(cube);
-
-    return cube;
-}
-
-
-/* WORLD */
-
-for(let x=-15;x<=15;x++){
-
-    for(let z=-15;z<=15;z++){
-
-        createBlock(x,0,z,"grass");
-        createBlock(x,-1,z,"dirt");
-
-        if(Math.random()<0.08){
-
-            createBlock(
-                x,
-                1,
-                z,
-                "stone"
-            );
-
-        }
-    }
-}
-
-
-/* TREES */
-
-function tree(x,z){
-
-    for(let y=1;y<=3;y++){
-
-        createBlock(x,y,z,"dirt");
-
-    }
-
-    for(let dx=-1;dx<=1;dx++){
-
-        for(let dz=-1;dz<=1;dz++){
-
-            createBlock(
-                x+dx,
-                4,
-                z+dz,
-                "grass"
-            );
-
-        }
-
-    }
-
-    createBlock(x,5,z,"grass");
-}
-
-for(let i=0;i<15;i++){
-
-    const x=Math.floor(Math.random()*25)-12;
-    const z=Math.floor(Math.random()*25)-12;
-
-    tree(x,z);
-}
-
-
-/* MOVEMENT */
-
-const keys={};
-
-document.addEventListener(
-    "keydown",
-    e=>{
-        keys[e.key.toLowerCase()]=true;
-
-        if(e.code==="Space"){
-            jump();
-        }
-    }
-);
-
-document.addEventListener(
-    "keyup",
-    e=>{
-        keys[e.key.toLowerCase()]=false;
-    }
-);
-
-let velocityY=0;
-let onGround=false;
-
-function jump(){
-
-    if(onGround){
-
-        velocityY=0.18;
-        onGround=false;
-
-    }
-}
-
-
-/* BREAK / PLACE */
-
-const raycaster = new THREE.Raycaster();
-
-function getBlock(){
-
-    raycaster.setFromCamera(
-        new THREE.Vector2(0,0),
-        camera
-    );
-
-    const hits=raycaster.intersectObjects(
-        blocks,
-        false
-    );
-
-    if(hits.length && hits[0].distance<6){
-
-        return hits[0];
-
-    }
-
-    return null;
-}
-
-document.addEventListener(
-    "mousedown",
-    e=>{
-
-        if(!controls.isLocked)return;
-
-        const hit=getBlock();
-
-        if(!hit)return;
-
-        if(e.button===0){
-
-            scene.remove(hit.object);
-
-            const index=blocks.indexOf(hit.object);
-
-            if(index>-1){
-                blocks.splice(index,1);
-            }
-
-        }
-
-        if(e.button===2){
-
-            const normal=hit.face.normal.clone();
-
-            const pos=hit.object.position.clone();
-
-            pos.add(normal);
-
-            createBlock(
-                Math.round(pos.x),
-                Math.round(pos.y),
-                Math.round(pos.z),
-                "grass"
-            );
-
-        }
-
-    }
-);
-
-document.addEventListener(
-    "contextmenu",
-    e=>e.preventDefault()
-);
-
-
-/* START */
-
-document.getElementById("play")
-.addEventListener(
-    "click",
-    ()=>{
-
-        controls.lock();
-
-        document.getElementById("start").style.display="none";
-
-    }
-);
-
-
-/* MOBILE */
-
-document.querySelectorAll(".mbtn")
-.forEach(btn=>{
-
-    const key=btn.dataset.key;
-
-    btn.addEventListener(
-        "touchstart",
-        e=>{
-            e.preventDefault();
-            keys[key]=true;
-        }
-    );
-
-    btn.addEventListener(
-        "touchend",
-        e=>{
-            e.preventDefault();
-            keys[key]=false;
-        }
-    );
-
-});
-
-
-/* GAME LOOP */
-
-const clock=new THREE.Clock();
-
-function animate(){
-
-    requestAnimationFrame(animate);
-
-    const delta=Math.min(
-        clock.getDelta(),
-        0.05
-    );
-
-    if(controls.isLocked){
-
-        const speed=5*delta;
-
-        if(keys.w)
-            controls.moveForward(speed);
-
-        if(keys.s)
-            controls.moveForward(-speed);
-
-        if(keys.a)
-            controls.moveRight(-speed);
-
-        if(keys.d)
-            controls.moveRight(speed);
-
-        velocityY-=0.5*delta;
-
-        camera.position.y+=velocityY;
-
-        if(camera.position.y<2){
-
-            camera.position.y=2;
-
-            velocityY=0;
-
-            onGround=true;
-
-        }
-
-    }
-
-    renderer.render(scene,camera);
-
-}
-
-animate();
-
-
-/* RESIZE */
-
-addEventListener(
-    "resize",
-    ()=>{
-
-        camera.aspect=
-            innerWidth/innerHeight;
-
-        camera.updateProjectionMatrix();
-
-        renderer.setSize(
-            innerWidth,
-            innerHeight
+        alert(
+            "Please enter some text or a link."
         );
+
+        return;
+
+    }
+
+    const result=
+        document.getElementById("qrResult");
+
+    result.innerHTML="";
+
+    new QRCode(result,{
+
+        text:text,
+
+        width:200,
+
+        height:200,
+
+        correctLevel:
+            QRCode.CorrectLevel.H
+
+    });
+
+}
+
+
+/* =========================
+   PASSWORD GENERATOR
+========================= */
+
+function generatePassword(){
+
+    const chars=
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"+
+        "abcdefghijklmnopqrstuvwxyz"+
+        "0123456789"+
+        "!@#$%^&*()_+-=[]{}";
+
+    let password="";
+
+    for(let i=0;i<18;i++){
+
+        password+=
+            chars.charAt(
+                Math.floor(
+                    Math.random()*chars.length
+                )
+            );
+
+    }
+
+    document.getElementById(
+        "passwordOutput"
+    ).value=password;
+
+}
+
+
+function copyPassword(){
+
+    const input=
+        document.getElementById(
+            "passwordOutput"
+        );
+
+    if(!input.value){
+
+        generatePassword();
+
+    }
+
+    navigator.clipboard
+        .writeText(input.value)
+        .then(()=>{
+
+            alert("Password copied!");
+
+        })
+        .catch(()=>{
+
+            alert("Copy failed. Please copy it manually.");
+
+        });
+
+}
+
+
+/* =========================
+   TEXT COUNTER
+========================= */
+
+const textArea=
+    document.getElementById("textArea");
+
+textArea.addEventListener(
+    "input",
+    updateCounter
+);
+
+function updateCounter(){
+
+    const text=textArea.value;
+
+    const words=
+        text.trim()
+        ? text.trim().split(/\s+/).length
+        : 0;
+
+    const chars=text.length;
+
+    const lines=
+        text
+        ? text.split("\n").length
+        : 0;
+
+    document.getElementById(
+        "wordCount"
+    ).textContent=words;
+
+    document.getElementById(
+        "charCount"
+    ).textContent=chars;
+
+    document.getElementById(
+        "lineCount"
+    ).textContent=lines;
+
+}
+
+
+/* =========================
+   STOPWATCH
+========================= */
+
+let timerSeconds=0;
+
+let timerInterval=null;
+
+function updateTimer(){
+
+    const hours=
+        Math.floor(
+            timerSeconds/3600
+        );
+
+    const minutes=
+        Math.floor(
+            (timerSeconds%3600)/60
+        );
+
+    const seconds=
+        timerSeconds%60;
+
+    const h=
+        String(hours).padStart(2,"0");
+
+    const m=
+        String(minutes).padStart(2,"0");
+
+    const s=
+        String(seconds).padStart(2,"0");
+
+    document.getElementById(
+        "timerDisplay"
+    ).textContent=
+        `${h}:${m}:${s}`;
+
+}
+
+
+function startTimer(){
+
+    if(timerInterval)return;
+
+    timerInterval=setInterval(()=>{
+
+        timerSeconds++;
+
+        updateTimer();
+
+    },1000);
+
+}
+
+
+function pauseTimer(){
+
+    clearInterval(timerInterval);
+
+    timerInterval=null;
+
+}
+
+
+function resetTimer(){
+
+    pauseTimer();
+
+    timerSeconds=0;
+
+    updateTimer();
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+const search=
+    document.getElementById("search");
+
+const cards=
+    document.querySelectorAll(".card");
+
+search.addEventListener(
+    "input",
+    ()=>{
+
+        const value=
+            search.value
+            .toLowerCase()
+            .trim();
+
+        cards.forEach(card=>{
+
+            const name=
+                (
+                    card.dataset.name ||
+                    card.innerText
+                ).toLowerCase();
+
+            card.style.display=
+                name.includes(value)
+                ? ""
+                : "none";
+
+        });
 
     }
 );
