@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>GUDU.X — Digital Toolbox</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GUDU RACING</title>
 
 <style>
 *{
@@ -13,1391 +12,1111 @@
     box-sizing:border-box;
 }
 
-:root{
-    --bg:#050509;
-    --card:rgba(255,255,255,.055);
-    --border:rgba(255,255,255,.11);
-    --text:#fff;
-    --muted:#9696a5;
-    --purple:#8b5cf6;
-    --cyan:#06b6d4;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
 body{
-    min-height:100vh;
-    background:var(--bg);
-    color:var(--text);
+    overflow:hidden;
+    background:#101010;
     font-family:Arial,Helvetica,sans-serif;
-    overflow-x:hidden;
-}
-
-/* BACKGROUND GLOW */
-
-body::before{
-    content:"";
-    position:fixed;
-    width:520px;
-    height:520px;
-    background:var(--purple);
-    filter:blur(190px);
-    opacity:.16;
-    top:-240px;
-    left:-180px;
-    z-index:-2;
-}
-
-body::after{
-    content:"";
-    position:fixed;
-    width:520px;
-    height:520px;
-    background:var(--cyan);
-    filter:blur(190px);
-    opacity:.10;
-    right:-220px;
-    bottom:-220px;
-    z-index:-2;
-}
-
-/* NAVBAR */
-
-nav{
-    height:76px;
-    width:100%;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 7%;
-    border-bottom:1px solid var(--border);
-    background:rgba(5,5,9,.72);
-    backdrop-filter:blur(20px);
-    position:sticky;
-    top:0;
-    z-index:100;
-}
-
-.logo{
-    font-size:24px;
-    font-weight:900;
-    letter-spacing:2px;
-}
-
-.logo span{
-    color:var(--purple);
-}
-
-.navlinks{
-    display:flex;
-    gap:28px;
-}
-
-.navlinks a{
-    color:#aaa;
-    text-decoration:none;
-    font-size:14px;
-    transition:.25s;
-}
-
-.navlinks a:hover{
     color:white;
 }
 
-.menu{
-    display:none;
-    font-size:25px;
+canvas{
+    display:block;
 }
 
-/* HERO */
-
-.hero{
-    max-width:1100px;
-    margin:auto;
-    padding:115px 25px 75px;
+#menu{
+    position:fixed;
+    inset:0;
+    z-index:20;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    background:
+        radial-gradient(circle at center,#202020,#050505);
     text-align:center;
 }
 
-.badge{
-    display:inline-block;
-    padding:8px 15px;
-    border:1px solid var(--border);
-    background:var(--card);
-    border-radius:50px;
-    color:#bbb;
-    font-size:13px;
-    margin-bottom:27px;
-}
-
-.hero h1{
-    font-size:clamp(52px,8vw,95px);
-    line-height:.95;
-    letter-spacing:-5px;
-}
-
-.gradient{
-    background:linear-gradient(
-        90deg,
-        #ffffff,
-        #a78bfa,
-        #22d3ee
-    );
-
-    -webkit-background-clip:text;
-    color:transparent;
-}
-
-.hero p{
-    max-width:630px;
-    margin:28px auto;
-    color:var(--muted);
-    font-size:17px;
-    line-height:1.6;
-}
-
-/* SEARCH */
-
-.search{
-    max-width:650px;
-    margin:38px auto 0;
-}
-
-.search input{
-    width:100%;
-    padding:18px 22px;
-    border-radius:16px;
-    border:1px solid var(--border);
-    outline:none;
-    background:rgba(255,255,255,.06);
-    color:white;
-    font-size:15px;
-    backdrop-filter:blur(15px);
-    transition:.25s;
-}
-
-.search input:focus{
-    border-color:var(--purple);
-    box-shadow:0 0 35px rgba(139,92,246,.18);
-}
-
-/* SECTIONS */
-
-section{
-    max-width:1150px;
-    margin:auto;
-    padding:50px 25px;
-}
-
-.sectionhead{
-    margin-bottom:25px;
-}
-
-.sectionhead h2{
-    font-size:29px;
-}
-
-.sectionhead p{
-    color:var(--muted);
-    font-size:13px;
-    margin-top:6px;
-}
-
-/* CARDS */
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
-}
-
-.card{
-    border:1px solid var(--border);
-    background:var(--card);
-    border-radius:20px;
-    padding:24px;
-    min-height:190px;
-    transition:.3s;
-    cursor:pointer;
-    position:relative;
-    overflow:hidden;
-}
-
-.card::before{
-    content:"";
-    position:absolute;
-    width:130px;
-    height:130px;
-    background:var(--purple);
-    filter:blur(70px);
-    opacity:0;
-    transition:.3s;
-    top:-45px;
-    right:-45px;
-}
-
-.card:hover{
-    transform:translateY(-7px);
-    border-color:rgba(255,255,255,.22);
-}
-
-.card:hover::before{
-    opacity:.25;
-}
-
-.icon{
-    font-size:34px;
-    margin-bottom:20px;
-}
-
-.card h3{
-    font-size:17px;
-    margin-bottom:8px;
-}
-
-.card p{
-    color:var(--muted);
-    font-size:13px;
-    line-height:1.5;
-}
-
-/* AI */
-
-.feature{
-    border:1px solid var(--border);
-    background:linear-gradient(
-        135deg,
-        rgba(139,92,246,.13),
-        rgba(6,182,212,.06)
-    );
-    border-radius:25px;
-    padding:36px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.feature h2{
-    font-size:30px;
+#menu h1{
+    font-size:clamp(45px,10vw,100px);
+    letter-spacing:8px;
     margin-bottom:10px;
 }
 
-.feature p{
-    color:var(--muted);
-    max-width:520px;
-    line-height:1.5;
+#menu h1 span{
+    color:#ff3131;
 }
 
-.button{
+#menu p{
+    color:#aaa;
+    margin-bottom:35px;
+}
+
+#start{
     border:0;
-    background:white;
-    color:black;
-    padding:13px 21px;
-    border-radius:12px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-/* MODALS */
-
-.modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.80);
-    backdrop-filter:blur(12px);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:999;
-    padding:20px;
-}
-
-.modalBox{
-    width:min(100%,430px);
-    max-height:90vh;
-    overflow:auto;
-    background:#101118;
-    border:1px solid rgba(255,255,255,.15);
-    border-radius:24px;
-    padding:30px;
-    text-align:center;
-    position:relative;
-    box-shadow:0 25px 90px rgba(0,0,0,.6);
-}
-
-.modalBox h2{
-    margin-bottom:8px;
-}
-
-.modalBox > p{
-    color:#999;
-    margin-bottom:20px;
-}
-
-.close{
-    position:absolute;
-    right:14px;
-    top:10px;
-    background:transparent !important;
-    color:white;
-    font-size:27px;
-    padding:5px 10px !important;
-}
-
-.toolInput{
-    width:100%;
-    padding:14px;
-    border-radius:12px;
-    border:1px solid #333;
-    background:#08090d;
-    color:white;
-    outline:none;
-    margin-bottom:12px;
-    font-size:14px;
-}
-
-.toolInput:focus{
-    border-color:var(--purple);
-}
-
-.primaryBtn{
-    width:100%;
-    padding:13px;
-    border:0;
+    padding:16px 42px;
     border-radius:12px;
     background:white;
     color:#050505;
+    font-size:17px;
     font-weight:bold;
     cursor:pointer;
 }
 
-/* QR */
+#start:hover{
+    transform:scale(1.05);
+}
 
-#qrResult{
-    margin-top:20px;
+#hud{
+    display:none;
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:10;
+}
+
+#top{
+    position:absolute;
+    top:20px;
+    left:20px;
+    right:20px;
     display:flex;
-    justify-content:center;
+    justify-content:space-between;
 }
 
-#qrResult img{
-    background:white;
-    padding:8px;
-    border-radius:8px;
-}
-
-/* PASSWORD */
-
-.passwordResult{
-    display:flex;
-    gap:8px;
-    margin-bottom:15px;
-}
-
-.passwordResult input{
-    flex:1;
-    min-width:0;
-    padding:14px;
+.box{
+    background:rgba(0,0,0,.55);
+    border:1px solid rgba(255,255,255,.15);
     border-radius:12px;
-    border:1px solid #333;
-    background:#08090d;
-    color:white;
-    outline:none;
+    padding:12px 16px;
+    backdrop-filter:blur(8px);
 }
 
-.copyBtn{
-    border:0;
-    border-radius:12px;
-    padding:0 15px;
-    cursor:pointer;
-}
-
-/* TEXT */
-
-#textArea{
-    width:100%;
-    height:180px;
-    resize:none;
-    padding:15px;
-    border-radius:12px;
-    border:1px solid #333;
-    background:#08090d;
-    color:white;
-    outline:none;
-    margin-bottom:15px;
-}
-
-.counterStats{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:8px;
-}
-
-.stat{
-    background:rgba(255,255,255,.05);
-    border:1px solid var(--border);
-    padding:15px 5px;
-    border-radius:12px;
-}
-
-.stat b{
-    display:block;
-    font-size:20px;
-}
-
-.stat span{
-    color:#888;
-    font-size:11px;
-}
-
-/* STOPWATCH */
-
-.timer{
-    font-size:55px;
-    font-weight:bold;
-    margin:25px 0;
-    letter-spacing:3px;
-}
-
-.timerBtns{
-    display:flex;
-    gap:8px;
-}
-
-.timerBtns button{
-    flex:1;
-    padding:13px;
-    border:0;
-    border-radius:12px;
-    cursor:pointer;
+#speed{
+    font-size:25px;
     font-weight:bold;
 }
 
-/* FOOTER */
-
-footer{
-    text-align:center;
-    padding:55px 20px;
-    color:#666;
-    border-top:1px solid var(--border);
-    margin-top:50px;
-}
-
-footer strong{
+#speed small{
+    font-size:12px;
     color:#aaa;
 }
 
-/* MOBILE */
+#nitroBar{
+    position:absolute;
+    bottom:30px;
+    left:50%;
+    transform:translateX(-50%);
+    width:min(350px,70vw);
+    height:13px;
+    border:1px solid rgba(255,255,255,.4);
+    border-radius:20px;
+    overflow:hidden;
+    background:#111;
+}
+
+#nitroFill{
+    height:100%;
+    width:100%;
+    background:#22d3ee;
+}
+
+#nitroText{
+    position:absolute;
+    bottom:48px;
+    width:100%;
+    text-align:center;
+    font-size:12px;
+    letter-spacing:2px;
+}
+
+#mobile{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:15;
+    pointer-events:none;
+}
+
+.control{
+    position:absolute;
+    pointer-events:auto;
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.35);
+    background:rgba(0,0,0,.5);
+    color:white;
+    font-size:25px;
+}
+
+#left{
+    bottom:30px;
+    left:25px;
+}
+
+#right{
+    bottom:30px;
+    left:105px;
+}
+
+#nitro{
+    bottom:30px;
+    right:25px;
+    width:80px;
+    height:80px;
+    font-size:14px;
+}
 
 @media(max-width:800px){
-
-    .navlinks{
-        display:none;
-    }
-
-    .menu{
+    #mobile{
         display:block;
     }
-
-    .hero{
-        padding-top:85px;
-    }
-
-    .hero h1{
-        letter-spacing:-3px;
-    }
-
-    .grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .feature{
-        flex-direction:column;
-        align-items:flex-start;
-        gap:25px;
-    }
 }
-
-@media(max-width:500px){
-
-    nav{
-        padding:0 5%;
-    }
-
-    .grid{
-        grid-template-columns:1fr;
-    }
-
-    .hero p{
-        font-size:15px;
-    }
-
-    section{
-        padding-left:18px;
-        padding-right:18px;
-    }
-}
-
 </style>
 </head>
 
 <body>
 
-
-<!-- NAVBAR -->
-
-<nav>
-
-    <div class="logo">
-        GUDU<span>.X</span>
-    </div>
-
-    <div class="navlinks">
-
-        <a href="#home">
-            Home
-        </a>
-
-        <a href="#tools">
-            Tools
-        </a>
-
-        <a href="#ai">
-            AI
-        </a>
-
-        <a href="#games">
-            Games
-        </a>
-
-    </div>
-
-    <div class="menu">
-        ☰
-    </div>
-
-</nav>
-
-
-<!-- HERO -->
-
-<div class="hero" id="home">
-
-    <div class="badge">
-        ✦ GUDU.X DIGITAL TOOLBOX
-    </div>
+<div id="menu">
 
     <h1>
-
-        Everything you need.<br>
-
-        <span class="gradient">
-            In one place.
-        </span>
-
+        GUDU<span> RACING</span>
     </h1>
 
     <p>
-        Powerful tools, utilities and digital experiences
-        designed to make your everyday life easier.
+        Speed. Drift. Dominate.
     </p>
 
-    <div class="search">
+    <button id="start">
+        START RACE
+    </button>
 
-        <input
-            id="search"
-            type="text"
-            placeholder="Search tools..."
-        >
+</div>
 
+
+<div id="hud">
+
+    <div id="top">
+
+        <div class="box">
+            LAP <b id="lap">1</b> / 3
+        </div>
+
+        <div class="box">
+            POSITION <b id="position">1</b> / 4
+        </div>
+
+        <div class="box" id="speed">
+            0 <small>KM/H</small>
+        </div>
+
+    </div>
+
+
+    <div id="nitroText">
+        NITRO
+    </div>
+
+    <div id="nitroBar">
+        <div id="nitroFill"></div>
     </div>
 
 </div>
 
 
-<!-- TOOLS -->
-
-<section id="tools">
-
-    <div class="sectionhead">
-
-        <h2>
-            Popular Tools
-        </h2>
-
-        <p>
-            Useful tools for everyday tasks
-        </p>
-
-    </div>
-
-
-    <div class="grid">
-
-
-        <!-- QR -->
-
-        <div
-            class="card"
-            data-name="qr generator"
-            onclick="openTool('qrModal')"
-        >
-
-            <div class="icon">
-                🔗
-            </div>
-
-            <h3>
-                QR Generator
-            </h3>
-
-            <p>
-                Create QR codes from any
-                text or link.
-            </p>
-
-        </div>
-
-
-        <!-- PASSWORD -->
-
-        <div
-            class="card"
-            data-name="password generator"
-            onclick="openTool('passwordModal')"
-        >
-
-            <div class="icon">
-                🔐
-            </div>
-
-            <h3>
-                Password Generator
-            </h3>
-
-            <p>
-                Generate strong random
-                passwords instantly.
-            </p>
-
-        </div>
-
-
-        <!-- TEXT -->
-
-        <div
-            class="card"
-            data-name="text counter"
-            onclick="openTool('textModal')"
-        >
-
-            <div class="icon">
-                📝
-            </div>
-
-            <h3>
-                Text Counter
-            </h3>
-
-            <p>
-                Count words, characters
-                and lines instantly.
-            </p>
-
-        </div>
-
-
-        <!-- STOPWATCH -->
-
-        <div
-            class="card"
-            data-name="stopwatch timer"
-            onclick="openTool('timerModal')"
-        >
-
-            <div class="icon">
-                ⏱️
-            </div>
-
-            <h3>
-                Stopwatch
-            </h3>
-
-            <p>
-                Track time with a simple
-                digital stopwatch.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- AI -->
-
-<section id="ai">
-
-    <div class="sectionhead">
-
-        <h2>
-            AI Zone 🤖
-        </h2>
-
-        <p>
-            Smart tools coming to GUDU.X
-        </p>
-
-    </div>
-
-
-    <div class="feature">
-
-        <div>
-
-            <h2>
-                Meet GUDU.X AI
-            </h2>
-
-            <p>
-                A future collection of AI-powered
-                tools for writing, ideas,
-                productivity and more.
-            </p>
-
-        </div>
-
-        <button
-            class="button"
-            onclick="alert('GUDU.X AI is coming soon 🚀')"
-        >
-            Coming Soon
-        </button>
-
-    </div>
-
-</section>
-
-
-<!-- GAMES -->
-
-<section id="games">
-
-    <div class="sectionhead">
-
-        <h2>
-            Mini Games 🎮
-        </h2>
-
-        <p>
-            Take a break and have some fun
-        </p>
-
-    </div>
-
-
-    <div class="grid">
-
-
-        <div class="card">
-
-            <div class="icon">
-                🧠
-            </div>
-
-            <h3>
-                Memory
-            </h3>
-
-            <p>
-                Test how good your memory is.
-            </p>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="icon">
-                ❌
-            </div>
-
-            <h3>
-                Tic Tac Toe
-            </h3>
-
-            <p>
-                Classic game against the computer.
-            </p>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="icon">
-                🟩
-            </div>
-
-            <h3>
-                Snake
-            </h3>
-
-            <p>
-                Classic snake game in your browser.
-            </p>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="icon">
-                🧩
-            </div>
-
-            <h3>
-                Puzzle
-            </h3>
-
-            <p>
-                Challenge yourself with puzzles.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- QR MODAL -->
-
-<div id="qrModal" class="modal">
-
-    <div class="modalBox">
-
-        <button
-            class="close"
-            onclick="closeTool('qrModal')"
-        >
-            ×
-        </button>
-
-        <h2>
-            🔗 QR Generator
-        </h2>
-
-        <p>
-            Enter text or a link
-        </p>
-
-        <input
-            id="qrInput"
-            class="toolInput"
-            placeholder="https://example.com"
-        >
-
-        <button
-            class="primaryBtn"
-            onclick="generateQR()"
-        >
-            Generate QR
-        </button>
-
-        <div id="qrResult"></div>
-
-    </div>
+<div id="mobile">
+
+    <button class="control" id="left">
+        ◀
+    </button>
+
+    <button class="control" id="right">
+        ▶
+    </button>
+
+    <button class="control" id="nitro">
+        NITRO
+    </button>
 
 </div>
 
 
-<!-- PASSWORD MODAL -->
+<script type="module">
 
-<div id="passwordModal" class="modal">
+import * as THREE from
+"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
 
-    <div class="modalBox">
-
-        <button
-            class="close"
-            onclick="closeTool('passwordModal')"
-        >
-            ×
-        </button>
-
-        <h2>
-            🔐 Password Generator
-        </h2>
-
-        <p>
-            Create a strong random password
-        </p>
-
-        <div class="passwordResult">
-
-            <input
-                id="passwordOutput"
-                readonly
-                placeholder="Your password"
-            >
-
-            <button
-                class="copyBtn"
-                onclick="copyPassword()"
-            >
-                Copy
-            </button>
-
-        </div>
-
-        <button
-            class="primaryBtn"
-            onclick="generatePassword()"
-        >
-            Generate Password
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- TEXT MODAL -->
-
-<div id="textModal" class="modal">
-
-    <div class="modalBox">
-
-        <button
-            class="close"
-            onclick="closeTool('textModal')"
-        >
-            ×
-        </button>
-
-        <h2>
-            📝 Text Counter
-        </h2>
-
-        <p>
-            Type or paste your text below
-        </p>
-
-        <textarea
-            id="textArea"
-            placeholder="Start typing..."
-        ></textarea>
-
-        <div class="counterStats">
-
-            <div class="stat">
-
-                <b id="wordCount">
-                    0
-                </b>
-
-                <span>
-                    Words
-                </span>
-
-            </div>
-
-            <div class="stat">
-
-                <b id="charCount">
-                    0
-                </b>
-
-                <span>
-                    Characters
-                </span>
-
-            </div>
-
-            <div class="stat">
-
-                <b id="lineCount">
-                    0
-                </b>
-
-                <span>
-                    Lines
-                </span>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- TIMER MODAL -->
-
-<div id="timerModal" class="modal">
-
-    <div class="modalBox">
-
-        <button
-            class="close"
-            onclick="closeTool('timerModal')"
-        >
-            ×
-        </button>
-
-        <h2>
-            ⏱️ Stopwatch
-        </h2>
-
-        <p>
-            Track your time
-        </p>
-
-        <div
-            id="timerDisplay"
-            class="timer"
-        >
-            00:00:00
-        </div>
-
-        <div class="timerBtns">
-
-            <button onclick="startTimer()">
-                Start
-            </button>
-
-            <button onclick="pauseTimer()">
-                Pause
-            </button>
-
-            <button onclick="resetTimer()">
-                Reset
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- FOOTER -->
-
-<footer>
-
-    <strong>
-        GUDU.X
-    </strong>
-
-    <br><br>
-
-    Your digital toolbox.
-
-    <br><br>
-
-    © 2026 GUDU.X
-
-</footer>
-
-
-<!-- QR CODE LIBRARY -->
-
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-
-
-<script>
 
 /* =========================
-   MODALS
+   SCENE
 ========================= */
 
-function openTool(id){
+const scene =
+    new THREE.Scene();
 
-    document.getElementById(id).style.display="flex";
+scene.background =
+    new THREE.Color(0x87ceeb);
+
+scene.fog =
+    new THREE.Fog(
+        0x87ceeb,
+        80,
+        500
+    );
+
+
+/* =========================
+   CAMERA
+========================= */
+
+const camera =
+    new THREE.PerspectiveCamera(
+        65,
+        innerWidth/innerHeight,
+        .1,
+        1000
+    );
+
+camera.position.set(
+    0,
+    5,
+    10
+);
+
+
+/* =========================
+   RENDERER
+========================= */
+
+const renderer =
+    new THREE.WebGLRenderer({
+        antialias:true
+    });
+
+renderer.setSize(
+    innerWidth,
+    innerHeight
+);
+
+renderer.setPixelRatio(
+    Math.min(devicePixelRatio,2)
+);
+
+renderer.shadowMap.enabled=true;
+
+document.body.appendChild(
+    renderer.domElement
+);
+
+
+/* =========================
+   LIGHT
+========================= */
+
+const sun =
+    new THREE.DirectionalLight(
+        0xffffff,
+        2
+    );
+
+sun.position.set(
+    50,
+    100,
+    50
+);
+
+sun.castShadow=true;
+
+scene.add(sun);
+
+scene.add(
+    new THREE.HemisphereLight(
+        0xffffff,
+        0x444444,
+        1
+    )
+);
+
+
+/* =========================
+   MATERIALS
+========================= */
+
+const roadMat =
+    new THREE.MeshStandardMaterial({
+        color:0x242424
+    });
+
+const grassMat =
+    new THREE.MeshStandardMaterial({
+        color:0x246b35
+    });
+
+const lineMat =
+    new THREE.MeshStandardMaterial({
+        color:0xffffff
+    });
+
+const redMat =
+    new THREE.MeshStandardMaterial({
+        color:0xd71920
+    });
+
+
+/* =========================
+   GROUND
+========================= */
+
+const ground =
+    new THREE.Mesh(
+        new THREE.PlaneGeometry(
+            1000,
+            1000
+        ),
+        grassMat
+    );
+
+ground.rotation.x=
+    -Math.PI/2;
+
+ground.receiveShadow=true;
+
+scene.add(ground);
+
+
+/* =========================
+   TRACK
+========================= */
+
+const trackWidth=18;
+const trackLength=800;
+
+const road =
+    new THREE.Mesh(
+        new THREE.PlaneGeometry(
+            trackWidth,
+            trackLength
+        ),
+        roadMat
+    );
+
+road.rotation.x=
+    -Math.PI/2;
+
+road.position.z=
+    -trackLength/2;
+
+road.position.y=.02;
+
+scene.add(road);
+
+
+/* =========================
+   ROAD LINES
+========================= */
+
+for(
+    let z=0;
+    z>-trackLength;
+    z-=10
+){
+
+    const line =
+        new THREE.Mesh(
+            new THREE.BoxGeometry(
+                .35,
+                .05,
+                5
+            ),
+            lineMat
+        );
+
+    line.position.set(
+        0,
+        .07,
+        z
+    );
+
+    scene.add(line);
 
 }
 
-function closeTool(id){
 
-    document.getElementById(id).style.display="none";
+/* =========================
+   SIDE MARKERS
+========================= */
+
+for(
+    let z=0;
+    z>-trackLength;
+    z-=12
+){
+
+    for(
+        const x of [-10,10]
+    ){
+
+        const marker =
+            new THREE.Mesh(
+                new THREE.BoxGeometry(
+                    1,
+                    .6,
+                    3
+                ),
+                redMat
+            );
+
+        marker.position.set(
+            x,
+            .3,
+            z
+        );
+
+        scene.add(marker);
+
+    }
 
 }
 
 
-/* CLICK OUTSIDE MODAL */
+/* =========================
+   TREES
+========================= */
 
-document.querySelectorAll(".modal").forEach(modal=>{
+function tree(x,z){
 
-    modal.addEventListener("click",function(e){
+    const trunk =
+        new THREE.Mesh(
+            new THREE.CylinderGeometry(
+                .35,
+                .45,
+                3
+            ),
+            new THREE.MeshStandardMaterial({
+                color:0x704214
+            })
+        );
 
-        if(e.target===modal){
+    trunk.position.set(
+        x,
+        1.5,
+        z
+    );
 
-            modal.style.display="none";
+    scene.add(trunk);
+
+
+    const leaves =
+        new THREE.Mesh(
+            new THREE.SphereGeometry(
+                1.7,
+                8,
+                8
+            ),
+            new THREE.MeshStandardMaterial({
+                color:0x15803d
+            })
+        );
+
+    leaves.position.set(
+        x,
+        3.5,
+        z
+    );
+
+    scene.add(leaves);
+
+}
+
+
+for(
+    let i=0;
+    i<120;
+    i++
+){
+
+    const z=
+        -Math.random()*trackLength;
+
+    const side=
+        Math.random()<.5
+        ? -1
+        : 1;
+
+    const x=
+        side*(15+Math.random()*25);
+
+    tree(x,z);
+
+}
+
+
+/* =========================
+   CAR FUNCTION
+========================= */
+
+function createCar(color){
+
+    const car =
+        new THREE.Group();
+
+
+    const body =
+        new THREE.Mesh(
+            new THREE.BoxGeometry(
+                2.3,
+                .65,
+                4
+            ),
+            new THREE.MeshStandardMaterial({
+                color:color,
+                metalness:.5,
+                roughness:.25
+            })
+        );
+
+    body.position.y=.65;
+
+    body.castShadow=true;
+
+    car.add(body);
+
+
+    const cabin =
+        new THREE.Mesh(
+            new THREE.BoxGeometry(
+                1.65,
+                .6,
+                1.7
+            ),
+            new THREE.MeshStandardMaterial({
+                color:0x111827,
+                metalness:.4,
+                roughness:.15
+            })
+        );
+
+    cabin.position.set(
+        0,
+        1.05,
+        -.15
+    );
+
+    cabin.castShadow=true;
+
+    car.add(cabin);
+
+
+    const wheelMat =
+        new THREE.MeshStandardMaterial({
+            color:0x050505
+        });
+
+
+    for(
+        const x of [-1.15,1.15]
+    ){
+
+        for(
+            const z of [-1.35,1.35]
+        ){
+
+            const wheel =
+                new THREE.Mesh(
+                    new THREE.CylinderGeometry(
+                        .43,
+                        .43,
+                        .28,
+                        16
+                    ),
+                    wheelMat
+                );
+
+            wheel.rotation.z=
+                Math.PI/2;
+
+            wheel.position.set(
+                x,
+                .45,
+                z
+            );
+
+            car.add(wheel);
 
         }
 
-    });
-
-});
-
-
-/* =========================
-   QR GENERATOR
-========================= */
-
-function generateQR(){
-
-    const text=
-        document
-        .getElementById("qrInput")
-        .value
-        .trim();
-
-    if(!text){
-
-        alert(
-            "Please enter some text or a link."
-        );
-
-        return;
-
     }
 
-    const result=
-        document.getElementById("qrResult");
-
-    result.innerHTML="";
-
-    new QRCode(result,{
-
-        text:text,
-
-        width:200,
-
-        height:200,
-
-        correctLevel:
-            QRCode.CorrectLevel.H
-
-    });
+    return car;
 
 }
 
 
 /* =========================
-   PASSWORD GENERATOR
+   PLAYER
 ========================= */
 
-function generatePassword(){
+const player =
+    createCar(0x7c3aed);
 
-    const chars=
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"+
-        "abcdefghijklmnopqrstuvwxyz"+
-        "0123456789"+
-        "!@#$%^&*()_+-=[]{}";
+player.position.set(
+    0,
+    0,
+    -5
+);
 
-    let password="";
+scene.add(player);
 
-    for(let i=0;i<18;i++){
 
-        password+=
-            chars.charAt(
-                Math.floor(
-                    Math.random()*chars.length
+/* =========================
+   AI
+========================= */
+
+const aiCars=[];
+
+const aiColors=[
+    0xe11d48,
+    0xf59e0b,
+    0x06b6d4
+];
+
+aiColors.forEach(
+    (color,i)=>{
+
+        const car=
+            createCar(color);
+
+        car.position.set(
+            (i-1)*5,
+            0,
+            -15-i*8
+        );
+
+        scene.add(car);
+
+        aiCars.push({
+            mesh:car,
+            speed:0.9+
+                Math.random()*.25
+        });
+
+    }
+);
+
+
+/* =========================
+   GAME STATE
+========================= */
+
+let running=false;
+
+let speed=0;
+
+let nitro=100;
+
+let distance=0;
+
+let lap=1;
+
+let keys={};
+
+let playerX=0;
+
+
+/* =========================
+   KEYBOARD
+========================= */
+
+document.addEventListener(
+    "keydown",
+    e=>{
+
+        keys[
+            e.key.toLowerCase()
+        ]=true;
+
+    }
+);
+
+document.addEventListener(
+    "keyup",
+    e=>{
+
+        keys[
+            e.key.toLowerCase()
+        ]=false;
+
+    }
+);
+
+
+/* =========================
+   MOBILE CONTROLS
+========================= */
+
+function holdButton(
+    element,
+    key
+){
+
+    element.addEventListener(
+        "touchstart",
+        e=>{
+            e.preventDefault();
+            keys[key]=true;
+        }
+    );
+
+    element.addEventListener(
+        "touchend",
+        e=>{
+            e.preventDefault();
+            keys[key]=false;
+        }
+    );
+
+}
+
+holdButton(
+    document.getElementById("left"),
+    "a"
+);
+
+holdButton(
+    document.getElementById("right"),
+    "d"
+);
+
+holdButton(
+    document.getElementById("nitro"),
+    "shift"
+);
+
+
+/* =========================
+   START
+========================= */
+
+document.getElementById(
+    "start"
+).onclick=()=>{
+
+    running=true;
+
+    document.getElementById(
+        "menu"
+    ).style.display="none";
+
+    document.getElementById(
+        "hud"
+    ).style.display="block";
+
+};
+
+
+/* =========================
+   GAME LOOP
+========================= */
+
+const clock=
+    new THREE.Clock();
+
+function animate(){
+
+    requestAnimationFrame(
+        animate
+    );
+
+    const delta=
+        Math.min(
+            clock.getDelta(),
+            .05
+        );
+
+
+    if(running){
+
+        /* ACCELERATION */
+
+        if(
+            keys.w ||
+            keys.arrowup
+        ){
+
+            speed+=
+                22*delta;
+
+        }else{
+
+            speed-=
+                10*delta;
+
+        }
+
+
+        /* BRAKE */
+
+        if(
+            keys.s ||
+            keys.arrowdown
+        ){
+
+            speed-=
+                28*delta;
+
+        }
+
+
+        /* LIMIT */
+
+        speed=
+            Math.max(
+                0,
+                Math.min(
+                    speed,
+                    120
                 )
             );
 
-    }
 
-    document.getElementById(
-        "passwordOutput"
-    ).value=password;
+        /* NITRO */
 
-}
+        if(
+            keys.shift &&
+            nitro>0 &&
+            speed>10
+        ){
+
+            speed+=
+                70*delta;
+
+            nitro-=
+                35*delta;
+
+        }else{
+
+            nitro+=
+                8*delta;
+
+        }
+
+        nitro=
+            Math.max(
+                0,
+                Math.min(
+                    100,
+                    nitro
+                )
+            );
 
 
-function copyPassword(){
+        /* STEERING */
 
-    const input=
+        if(
+            keys.a ||
+            keys.arrowleft
+        ){
+
+            playerX-=
+                9*delta;
+
+        }
+
+        if(
+            keys.d ||
+            keys.arrowright
+        ){
+
+            playerX+=
+                9*delta;
+
+        }
+
+
+        playerX=
+            Math.max(
+                -7,
+                Math.min(
+                    7,
+                    playerX
+                )
+            );
+
+
+        player.position.x=
+            playerX;
+
+
+        /* WORLD MOVEMENT */
+
+        const movement=
+            speed*delta*.08;
+
+        distance+=movement;
+
+
+        player.position.z=
+            -5;
+
+
+        /* AI */
+
+        aiCars.forEach(
+            ai=>{
+
+                ai.mesh.position.z+=
+                    ai.speed*
+                    movement*
+                    1.4;
+
+                if(
+                    ai.mesh.position.z>
+                    15
+                ){
+
+                    ai.mesh.position.z=
+                        -trackLength;
+
+                }
+
+            }
+        );
+
+
+        /* LAP */
+
+        if(
+            distance>
+            trackLength
+        ){
+
+            distance=0;
+
+            lap++;
+
+            if(lap>3){
+
+                lap=3;
+
+                alert(
+                    "🏁 FINISH!\n\n"+
+                    "Great race!"
+                );
+
+                running=false;
+
+                document.getElementById(
+                    "menu"
+                ).style.display="flex";
+
+            }
+
+        }
+
+
+        /* CAMERA */
+
+        camera.position.x=
+            THREE.MathUtils.lerp(
+                camera.position.x,
+                player.position.x,
+                .08
+            );
+
+        camera.position.z=
+            THREE.MathUtils.lerp(
+                camera.position.z,
+                player.position.z+10,
+                .08
+            );
+
+        camera.position.y=
+            THREE.MathUtils.lerp(
+                camera.position.y,
+                5,
+                .08
+            );
+
+        camera.lookAt(
+            player.position.x,
+            .7,
+            player.position.z-10
+        );
+
+
+        /* HUD */
+
         document.getElementById(
-            "passwordOutput"
+            "speed"
+        ).innerHTML=
+            Math.floor(speed)+
+            ' <small>KM/H</small>';
+
+        document.getElementById(
+            "lap"
+        ).textContent=lap;
+
+        document.getElementById(
+            "nitroFill"
+        ).style.width=
+            nitro+"%";
+
+
+        /* POSITION */
+
+        let position=1;
+
+        aiCars.forEach(
+            ai=>{
+
+                if(
+                    ai.mesh.position.z>
+                    player.position.z
+                ){
+
+                    position++;
+
+                }
+
+            }
         );
 
-    if(!input.value){
-
-        generatePassword();
+        document.getElementById(
+            "position"
+        ).textContent=
+            position;
 
     }
 
-    navigator.clipboard
-        .writeText(input.value)
-        .then(()=>{
 
-            alert("Password copied!");
-
-        })
-        .catch(()=>{
-
-            alert("Copy failed. Please copy it manually.");
-
-        });
+    renderer.render(
+        scene,
+        camera
+    );
 
 }
+
+animate();
 
 
 /* =========================
-   TEXT COUNTER
+   RESIZE
 ========================= */
 
-const textArea=
-    document.getElementById("textArea");
-
-textArea.addEventListener(
-    "input",
-    updateCounter
-);
-
-function updateCounter(){
-
-    const text=textArea.value;
-
-    const words=
-        text.trim()
-        ? text.trim().split(/\s+/).length
-        : 0;
-
-    const chars=text.length;
-
-    const lines=
-        text
-        ? text.split("\n").length
-        : 0;
-
-    document.getElementById(
-        "wordCount"
-    ).textContent=words;
-
-    document.getElementById(
-        "charCount"
-    ).textContent=chars;
-
-    document.getElementById(
-        "lineCount"
-    ).textContent=lines;
-
-}
-
-
-/* =========================
-   STOPWATCH
-========================= */
-
-let timerSeconds=0;
-
-let timerInterval=null;
-
-function updateTimer(){
-
-    const hours=
-        Math.floor(
-            timerSeconds/3600
-        );
-
-    const minutes=
-        Math.floor(
-            (timerSeconds%3600)/60
-        );
-
-    const seconds=
-        timerSeconds%60;
-
-    const h=
-        String(hours).padStart(2,"0");
-
-    const m=
-        String(minutes).padStart(2,"0");
-
-    const s=
-        String(seconds).padStart(2,"0");
-
-    document.getElementById(
-        "timerDisplay"
-    ).textContent=
-        `${h}:${m}:${s}`;
-
-}
-
-
-function startTimer(){
-
-    if(timerInterval)return;
-
-    timerInterval=setInterval(()=>{
-
-        timerSeconds++;
-
-        updateTimer();
-
-    },1000);
-
-}
-
-
-function pauseTimer(){
-
-    clearInterval(timerInterval);
-
-    timerInterval=null;
-
-}
-
-
-function resetTimer(){
-
-    pauseTimer();
-
-    timerSeconds=0;
-
-    updateTimer();
-
-}
-
-
-/* =========================
-   SEARCH
-========================= */
-
-const search=
-    document.getElementById("search");
-
-const cards=
-    document.querySelectorAll(".card");
-
-search.addEventListener(
-    "input",
+window.addEventListener(
+    "resize",
     ()=>{
 
-        const value=
-            search.value
-            .toLowerCase()
-            .trim();
+        camera.aspect=
+            innerWidth/
+            innerHeight;
 
-        cards.forEach(card=>{
+        camera.updateProjectionMatrix();
 
-            const name=
-                (
-                    card.dataset.name ||
-                    card.innerText
-                ).toLowerCase();
-
-            card.style.display=
-                name.includes(value)
-                ? ""
-                : "none";
-
-        });
+        renderer.setSize(
+            innerWidth,
+            innerHeight
+        );
 
     }
 );
