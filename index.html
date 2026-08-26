@@ -2,78 +2,71 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,initial-scale=1.0,user-scalable=no">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>GUDU RACING</title>
 
 <style>
-
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
+    user-select:none;
+    -webkit-user-select:none;
     -webkit-tap-highlight-color:transparent;
 }
 
 body{
     overflow:hidden;
-    background:#79bce5;
-    font-family:Arial,Helvetica,sans-serif;
-    user-select:none;
+    background:#80c8ed;
+    font-family:Arial, sans-serif;
 }
 
 canvas{
     display:block;
 }
 
-
-/* ================= MENU ================= */
+/* MENU */
 
 #menu{
     position:fixed;
     inset:0;
     z-index:100;
     display:flex;
-    align-items:center;
-    justify-content:center;
     flex-direction:column;
-    background:
-    radial-gradient(circle at center,#252525 0%,#090909 55%,#000 100%);
+    justify-content:center;
+    align-items:center;
+    background:radial-gradient(circle,#292929,#050505 70%);
     color:white;
     text-align:center;
 }
 
 .logo{
-    font-size:clamp(45px,11vw,105px);
+    font-size:clamp(45px,11vw,100px);
     font-weight:900;
-    letter-spacing:7px;
+    letter-spacing:6px;
 }
 
 .logo span{
-    color:#ef3030;
+    color:#ff3030;
 }
 
 .subtitle{
+    margin:12px 0 35px;
     color:#aaa;
-    margin-top:10px;
-    margin-bottom:35px;
     letter-spacing:3px;
 }
 
 #start{
-    border:none;
-    padding:17px 48px;
+    border:0;
+    padding:17px 50px;
     border-radius:12px;
     background:white;
     color:#111;
     font-size:17px;
     font-weight:bold;
-    cursor:pointer;
 }
 
-
-/* ================= HUD ================= */
+/* HUD */
 
 #hud{
     display:none;
@@ -86,198 +79,151 @@ canvas{
 
 #top{
     position:absolute;
-    top:18px;
-    left:18px;
-    right:18px;
+    top:15px;
+    left:15px;
+    right:15px;
     display:flex;
     justify-content:space-between;
-    align-items:flex-start;
-    gap:8px;
+    gap:7px;
 }
 
-.hudBox{
+.box{
+    padding:9px 12px;
     background:rgba(0,0,0,.55);
-    border:1px solid rgba(255,255,255,.18);
-    padding:10px 14px;
-    border-radius:12px;
+    border:1px solid rgba(255,255,255,.2);
+    border-radius:11px;
     backdrop-filter:blur(8px);
-    font-size:13px;
+    font-size:12px;
 }
 
 #speed{
-    font-size:25px;
+    font-size:24px;
     font-weight:bold;
 }
 
 #speed small{
-    font-size:10px;
+    font-size:9px;
     color:#aaa;
 }
 
-
-/* ================= NITRO ================= */
-
-#nitroContainer{
+#nitroWrap{
     position:absolute;
     left:50%;
-    bottom:30px;
     transform:translateX(-50%);
+    bottom:25px;
     width:280px;
 }
 
-#nitroLabel{
-    color:white;
+#nitroTitle{
     text-align:center;
-    font-size:11px;
+    font-size:10px;
     letter-spacing:3px;
-    margin-bottom:6px;
+    color:white;
+    margin-bottom:5px;
 }
 
 #nitroBar{
-    width:100%;
     height:12px;
+    width:100%;
+    border-radius:20px;
     background:#111;
     border:1px solid #777;
-    border-radius:20px;
     overflow:hidden;
 }
 
 #nitroFill{
-    width:100%;
     height:100%;
-    background:#00e5ff;
+    width:100%;
+    background:#00d9ff;
 }
 
-
-/* ================= STEERING ================= */
+/* STEERING */
 
 #steering{
     display:none;
     position:fixed;
     z-index:50;
-    left:20px;
     bottom:25px;
-
-    width:135px;
-    height:135px;
-
+    left:20px;
+    width:130px;
+    height:130px;
+    border:11px solid rgba(255,255,255,.8);
     border-radius:50%;
-
-    border:12px solid rgba(255,255,255,.8);
-
-    background:
-    radial-gradient(
-        circle,
-        rgba(0,0,0,.5),
-        rgba(0,0,0,.25)
-    );
-
-    box-shadow:
-    0 8px 30px rgba(0,0,0,.45);
-
+    background:rgba(0,0,0,.3);
+    box-shadow:0 8px 25px rgba(0,0,0,.45);
     touch-action:none;
 }
 
-#steering:before{
-    content:"";
+#steering .v{
     position:absolute;
-
     width:8px;
-    height:92px;
-
+    height:90px;
     background:white;
-
     left:50%;
     top:50%;
-
     transform:translate(-50%,-50%);
 }
 
-#steering:after{
-    content:"";
+#steering .h{
     position:absolute;
-
-    width:92px;
+    width:90px;
     height:8px;
-
     background:white;
-
     left:50%;
     top:50%;
-
     transform:translate(-50%,-50%);
 }
 
-#center{
+#steerCenter{
     position:absolute;
-
-    width:35px;
-    height:35px;
-
+    width:34px;
+    height:34px;
     border-radius:50%;
-
     background:#111;
     border:5px solid #ddd;
-
     left:50%;
     top:50%;
-
     transform:translate(-50%,-50%);
-
-    z-index:5;
+    z-index:3;
 }
 
-
-/* ================= PEDALS ================= */
+/* BUTTONS */
 
 #controls{
     display:none;
-
     position:fixed;
-    right:18px;
+    right:15px;
     bottom:22px;
-
     z-index:50;
-
-    gap:10px;
-
+    gap:9px;
     align-items:flex-end;
 }
 
 .control{
-    border:none;
+    width:75px;
+    height:75px;
+    border:0;
+    border-radius:50%;
     color:white;
     font-weight:bold;
-
-    border-radius:50%;
-
-    width:78px;
-    height:78px;
-
-    font-size:11px;
-
+    font-size:10px;
     touch-action:none;
-
-    box-shadow:
-    0 8px 20px rgba(0,0,0,.35);
-}
-
-#accelerate{
-    background:rgba(0,170,70,.75);
+    box-shadow:0 7px 18px rgba(0,0,0,.4);
 }
 
 #brake{
-    background:rgba(210,35,35,.75);
+    background:rgba(210,30,30,.78);
+}
+
+#accelerate{
+    background:rgba(0,175,75,.82);
 }
 
 #nitro{
-    width:88px;
-    height:88px;
-    background:rgba(0,170,220,.75);
+    width:85px;
+    height:85px;
+    background:rgba(0,155,220,.82);
 }
-
-
-/* ================= MOBILE ================= */
 
 @media(max-width:800px){
 
@@ -289,29 +235,15 @@ canvas{
         display:flex;
     }
 
-    #nitroContainer{
-        bottom:155px;
-        width:190px;
+    #nitroWrap{
+        bottom:160px;
+        width:180px;
     }
-
-    #top{
-        font-size:11px;
-    }
-
-    .hudBox{
-        padding:8px 10px;
-    }
-
 }
-
 </style>
 </head>
 
-
 <body>
-
-
-<!-- ================= MENU ================= -->
 
 <div id="menu">
 
@@ -329,33 +261,27 @@ canvas{
 
 </div>
 
-
-<!-- ================= HUD ================= -->
-
 <div id="hud">
 
     <div id="top">
 
-        <div class="hudBox">
+        <div class="box">
             LAP <b id="lap">1</b> / 3
         </div>
 
-        <div class="hudBox">
-            POSITION
-            <b id="position">1</b> / 4
+        <div class="box">
+            POS <b id="position">1</b> / 4
         </div>
 
-        <div class="hudBox" id="speed">
-            0
-            <small>KM/H</small>
+        <div class="box" id="speed">
+            0 <small>KM/H</small>
         </div>
 
     </div>
 
+    <div id="nitroWrap">
 
-    <div id="nitroContainer">
-
-        <div id="nitroLabel">
+        <div id="nitroTitle">
             NITRO BOOST
         </div>
 
@@ -367,86 +293,69 @@ canvas{
 
 </div>
 
-
-<!-- ================= MOBILE ================= -->
-
 <div id="steering">
 
-    <div id="center"></div>
+    <div class="v"></div>
+    <div class="h"></div>
+    <div id="steerCenter"></div>
 
 </div>
 
-
 <div id="controls">
 
-    <button
-        class="control"
-        id="brake">
+    <button class="control" id="brake">
         BRAKE
     </button>
 
-    <button
-        class="control"
-        id="accelerate">
+    <button class="control" id="accelerate">
         ACCEL
     </button>
 
-    <button
-        class="control"
-        id="nitro">
+    <button class="control" id="nitro">
         NITRO
     </button>
 
 </div>
 
-
 <script type="module">
-
 
 import * as THREE from
 "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
 
 
-/* =====================================================
+/* ===============================
    SCENE
-===================================================== */
+=============================== */
 
-const scene =
-new THREE.Scene();
+const scene = new THREE.Scene();
 
 scene.background =
-new THREE.Color(0x82c5ea);
+new THREE.Color(0x82c8ed);
 
 scene.fog =
 new THREE.Fog(
-    0x82c5ea,
+    0x82c8ed,
     120,
     800
 );
 
 
-/* =====================================================
+/* ===============================
    CAMERA
-===================================================== */
+=============================== */
 
 const camera =
 new THREE.PerspectiveCamera(
     65,
-    innerWidth/innerHeight,
+    innerWidth / innerHeight,
     .1,
     1500
 );
 
-camera.position.set(
-    0,
-    5,
-    12
-);
 
-
-/* =====================================================
+/* ===============================
    RENDERER
-===================================================== */
+=============================== */
 
 const renderer =
 new THREE.WebGLRenderer({
@@ -459,25 +368,19 @@ renderer.setSize(
 );
 
 renderer.setPixelRatio(
-    Math.min(
-        devicePixelRatio,
-        2
-    )
+    Math.min(devicePixelRatio,2)
 );
 
 renderer.shadowMap.enabled=true;
-
-renderer.shadowMap.type=
-THREE.PCFSoftShadowMap;
 
 document.body.appendChild(
     renderer.domElement
 );
 
 
-/* =====================================================
-   LIGHTING
-===================================================== */
+/* ===============================
+   LIGHT
+=============================== */
 
 const sun =
 new THREE.DirectionalLight(
@@ -488,116 +391,106 @@ new THREE.DirectionalLight(
 sun.position.set(
     100,
     150,
-    80
+    70
 );
 
 sun.castShadow=true;
 
 scene.add(sun);
 
-
 scene.add(
     new THREE.HemisphereLight(
         0xffffff,
-        0x385d36,
+        0x376b3b,
         1.3
     )
 );
 
 
-/* =====================================================
-   MATERIAL HELPERS
-===================================================== */
+/* ===============================
+   MATERIAL
+=============================== */
 
-function mat(
+function material(
     color,
-    metal=.0,
+    metal=0,
     rough=.5
 ){
 
     return new THREE.MeshStandardMaterial({
-
-        color:color,
-
+        color,
         metalness:metal,
-
         roughness:rough
-
     });
 
 }
 
 
-/* =====================================================
+/* ===============================
    GROUND
-===================================================== */
+=============================== */
 
 const ground =
 new THREE.Mesh(
 
     new THREE.PlaneGeometry(
-        1600,
-        1600
+        1800,
+        1800
     ),
 
-    mat(
-        0x28763d,
+    material(
+        0x28783d,
         0,
         1
     )
 
 );
 
-ground.rotation.x=
--Math.PI/2;
-
-ground.receiveShadow=true;
+ground.rotation.x=-Math.PI/2;
 
 scene.add(ground);
 
 
-/* =====================================================
+/* ===============================
    ROAD
-===================================================== */
+=============================== */
 
-const roadLength=2500;
+const ROAD_LENGTH=3000;
 
 const road =
 new THREE.Mesh(
 
     new THREE.PlaneGeometry(
         22,
-        roadLength
+        ROAD_LENGTH
     ),
 
-    mat(
-        0x222222,
+    material(
+        0x252525,
         0,
         .95
     )
 
 );
 
-road.rotation.x=
--Math.PI/2;
+road.rotation.x=-Math.PI/2;
 
-road.position.y=.02;
-
-road.position.z=
--roadLength/2;
-
-road.receiveShadow=true;
+road.position.set(
+    0,
+    .02,
+    -ROAD_LENGTH/2
+);
 
 scene.add(road);
 
 
-/* =====================================================
-   ROAD MARKINGS
-===================================================== */
+/* ===============================
+   ROAD LINES
+=============================== */
 
 for(
     let z=10;
-    z>-roadLength;
+    z>-ROAD_LENGTH;
     z-=14
 ){
 
@@ -605,12 +498,12 @@ for(
     new THREE.Mesh(
 
         new THREE.BoxGeometry(
-            .3,
+            .35,
             .06,
             7
         ),
 
-        mat(0xffffff)
+        material(0xffffff)
     );
 
     line.position.set(
@@ -620,71 +513,67 @@ for(
     );
 
     scene.add(line);
-
 }
 
 
-/* =====================================================
-   SIDE CURBS
-===================================================== */
+/* ===============================
+   CURBS
+=============================== */
 
 for(
     let z=0;
-    z>-roadLength;
+    z>-ROAD_LENGTH;
     z-=7
 ){
 
     for(
-        const x of [-11.7,11.7]
+        const x of [-11.8,11.8]
     ){
 
         const curb =
         new THREE.Mesh(
 
             new THREE.BoxGeometry(
-                1.2,
-                .3,
+                1.3,
+                .35,
                 3.5
             ),
 
-            mat(
-                (Math.floor(-z/7)%2===0)
+            material(
+                Math.floor(-z/7)%2===0
                 ? 0xffffff
-                : 0xd51f2b
+                : 0xe01d2d
             )
-
         );
 
         curb.position.set(
             x,
-            .15,
+            .18,
             z
         );
 
         scene.add(curb);
-
     }
-
 }
 
 
-/* =====================================================
+/* ===============================
    TREES
-===================================================== */
+=============================== */
 
-function tree(x,z){
+function makeTree(x,z){
 
     const trunk =
     new THREE.Mesh(
 
         new THREE.CylinderGeometry(
             .35,
-            .45,
+            .48,
             3,
             8
         ),
 
-        mat(0x704214)
+        material(0x704214)
     );
 
     trunk.position.set(
@@ -693,12 +582,10 @@ function tree(x,z){
         z
     );
 
-    trunk.castShadow=true;
-
     scene.add(trunk);
 
 
-    const crown =
+    const leaves =
     new THREE.Mesh(
 
         new THREE.SphereGeometry(
@@ -707,82 +594,71 @@ function tree(x,z){
             8
         ),
 
-        mat(0x176b35)
+        material(0x176b35)
     );
 
-    crown.position.set(
+    leaves.position.set(
         x,
         3.5,
         z
     );
 
-    crown.castShadow=true;
-
-    scene.add(crown);
-
+    scene.add(leaves);
 }
 
 
 for(
     let i=0;
-    i<230;
+    i<280;
     i++
 ){
 
-    const side =
-        Math.random()<.5
-        ? -1
-        : 1;
+    const side=
+        Math.random()<.5 ? -1 : 1;
 
-    const x =
-        side*
-        (17+
-        Math.random()*45);
+    makeTree(
 
-    const z =
-        -Math.random()*
-        roadLength;
+        side*(17+
+        Math.random()*45),
 
-    tree(
-        x,
-        z
+        -Math.random()*ROAD_LENGTH
+
     );
-
 }
 
 
-/* =====================================================
-   REALISTIC-STYLE SUPERCAR
-===================================================== */
+/* ===============================
+   CAR
+=============================== */
 
-function createSuperCar(color){
+function createCar(color){
 
     const car =
     new THREE.Group();
 
 
     const paint =
-    mat(
+    material(
         color,
         .75,
         .2
     );
 
 
-    const dark =
-    mat(
-        0x070707,
-        .25,
-        .22
+    const black =
+    material(
+        0x050505,
+        .2,
+        .25
     );
 
 
     const glass =
     new THREE.MeshStandardMaterial({
 
-        color:0x102d45,
+        color:0x10283b,
 
-        metalness:.25,
+        metalness:.3,
 
         roughness:.08,
 
@@ -793,23 +669,23 @@ function createSuperCar(color){
     });
 
 
-    const chrome =
-    mat(
-        0xc9c9c9,
+    const silver =
+    material(
+        0xbfc4c9,
         .9,
         .15
     );
 
 
-    /* ---------- MAIN BODY ---------- */
+    /* BODY */
 
     const body =
     new THREE.Mesh(
 
         new THREE.BoxGeometry(
-            2.45,
+            2.5,
             .48,
-            4.65
+            4.7
         ),
 
         paint
@@ -817,12 +693,10 @@ function createSuperCar(color){
 
     body.position.y=.67;
 
-    body.castShadow=true;
-
     car.add(body);
 
 
-    /* ---------- FRONT NOSE ---------- */
+    /* FRONT NOSE */
 
     const nose =
     new THREE.Mesh(
@@ -830,7 +704,7 @@ function createSuperCar(color){
         new THREE.BoxGeometry(
             2.25,
             .28,
-            1.25
+            1.35
         ),
 
         paint
@@ -839,38 +713,13 @@ function createSuperCar(color){
     nose.position.set(
         0,
         .82,
-        -1.72
+        -1.7
     );
-
-    nose.rotation.x=.025;
 
     car.add(nose);
 
 
-    /* ---------- FRONT SPLITTER ---------- */
-
-    const splitter =
-    new THREE.Mesh(
-
-        new THREE.BoxGeometry(
-            2.38,
-            .08,
-            .35
-        ),
-
-        dark
-    );
-
-    splitter.position.set(
-        0,
-        .48,
-        -2.27
-    );
-
-    car.add(splitter);
-
-
-    /* ---------- CABIN ---------- */
+    /* CABIN */
 
     const cabin =
     new THREE.Mesh(
@@ -878,7 +727,7 @@ function createSuperCar(color){
         new THREE.BoxGeometry(
             1.72,
             .62,
-            1.85
+            1.9
         ),
 
         paint
@@ -890,20 +739,16 @@ function createSuperCar(color){
         .05
     );
 
-    cabin.rotation.x=-.035;
-
-    cabin.castShadow=true;
-
     car.add(cabin);
 
 
-    /* ---------- WINDSHIELD ---------- */
+    /* FRONT GLASS */
 
-    const windshield =
+    const frontGlass =
     new THREE.Mesh(
 
         new THREE.BoxGeometry(
-            1.48,
+            1.5,
             .43,
             .06
         ),
@@ -911,137 +756,84 @@ function createSuperCar(color){
         glass
     );
 
-    windshield.position.set(
+    frontGlass.position.set(
         0,
-        1.19,
-        -.84
+        1.2,
+        -.86
     );
 
-    windshield.rotation.x=
+    frontGlass.rotation.x=
     Math.PI/2.75;
 
-    car.add(windshield);
+    car.add(frontGlass);
 
 
-    /* ---------- REAR WINDOW ---------- */
+    /* REAR GLASS */
 
-    const rearWindow =
+    const rearGlass =
     new THREE.Mesh(
 
         new THREE.BoxGeometry(
-            1.48,
-            .38,
+            1.5,
+            .4,
             .06
         ),
 
         glass
     );
 
-    rearWindow.position.set(
+    rearGlass.position.set(
         0,
         1.18,
-        .91
+        .9
     );
 
-    rearWindow.rotation.x=
+    rearGlass.rotation.x=
     -Math.PI/2.8;
 
-    car.add(rearWindow);
+    car.add(rearGlass);
 
 
-    /* ---------- SIDE MIRRORS ---------- */
-
-    for(
-        const x of [-1.15,1.15]
-    ){
-
-        const mirror =
-        new THREE.Mesh(
-
-            new THREE.BoxGeometry(
-                .35,
-                .12,
-                .22
-            ),
-
-            paint
-        );
-
-        mirror.position.set(
-            x,
-            1.18,
-            -.55
-        );
-
-        car.add(mirror);
-
-    }
-
-
-    /* ---------- SIDE SKIRTS ---------- */
+    /* SIDE SKIRTS */
 
     for(
-        const x of [-1.28,1.28]
+        const x of [-1.3,1.3]
     ){
 
         const skirt =
         new THREE.Mesh(
 
             new THREE.BoxGeometry(
-                .13,
-                .34,
-                3.55
+                .12,
+                .35,
+                3.6
             ),
 
-            dark
+            black
         );
 
         skirt.position.set(
             x,
             .48,
-            .1
+            .05
         );
 
         car.add(skirt);
-
     }
 
 
-    /* ---------- REAR ---------- */
-
-    const rear =
-    new THREE.Mesh(
-
-        new THREE.BoxGeometry(
-            2.35,
-            .38,
-            .65
-        ),
-
-        paint
-    );
-
-    rear.position.set(
-        0,
-        .72,
-        2.08
-    );
-
-    car.add(rear);
-
-
-    /* ---------- SPOILER ---------- */
+    /* SPOILER */
 
     const spoiler =
     new THREE.Mesh(
 
         new THREE.BoxGeometry(
-            2.55,
+            2.6,
             .12,
             .35
         ),
 
-        dark
+        black
     );
 
     spoiler.position.set(
@@ -1053,10 +845,10 @@ function createSuperCar(color){
     car.add(spoiler);
 
 
-    /* ---------- SPOILER POSTS ---------- */
+    /* SPOILER POSTS */
 
     for(
-        const x of [-.78,.78]
+        const x of [-.8,.8]
     ){
 
         const post =
@@ -1064,53 +856,44 @@ function createSuperCar(color){
 
             new THREE.BoxGeometry(
                 .09,
-                .48,
+                .5,
                 .09
             ),
 
-            dark
+            black
         );
 
         post.position.set(
             x,
-            1.02,
-            2.0
+            1.03,
+            2
         );
 
         car.add(post);
-
     }
 
 
-    /* ---------- WHEELS ---------- */
-
-    const wheelMat =
-    mat(
-        0x050505,
-        .1,
-        .45
-    );
-
+    /* WHEELS */
 
     for(
-        const x of [-1.3,1.3]
+        const x of [-1.32,1.32]
     ){
 
         for(
-            const z of [-1.48,1.48]
+            const z of [-1.5,1.5]
         ){
 
             const wheel =
             new THREE.Mesh(
 
                 new THREE.CylinderGeometry(
-                    .49,
-                    .49,
-                    .32,
+                    .5,
+                    .5,
+                    .34,
                     24
                 ),
 
-                wheelMat
+                black
             );
 
             wheel.rotation.z=
@@ -1122,8 +905,6 @@ function createSuperCar(color){
                 z
             );
 
-            wheel.castShadow=true;
-
             car.add(wheel);
 
 
@@ -1133,11 +914,11 @@ function createSuperCar(color){
                 new THREE.CylinderGeometry(
                     .25,
                     .25,
-                    .34,
+                    .36,
                     20
                 ),
 
-                chrome
+                silver
             );
 
             rim.rotation.z=
@@ -1150,15 +931,13 @@ function createSuperCar(color){
             );
 
             car.add(rim);
-
         }
-
     }
 
 
-    /* ---------- HEADLIGHTS ---------- */
+    /* HEADLIGHTS */
 
-    const headlightMat =
+    const headlight =
     new THREE.MeshStandardMaterial({
 
         color:0xffffff,
@@ -1171,86 +950,41 @@ function createSuperCar(color){
 
 
     for(
-        const x of [-.72,.72]
+        const x of [-.75,.75]
     ){
 
         const light =
         new THREE.Mesh(
 
             new THREE.BoxGeometry(
-                .5,
+                .52,
                 .13,
                 .08
             ),
 
-            headlightMat
+            headlight
         );
 
         light.position.set(
             x,
-            .82,
-            -2.34
+            .83,
+            -2.36
         );
 
         car.add(light);
-
-    }
-
-
-    /* ---------- TAILLIGHT ---------- */
-
-    const tailMat =
-    new THREE.MeshStandardMaterial({
-
-        color:0xff1111,
-
-        emissive:0xff0000,
-
-        emissiveIntensity:2
-
-    });
-
-
-    for(
-        const x of [-.72,.72]
-    ){
-
-        const light =
-        new THREE.Mesh(
-
-            new THREE.BoxGeometry(
-                .55,
-                .12,
-                .08
-            ),
-
-            tailMat
-        );
-
-        light.position.set(
-            x,
-            .78,
-            2.39
-        );
-
-        car.add(light);
-
     }
 
 
     return car;
-
 }
 
 
-/* =====================================================
+/* ===============================
    PLAYER
-===================================================== */
+=============================== */
 
 const player =
-createSuperCar(
-    0x6734e8
-);
+createCar(0x713bea);
 
 player.position.set(
     0,
@@ -1261,23 +995,23 @@ player.position.set(
 scene.add(player);
 
 
-/* =====================================================
+/* ===============================
    AI
-===================================================== */
+=============================== */
 
-const aiCars=[];
+const ai=[];
 
 const aiColors=[
-    0xff2020,
-    0xffa500,
+    0xf02030,
+    0xff9f00,
     0x00aeea
 ];
 
 aiColors.forEach(
     (color,i)=>{
 
-        const car =
-        createSuperCar(color);
+        const car=
+        createCar(color);
 
         car.position.set(
             (i-1)*5,
@@ -1287,52 +1021,51 @@ aiColors.forEach(
 
         scene.add(car);
 
-        aiCars.push({
+        ai.push({
 
-            mesh:car,
+            car:car,
 
             speed:
-                85+
+                100+
                 Math.random()*35
 
         });
-
     }
 );
 
 
-/* =====================================================
-   GAME VARIABLES
-===================================================== */
+/* ===============================
+   GAME STATE
+=============================== */
 
-let running=false;
+let playing=false;
 
 let speed=0;
 
-let playerX=0;
-
-let nitro=100;
+let nitroFuel=100;
 
 let distance=0;
 
 let lap=1;
 
-let steering=0;
+let playerX=0;
 
-let accelerating=false;
+let steer=0;
 
-let braking=false;
+let accelerate=false;
 
-let boosting=false;
+let brake=false;
+
+let nitro=false;
 
 
-/* =====================================================
+/* ===============================
    KEYBOARD
-===================================================== */
+=============================== */
 
 const keys={};
 
-document.addEventListener(
+window.addEventListener(
     "keydown",
     e=>{
 
@@ -1343,7 +1076,7 @@ document.addEventListener(
     }
 );
 
-document.addEventListener(
+window.addEventListener(
     "keyup",
     e=>{
 
@@ -1355,87 +1088,103 @@ document.addEventListener(
 );
 
 
-/* =====================================================
-   TOUCH BUTTON
-===================================================== */
+/* ===============================
+   BUTTON HELPER
+=============================== */
 
-function buttonHold(
+function holdButton(
     element,
-    callback
+    setValue
 ){
+
+    function down(e){
+
+        e.preventDefault();
+
+        setValue(true);
+    }
+
+    function up(e){
+
+        e.preventDefault();
+
+        setValue(false);
+    }
 
     element.addEventListener(
         "touchstart",
-        e=>{
-
-            e.preventDefault();
-
-            callback(true);
-
-        },
-        {
-            passive:false
-        }
+        down,
+        {passive:false}
     );
-
 
     element.addEventListener(
         "touchend",
-        e=>{
-
-            e.preventDefault();
-
-            callback(false);
-
-        },
-        {
-            passive:false
-        }
+        up,
+        {passive:false}
     );
 
+    element.addEventListener(
+        "touchcancel",
+        up,
+        {passive:false}
+    );
+
+    /* PC TESTING */
+
+    element.addEventListener(
+        "mousedown",
+        down
+    );
+
+    element.addEventListener(
+        "mouseup",
+        up
+    );
+
+    element.addEventListener(
+        "mouseleave",
+        up
+    );
 }
 
 
-buttonHold(
+holdButton(
     document.getElementById("accelerate"),
-    value=>accelerating=value
+    v=>accelerate=v
 );
 
-buttonHold(
+holdButton(
     document.getElementById("brake"),
-    value=>braking=value
+    v=>brake=v
 );
 
-buttonHold(
+holdButton(
     document.getElementById("nitro"),
-    value=>boosting=value
+    v=>nitro=v
 );
 
 
-/* =====================================================
+/* ===============================
    STEERING WHEEL
-===================================================== */
+=============================== */
 
 const wheel=
 document.getElementById(
     "steering"
 );
 
-let touching=false;
-
+let wheelTouch=false;
 
 wheel.addEventListener(
     "touchstart",
     e=>{
 
-        touching=true;
+        wheelTouch=true;
 
         e.preventDefault();
 
     },
-    {
-        passive:false
-    }
+    {passive:false}
 );
 
 
@@ -1443,7 +1192,7 @@ wheel.addEventListener(
     "touchmove",
     e=>{
 
-        if(!touching)
+        if(!wheelTouch)
             return;
 
         e.preventDefault();
@@ -1451,25 +1200,23 @@ wheel.addEventListener(
         const rect=
         wheel.getBoundingClientRect();
 
-        const centerX=
+        const center=
         rect.left+
         rect.width/2;
 
-        const x=
-        e.touches[0].clientX;
-
-        steering=
+        steer=
         THREE.MathUtils.clamp(
-            (x-centerX)/
+            (
+                e.touches[0].clientX-
+                center
+            )/
             (rect.width/2),
             -1,
             1
         );
 
     },
-    {
-        passive:false
-    }
+    {passive:false}
 );
 
 
@@ -1477,23 +1224,23 @@ wheel.addEventListener(
     "touchend",
     ()=>{
 
-        touching=false;
+        wheelTouch=false;
 
-        steering=0;
+        steer=0;
 
     }
 );
 
 
-/* =====================================================
+/* ===============================
    START
-===================================================== */
+=============================== */
 
 document.getElementById(
     "start"
 ).onclick=()=>{
 
-    running=true;
+    playing=true;
 
     document.getElementById(
         "menu"
@@ -1506,13 +1253,17 @@ document.getElementById(
 };
 
 
-/* =====================================================
-   GAME LOOP
-===================================================== */
+/* ===============================
+   CLOCK
+=============================== */
 
 const clock=
 new THREE.Clock();
 
+
+/* ===============================
+   GAME LOOP
+=============================== */
 
 function animate(){
 
@@ -1521,34 +1272,30 @@ function animate(){
     );
 
 
-    const delta=
+    const dt=
     Math.min(
         clock.getDelta(),
         .05
     );
 
 
-    if(running){
+    if(playing){
 
-        /* ======================
-           INPUT
-        ====================== */
+        /* INPUT */
 
         const gas=
-        accelerating ||
-        keys.w ||
-        keys.arrowup;
+            accelerate ||
+            keys.w ||
+            keys.arrowup;
 
+        const braking=
+            brake ||
+            keys.s ||
+            keys.arrowdown;
 
-        const brake=
-        braking ||
-        keys.s ||
-        keys.arrowdown;
-
-
-        const nitro=
-        boosting ||
-        keys.shift;
+        const boost=
+            nitro ||
+            keys.shift;
 
 
         /* ======================
@@ -1558,20 +1305,22 @@ function animate(){
         if(gas){
 
             speed +=
-            95*delta;
+                110*dt;
 
         }else{
 
             speed -=
-            20*delta;
+                22*dt;
 
         }
 
 
-        if(brake){
+        /* BRAKE */
+
+        if(braking){
 
             speed -=
-            120*delta;
+                150*dt;
 
         }
 
@@ -1581,48 +1330,49 @@ function animate(){
         ====================== */
 
         if(
-            nitro &&
-            nitro>0 &&
-            speed>40
+            boost &&
+            nitroFuel>0 &&
+            speed>30
         ){
 
             speed +=
-            220*delta;
+                300*dt;
 
-            nitro -=
-            45*delta;
+            nitroFuel -=
+                55*dt;
 
         }else{
 
-            nitro +=
-            10*delta;
+            nitroFuel +=
+                13*dt;
 
         }
 
 
-        nitro=
+        nitroFuel=
         THREE.MathUtils.clamp(
-            nitro,
+            nitroFuel,
             0,
             100
         );
 
 
         /* ======================
-           SPEED LIMIT
+           SPEED
         ====================== */
 
-        const maximum=
-        nitro && nitro>0
-        ? 430
-        : 240;
+        let maxSpeed=
+            boost &&
+            nitroFuel>0
+            ? 450
+            : 250;
 
 
         speed=
         THREE.MathUtils.clamp(
             speed,
             0,
-            maximum
+            maxSpeed
         );
 
 
@@ -1630,8 +1380,8 @@ function animate(){
            STEERING
         ====================== */
 
-        let steer=
-        steering;
+        let steering=
+            steer;
 
 
         if(
@@ -1639,28 +1389,27 @@ function animate(){
             keys.arrowleft
         ){
 
-            steer=-1;
+            steering=-1;
 
         }
-
 
         if(
             keys.d ||
             keys.arrowright
         ){
 
-            steer=1;
+            steering=1;
 
         }
 
 
         playerX +=
-        steer*
-        (
-            8+
-            speed*.025
-        )*
-        delta;
+            steering*
+            (
+                8+
+                speed*.025
+            )*
+            dt;
 
 
         playerX=
@@ -1675,66 +1424,62 @@ function animate(){
         THREE.MathUtils.lerp(
             player.position.x,
             playerX,
-            .25
+            .3
         );
 
 
-        /* ======================
-           CAR LEAN
-        ====================== */
+        /* CAR TILT */
 
         player.rotation.z=
         THREE.MathUtils.lerp(
             player.rotation.z,
-            -steer*.09,
+            -steering*.1,
             .15
         );
 
 
         /* ======================
-           ACTUAL FORWARD MOVEMENT
+           FORWARD MOVEMENT
         ====================== */
 
         const movement=
-        speed*
-        delta*
-        .065;
+            speed*
+            dt*
+            .075;
 
 
         player.position.z -=
-        movement;
-
+            movement;
 
         distance +=
-        movement;
+            movement;
 
 
         /* ======================
            AI
         ====================== */
 
-        aiCars.forEach(
-            ai=>{
+        ai.forEach(
+            opponent=>{
 
-                ai.mesh.position.z -=
-                ai.speed*
-                delta*
-                .065;
+                opponent.car.position.z -=
+                    opponent.speed*
+                    dt*
+                    .075;
 
 
                 if(
-                    ai.mesh.position.z <
-                    player.position.z-180
+                    opponent.car.position.z <
+                    player.position.z-200
                 ){
 
-                    ai.mesh.position.z=
-                    player.position.z+
-                    350+
-                    Math.random()*150;
+                    opponent.car.position.z=
+                        player.position.z+
+                        350+
+                        Math.random()*100;
 
-
-                    ai.mesh.position.x=
-                    Math.random()*15-7.5;
+                    opponent.car.position.x=
+                        Math.random()*15-7.5;
 
                 }
 
@@ -1743,34 +1488,25 @@ function animate(){
 
 
         /* ======================
-           LAP
+           LAPS
         ====================== */
 
-        if(
-            distance>=500
-        ){
+        if(distance>=500){
 
             distance=0;
 
             lap++;
 
-
             if(lap>3){
 
-                running=false;
+                playing=false;
 
                 alert(
                     "🏁 RACE FINISHED!\n\n"+
                     "GUDU RACING"
                 );
 
-                document.getElementById(
-                    "menu"
-                ).style.display="flex";
-
-                document.getElementById(
-                    "hud"
-                ).style.display="none";
+                location.reload();
 
             }
 
@@ -1788,26 +1524,24 @@ function animate(){
             .1
         );
 
+        camera.position.y=
+        THREE.MathUtils.lerp(
+            camera.position.y,
+            5.2,
+            .1
+        );
 
         camera.position.z=
         THREE.MathUtils.lerp(
             camera.position.z,
             player.position.z+12,
-            .12
-        );
-
-
-        camera.position.y=
-        THREE.MathUtils.lerp(
-            camera.position.y,
-            5.4,
-            .1
+            .13
         );
 
 
         camera.lookAt(
             player.position.x,
-            .8,
+            .7,
             player.position.z-20
         );
 
@@ -1819,34 +1553,31 @@ function animate(){
         document.getElementById(
             "speed"
         ).innerHTML=
-        Math.floor(speed)+
-        ' <small>KM/H</small>';
+            Math.floor(speed)+
+            ' <small>KM/H</small>';
 
 
         document.getElementById(
             "lap"
         ).textContent=
-        lap;
+            lap;
 
 
         document.getElementById(
             "nitroFill"
         ).style.width=
-        nitro+"%";
+            nitroFuel+"%";
 
 
-        /* ======================
-           POSITION
-        ====================== */
+        /* POSITION */
 
         let position=1;
 
-
-        aiCars.forEach(
-            ai=>{
+        ai.forEach(
+            opponent=>{
 
                 if(
-                    ai.mesh.position.z>
+                    opponent.car.position.z >
                     player.position.z
                 ){
 
@@ -1861,7 +1592,7 @@ function animate(){
         document.getElementById(
             "position"
         ).textContent=
-        position;
+            position;
 
     }
 
@@ -1877,17 +1608,17 @@ function animate(){
 animate();
 
 
-/* =====================================================
+/* ===============================
    RESIZE
-===================================================== */
+=============================== */
 
 window.addEventListener(
     "resize",
     ()=>{
 
         camera.aspect=
-        innerWidth/
-        innerHeight;
+            innerWidth/
+            innerHeight;
 
         camera.updateProjectionMatrix();
 
