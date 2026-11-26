@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>GUDU GTA V8 - REAL CITY + POLICE + MOBILE!</title>
+<title>GUDU GTA V9 - LUFTHANSA 747 + MOUSE CONTROL!</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
-body{overflow:hidden;background:#87ceeb;font-family:Arial,sans-serif}
-canvas{display:block;filter:contrast(1.06) saturate(1.12)}
-#menu{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;justify-content:center;align-items:center;background:linear-gradient(180deg,rgba(0,0,0,.2),rgba(0,0,0,.85)),radial-gradient(circle,#2a2a2a,#050505 72%);color:white;text-align:center;padding:16px}
+body{overflow:hidden;background:#a8d0f0;font-family:Arial,sans-serif}
+canvas{display:block;filter:contrast(1.08) saturate(1.15)}
+#menu{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;justify-content:center;align-items:center;background:linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.88)),radial-gradient(circle,#2a2a2a,#050505 72%);color:white;text-align:center;padding:16px}
 .logo{font-size:clamp(42px,11vw,92px);font-weight:900;letter-spacing:5px;text-shadow:0 6px 30px rgba(0,0,0,.8)}
 .logo span{color:#ff3030}
 .subtitle{color:#ddd;letter-spacing:2px;margin:10px 0 14px;font-size:12px}
@@ -36,6 +36,7 @@ canvas{display:block;filter:contrast(1.06) saturate(1.12)}
 #healthBar{height:10px;background:rgba(0,0,0,.7);border:1px solid #777;border-radius:20px;overflow:hidden;margin-top:4px}
 #healthFill{height:100%;width:100%;background:linear-gradient(90deg,#22c55e,#facc15);transition:width .3s}
 #moneyBox{position:absolute;top:92px;left:12px;background:rgba(0,0,0,.6);padding:6px 10px;border-radius:10px;font-size:12px;font-weight:800}
+#mouseHint{position:absolute;left:50%;transform:translateX(-50%);bottom:180px;background:rgba(0,0,0,.7);color:#fff;padding:7px 12px;border-radius:20px;font-size:11px;font-weight:700;display:none;text-align:center}
 #cockpitOverlay{display:none;position:fixed;left:0;right:0;bottom:0;z-index:25;pointer-events:none;height:44vh}
 #cockpitFallback{position:absolute;inset:0;background:linear-gradient(180deg,transparent 0%,rgba(10,10,10,.85) 18%,#0a0a0a 45%,#000 100%)}
 #dashInfo{position:absolute;left:0;right:0;bottom:0;height:100%;display:flex;align-items:flex-end;justify-content:space-between;padding:0 4% 2%}
@@ -59,8 +60,9 @@ canvas{display:block;filter:contrast(1.06) saturate(1.12)}
 #accelerate{background:#22c55e}
 #nitro{width:85px;height:85px;background:#38bdf8}
 #exitBtn{display:none;pointer-events:auto;position:fixed;left:15px;bottom:170px;z-index:50;background:#fb923c;color:#fff;border:0;padding:12px 16px;border-radius:30px;font-weight:900;font-size:12px;cursor:pointer}
-#phoneBtn{pointer-events:auto;position:fixed;right:15px;bottom:170px;z-index:50;background:#111;color:#fff;border:2px solid #00d9ff;padding:12px 16px;border-radius:30px;font-weight:900;font-size:12px;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.4)}
+#phoneBtn{pointer-events:auto;position:fixed;right:15px;bottom:170px;z-index:50;background:#111;color:#fff;border:2px solid #00d9ff;padding:12px 16px;border-radius:30px;font-weight:900;font-size:12px;cursor:pointer}
 #flyHint{display:none;position:absolute;left:50%;transform:translateX(-50%);top:130px;background:rgba(0,0,0,.75);color:#fff;padding:9px 14px;border-radius:20px;font-size:12px;font-weight:700;text-align:center}
+#planePanel{display:none;position:absolute;left:50%;transform:translateX(-50%);bottom:190px;background:rgba(0,0,0,.75);color:#fff;padding:10px 14px;border-radius:16px;font-size:12px;text-align:center;backdrop-filter:blur(8px)}
 #shopPanel{display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:80;background:#111;border:1px solid #444;border-radius:18px;padding:18px;width:92%;max-width:420px;color:#fff;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.6)}
 #shopPanel h2{font-size:22px}
 #shopPanel p{font-size:13px;color:#aaa;margin:6px 0 12px}
@@ -68,7 +70,6 @@ canvas{display:block;filter:contrast(1.06) saturate(1.12)}
 #crashScreen{display:none;position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.88);color:white;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px}
 #crashScreen h1{font-size:44px;color:#ef4444}
 #crashScreen button{border:0;padding:14px 32px;border-radius:12px;font-weight:900;font-size:16px;cursor:pointer;margin:6px}
-/* REAL MOBILE - JO CHALTA HAI! */
 #phone{position:fixed;right:12px;bottom:12px;z-index:85;width:280px;height:520px;background:#000;border:6px solid #222;border-radius:32px;overflow:hidden;display:none;flex-direction:column;box-shadow:0 20px 50px rgba(0,0,0,.6)}
 #phoneTop{height:42px;background:#111;display:flex;justify-content:space-between;align-items:center;padding:0 14px;font-size:11px}
 #phoneScreen{flex:1;background:linear-gradient(180deg,#1e40af,#0f172a);padding:12px;overflow-y:auto}
@@ -80,31 +81,35 @@ canvas{display:block;filter:contrast(1.06) saturate(1.12)}
 #phoneContent{background:#fff;color:#111;border-radius:16px;padding:10px;margin-top:10px;min-height:120px;font-size:12px;display:none}
 #loading{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.7);color:#fff;padding:6px 14px;border-radius:20px;font-size:11px;z-index:101}
 #toast{position:fixed;top:150px;left:50%;transform:translateX(-50%);background:#fff;color:#111;padding:9px 16px;border-radius:30px;font-weight:800;font-size:12px;z-index:95;display:none;max-width:92%;text-align:center}
-#vignette{position:fixed;inset:0;pointer-events:none;z-index:10;background:radial-gradient(ellipse at center,transparent 62%,rgba(0,0,0,.35) 100%)}
-@media(max-width:800px){#steering{display:block}#controls{display:flex}#nitroWrap{bottom:160px;width:180px}#cockpitOverlay{height:40vh}#exitBtn{bottom:300px}#phoneBtn{bottom:300px;right:15px}#phone{width:260px;height:480px;right:8px}}
+#vignette{position:fixed;inset:0;pointer-events:none;z-index:10;background:radial-gradient(ellipse at center,transparent 62%,rgba(0,0,0,.28) 100%)}
+#crosshair{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:15;font-size:14px;opacity:.5;pointer-events:none;display:none}
+@media(max-width:800px){#steering{display:block}#controls{display:flex}#nitroWrap{bottom:160px;width:180px}#cockpitOverlay{height:40vh}#exitBtn{bottom:300px}#phoneBtn{bottom:300px}#phone{width:260px;height:480px}}
 </style>
 </head>
 <body>
 <div id="vignette"></div>
+<div id="crosshair">+</div>
 <div id="toast"></div>
 <div id="menu">
 <div class="logo">GUDU<span> GTA</span></div>
-<div class="subtitle">GUN SHOP • BAR • RESTAURANT • MOBILE SHOP • LAPTOP SHOP • POLICE CHASE • REAL MOBILE!</div>
+<div class="subtitle">LUFTHANSA 747 • REAL BUILDINGS • MOUSE CONTROL • REAL GRAPHICS!</div>
 <button id="start" onclick="startRace()">START GAME</button>
-<div class="feat"><span>🔫 Gun Shop</span><span>🍺 Bar</span><span>🍕 Restaurant</span><span>📱 Mobile Shop</span><span>💻 Laptop Shop</span><span>🚓 Police Chase</span><span>📱 Real Mobile!</span><span>✈️ Real Plane</span></div>
-<p style="font-size:11px;color:#aaa;margin-top:12px">E = Utro / Betho • 📱 = Real Mobile Kholo • Crime karo — Police aayegi!</p>
+<div class="feat"><span>✈️ Lufthansa 747 — Photo Jesa!</span><span>🏙️ Real Buildings + Glass</span><span>🖱️ Mouse Se Character!</span><span>🔫 Gun Shop</span><span>🍺 Bar</span><span>🍕 Restaurant</span><span>📱 Real Mobile</span><span>🚓 Police Chase</span></div>
+<p style="font-size:11px;color:#aaa;margin-top:12px">🖱️ Mouse ghumao — Character mudega! • E = Utro / Betho • W = Chalo / Udo</p>
 </div>
-<div id="loading">Loading Real City...</div>
+<div id="loading">Loading Lufthansa 747 + Real City...</div>
 
 <div id="hud">
 <div id="top"><div class="box">LAP <b id="lap">1</b>/3</div><div class="box">POS <b id="position">1</b>/4</div><div class="box" id="speed">0 <small>KM/H</small></div></div>
 <div id="wanted">⭐ WANTED: <span id="wantedStars">⭐</span> <span id="wantedTxt" style="color:#fff;font-size:11px">Police peeche hai!</span></div>
 <div id="modeBadge">🚗 CAR MODE</div>
 <div id="healthWrap"><div id="healthTitle">❤️ HEALTH</div><div id="healthBar"><div id="healthFill"></div></div></div>
-<div id="moneyBox">💰 ₹<span id="money">5000</span> • 🔫 Gun: <span id="gunTxt">No</span></div>
+<div id="moneyBox">💰 ₹<span id="money">5000</span> • 🔫 <span id="gunTxt">No</span></div>
 <button id="cameraBtn" onclick="toggleCamera()">🎥 COCKPIT</button>
-<div id="flyHint">✈️ PLANE — W = Tez • S = Slow • A/D = Mudo • ↑/↓ = Up/Neeche • E = Utro</div>
+<div id="flyHint">✈️ 747 — W / ↑ = Throttle + Up • S / ↓ = Down • A/D / Mouse = Mudo • E = Utro</div>
+<div id="planePanel">✈️ <b>LUFTHANSA 747</b> • Altitude: <span id="altTxt">0</span>m • Speed: <span id="planeSpeedTxt">0</span> • Flaps: <span id="flapTxt">UP</span></div>
 <button id="enterBtn" onclick="enterNearest()">🚪 E — ISME BETHO!</button>
+<div id="mouseHint">🖱️ Mouse ghumao — Character / Camera mudega! • Click karke aage chalo!</div>
 <div id="nitroWrap"><div id="nitroTitle">NITRO BOOST</div><div id="nitroBar"><div id="nitroFill"></div></div></div>
 </div>
 
@@ -115,31 +120,23 @@ canvas{display:block;filter:contrast(1.06) saturate(1.12)}
 <button id="phoneBtn" onclick="togglePhone()">📱 MOBILE</button>
 <div id="controls"><button class="control" id="brake">BRAKE</button><button class="control" id="accelerate">ACCEL</button><button class="control" id="nitro">NITRO</button></div>
 
-<!-- SHOP PANEL -->
-<div id="shopPanel">
-<h2 id="shopTitle">🏪 Shop</h2>
-<p id="shopDesc">Kya loge Boss?</p>
-<div id="shopBtns"></div>
-<button class="shop-btn" style="background:#222;color:#fff" onclick="closeShop()">❌ Band Karo — Chalo!</button>
-</div>
+<div id="shopPanel"><h2 id="shopTitle">🏪 Shop</h2><p id="shopDesc">Kya loge Boss?</p><div id="shopBtns"></div><button class="shop-btn" style="background:#222;color:#fff" onclick="closeShop()">❌ Band Karo</button></div>
 
-<!-- REAL MOBILE - CHALTA HUA! -->
 <div id="phone">
 <div id="phoneTop"><span>📶 5G • <span id="phoneTime">12:00</span></span><span>🔋 98%</span></div>
 <div id="phoneScreen">
-<div style="text-align:center"><b style="font-size:18px">GUDU PHONE</b><p style="font-size:11px;opacity:.8">Boss ka Phone — Sab chalta hai!</p></div>
+<div style="text-align:center"><b style="font-size:18px">GUDU PHONE</b><p style="font-size:11px;opacity:.8">Boss ka Phone</p></div>
 <div class="app-grid">
 <div class="papp" onclick="phoneApp('call')"><span class="e">📞</span>Call</div>
-<div class="papp" onclick="phoneApp('msg')"><span class="e">💬</span>Message</div>
+<div class="papp" onclick="phoneApp('msg')"><span class="e">💬</span>Msg</div>
 <div class="papp" onclick="phoneApp('map')"><span class="e">🗺️</span>Map</div>
 <div class="papp" onclick="phoneApp('music')"><span class="e">🎵</span>Music</div>
 <div class="papp" onclick="phoneApp('camera')"><span class="e">📷</span>Camera</div>
 <div class="papp" onclick="phoneApp('bank')"><span class="e">🏦</span>Bank</div>
-<div class="papp" onclick="phoneApp('police')"><span class="e">🚓</span>Police Call</div>
+<div class="papp" onclick="phoneApp('police')"><span class="e">🚓</span>Police</div>
 <div class="papp" onclick="phoneApp('gudu')"><span class="e">🎫</span>Gudu Card</div>
 </div>
 <div id="phoneContent"></div>
-<div style="background:rgba(255,255,255,.1);border-radius:12px;padding:10px;margin-top:10px;font-size:11px">💬 <b>Gudu:</b> Bhai kaha hai? Airport pe jet ready hai! ✈️<br><br>💬 <b>Luck:</b> Aa raha hu — Gudu Card leke aana! 🎫</div>
 </div>
 <div id="phoneHome"><button onclick="phoneApp('home')">🏠 Home</button><button onclick="togglePhone()">🔒 Lock</button><button onclick="phoneApp('call')">📞 Call</button></div>
 </div>
@@ -148,146 +145,214 @@ canvas{display:block;filter:contrast(1.06) saturate(1.12)}
 
 <script>
 window.gameStarted=false; window.isCockpit=false; window.crashed=false; window.mode="car"; window.health=100; window.money=5000; window.hasGun=false; window.wanted=0;
-function startRace(){window.gameStarted=true;var m=document.getElementById("menu");if(m)m.style.display="none";var h=document.getElementById("hud");if(h)h.style.display="block";var l=document.getElementById("loading");if(l)l.style.display="none";var ex=document.getElementById("exitBtn");if(ex)ex.style.display="block";}
+window.mouseX=0; window.mouseY=0; window.mouseDown=false; window.camYaw=0; window.camPitch=0;
+function startRace(){window.gameStarted=true;var m=document.getElementById("menu");if(m)m.style.display="none";var h=document.getElementById("hud");if(h)h.style.display="block";var l=document.getElementById("loading");if(l)l.style.display="none";var ex=document.getElementById("exitBtn");if(ex)ex.style.display="block";var mh=document.getElementById("mouseHint");if(mh)mh.style.display="block";setTimeout(function(){if(mh)mh.style.display="none"},5000);}
 function toggleCamera(){window.isCockpit=!window.isCockpit;var b=document.getElementById("cameraBtn");if(b)b.textContent=window.isCockpit?"🎥 CHASE":"🎥 COCKPIT";var o=document.getElementById("cockpitOverlay");if(o)o.style.display=(window.isCockpit&&window.mode==="car")?"block":"none";}
 function toast(m){var t=document.getElementById("toast");t.innerText=m;t.style.display="block";setTimeout(function(){t.style.display="none"},2800);}
 function repairCar(){window.crashed=false;window.health=100;document.getElementById("crashScreen").style.display="none";document.getElementById("healthFill").style.width="100%";toast("🔧 Repair Ho Gayi!");}
 function updateMoney(){document.getElementById("money").innerText=window.money; document.getElementById("gunTxt").innerText=window.hasGun?"Yes 🔫":"No";}
-function addWanted(n,reason){
-  window.wanted=Math.min(5,window.wanted+n);
-  var w=document.getElementById("wanted"); w.style.display=window.wanted>0?"block":"none";
-  document.getElementById("wantedStars").innerText="⭐".repeat(window.wanted);
-  document.getElementById("wantedTxt").innerText=reason||"Police peeche hai!";
-  if(window.wanted>0) toast("🚓 WANTED! "+ "⭐".repeat(window.wanted)+" — "+(reason||"Police a rahi hai!"));
-}
+function addWanted(n,reason){window.wanted=Math.min(5,window.wanted+n);var w=document.getElementById("wanted"); w.style.display=window.wanted>0?"block":"none";document.getElementById("wantedStars").innerText="⭐".repeat(window.wanted);document.getElementById("wantedTxt").innerText=reason||"Police peeche hai!";if(window.wanted>0) toast("🚓 WANTED! "+"⭐".repeat(window.wanted)+" — "+(reason||"Police a rahi hai!"));}
 function reduceWanted(){ if(window.wanted>0){window.wanted--; document.getElementById("wantedStars").innerText="⭐".repeat(window.wanted); if(window.wanted===0) document.getElementById("wanted").style.display="none"; else toast("Wanted kam hua! Ab "+window.wanted+" star!"); } }
+// MOUSE CONTROL - Character + Camera!
+document.addEventListener("mousemove",function(e){
+  var nx=(e.clientX/window.innerWidth-0.5)*2; // -1 to 1
+  var ny=(e.clientY/window.innerHeight-0.5)*2;
+  window.mouseX=nx; window.mouseY=ny;
+  // Camera yaw - mouse se!
+  window.camYaw=nx*1.2;
+  window.camPitch=ny*0.4;
+});
+document.addEventListener("mousedown",function(e){ if(window.gameStarted && !e.target.closest("button") && !e.target.closest("#phone") && !e.target.closest("#shopPanel")) window.mouseDown=true; });
+document.addEventListener("mouseup",function(){window.mouseDown=false;});
+document.addEventListener("touchmove",function(e){ if(e.touches.length>0){var t=e.touches[0]; window.mouseX=(t.clientX/window.innerWidth-0.5)*2; window.mouseY=(t.clientY/window.innerHeight-0.5)*2; window.camYaw=window.mouseX*1.2;}}, {passive:true});
 document.addEventListener("DOMContentLoaded",function(){var s=document.getElementById("start");if(s){s.addEventListener("click",startRace);s.addEventListener("touchstart",function(e){e.preventDefault();startRace();},{passive:false});}setTimeout(function(){var l=document.getElementById("loading");if(l)l.style.display="none";},4000); setInterval(function(){document.getElementById("phoneTime").innerText=new Date().toLocaleTimeString("hi-IN",{hour:"2-digit",minute:"2-digit"});},1000);});
-// PHONE - REAL!
 function togglePhone(){var p=document.getElementById("phone"); p.style.display=p.style.display==="flex"?"none":"flex";}
-function phoneApp(app){
-  var c=document.getElementById("phoneContent"); c.style.display="block";
-  if(app==="home"){c.style.display="none"; return;}
-  if(app==="call") c.innerHTML="<b>📞 Call Karo</b><br><button onclick=\"toast('📞 Gudu ko call lag raha hai...');\" style='padding:8px 12px;border:none;background:#22c55e;color:#fff;border-radius:20px;margin:6px 4px 0 0;cursor:pointer'>📞 Gudu</button><button onclick=\"toast('📞 Luck ko call...');\" style='padding:8px 12px;border:none;background:#3b82f6;color:#fff;border-radius:20px;cursor:pointer'>📞 Luck</button><button onclick=\"toast('📞 Police ko call...');\" style='padding:8px 12px;border:none;background:#ef4444;color:#fff;border-radius:20px;margin-left:4px;cursor:pointer'>🚓 Police</button><p style='margin-top:8px;color:#666'>Call dabao — Baat hogi!</p>";
-  else if(app==="msg") c.innerHTML="<b>💬 Messages</b><br><div style='background:#f1f5f9;padding:8px;border-radius:10px;margin-top:6px'>Gudu: Bhai airport aa ja! ✈️</div><div style='background:#dcfce7;padding:8px;border-radius:10px;margin-top:6px'>Tu: Aa raha hu! 🚗</div><input placeholder='Message likho...' style='width:100%;padding:8px;border:1px solid #ddd;border-radius:20px;margin-top:6px' onkeypress=\"if(event.key==='Enter'){toast('💬 Message bhej diya!'); this.value='';}\">";
-  else if(app==="map") c.innerHTML="<b>🗺️ Map — Gudu City</b><br><div style='background:#dcfce7;padding:10px;border-radius:10px;margin-top:6px;text-align:center;font-size:20px'>🏛️ Police • 🔫 Gun Shop<br>🍺 Bar • 🍕 Restaurant<br>✈️ Airport • 📱 Mobile Shop</div><p style='margin-top:6px'>Tu yaha hai: 📍 Road pe!</p>";
-  else if(app==="music") c.innerHTML="<b>🎵 Music</b><br><button onclick=\"window.open('https://www.youtube.com/results?search_query=Baarishein','_blank')\" style='padding:8px 12px;border:none;background:#111;color:#fff;border-radius:20px;margin-top:6px;cursor:pointer'>🌧️ Baarishein Chalao</button><button onclick=\"window.open('https://www.youtube.com/results?search_query=Husn','_blank')\" style='padding:8px 12px;border:none;background:#f97316;color:#fff;border-radius:20px;margin-left:4px;cursor:pointer'>✨ Husn</button>";
-  else if(app==="camera") c.innerHTML="<b>📷 Camera</b><br><div style='background:#111;color:#fff;padding:20px;border-radius:10px;text-align:center;margin-top:6px;font-size:30px'>📷<br><span style='font-size:11px'>Photo lene ke liye Screen Shot lo!</span></div>";
-  else if(app==="bank") c.innerHTML="<b>🏦 Bank — Gudu Bank</b><br>Balance: <b>₹"+window.money+"</b><br><button onclick=\"window.money+=1000;updateMoney();toast('💰 ₹1000 mile!')\" style='padding:8px 12px;border:none;background:#22c55e;color:#fff;border-radius:20px;margin-top:6px;cursor:pointer'>💰 ₹1000 Lo</button>";
-  else if(app==="police") c.innerHTML="<b>🚓 Police</b><br>Wanted: "+window.wanted+" Star<br><button onclick=\"reduceWanted();\" style='padding:8px 12px;border:none;background:#3b82f6;color:#fff;border-radius:20px;margin-top:6px;cursor:pointer'>🙏 Police ko Rishwat — Wanted Kam Karo!</button><p style='margin-top:6px;color:#888'>Rishwat se Wanted kam hoga!</p>";
-  else if(app==="gudu") c.innerHTML="<b>🎫 Gudu Card</b><br>No: <b>20102610</b><br>Discount: <b>20% OFF!</b><br>Luck Ke Husband Wala! 😂<br><div style='background:#7c3aed;color:#fff;padding:10px;border-radius:10px;margin-top:6px;text-align:center'>🎫 GUDU CARD — 20102610</div>";
-}
-// SHOP!
-function openShop(type){
-  var p=document.getElementById("shopPanel"); p.style.display="block";
-  var title=document.getElementById("shopTitle"); var desc=document.getElementById("shopDesc"); var btns=document.getElementById("shopBtns");
-  if(type==="gun"){title.innerText="🔫 GUN SHOP"; desc.innerText="Gun lo Boss! Police se bacho! Paisa: ₹"+window.money; btns.innerHTML="<button class='shop-btn' style='background:#ef4444;color:#fff' onclick=\"buyGun('Pistol',1000)\">🔫 Pistol — ₹1000</button><button class='shop-btn' style='background:#111;color:#fff' onclick=\"buyGun('Rifle',2500)\">🔫 Rifle — ₹2500</button><button class='shop-btn' style='background:#facc15;color:#111' onclick=\"buyGun('AK-47',5000)\">🔫 AK-47 — ₹5000</button>";}
-  else if(type==="bar"){title.innerText="🍺 GUDU BAR"; desc.innerText="Drink piyo — Maze karo! Neon lights!"; btns.innerHTML="<button class='shop-btn' style='background:#f97316;color:#fff' onclick=\"buyDrink()\">🍺 Drink — ₹200 — Health +10</button><button class='shop-btn' style='background:#111;color:#fff' onclick=\"buyDrink()\">🥃 Whiskey — ₹500 — Wanted Kam!</button>";}
-  else if(type==="restaurant"){title.innerText="🍕 GUDU RESTAURANT"; desc.innerText="Khaana khao — Health badhegi!"; btns.innerHTML="<button class='shop-btn' style='background:#22c55e;color:#fff' onclick=\"buyFood('Pizza',300,30)\">🍕 Pizza — ₹300 — Health +30</button><button class='shop-btn' style='background:#f97316;color:#fff' onclick=\"buyFood('Burger',200,20)\">🍔 Burger — ₹200 — Health +20</button><button class='shop-btn' style='background:#3b82f6;color:#fff' onclick=\"buyFood('Maggi',100,15)\">🍜 Maggi — ₹100 — Health +15</button>";}
-  else if(type==="mobile"){title.innerText="📱 MOBILE SHOP"; desc.innerText="Naya Mobile lo!"; btns.innerHTML="<button class='shop-btn' style='background:#111;color:#fff' onclick=\"buyPhone()\">📱 Gudu Phone Pro — ₹2000 — Phone Upgrade!</button><button class='shop-btn' style='background:#3b82f6;color:#fff' onclick=\"toast('📱 Cover lag gaya!')\">📱 Cover — ₹200</button>";}
-  else if(type==="laptop"){title.innerText="💻 LAPTOP SHOP"; desc.innerText="Laptop lo — Kaam karo!"; btns.innerHTML="<button class='shop-btn' style='background:#7c3aed;color:#fff' onclick=\"buyLaptop()\">💻 Gudu Laptop — ₹5000 — Game + Kaam!</button><button class='shop-btn' style='background:#111;color:#fff' onclick=\"toast('💻 Laptop repair ho gaya!')\">🔧 Laptop Repair — ₹500</button>";}
-}
+function phoneApp(app){var c=document.getElementById("phoneContent"); c.style.display="block"; if(app==="home"){c.style.display="none"; return;} if(app==="call") c.innerHTML="<b>📞 Call</b><br><button onclick=\"toast('📞 Gudu ko call...')\" style='padding:8px 12px;border:none;background:#22c55e;color:#fff;border-radius:20px;margin:6px 4px 0 0;cursor:pointer'>📞 Gudu</button><button onclick=\"toast('📞 Luck ko call...')\" style='padding:8px 12px;border:none;background:#3b82f6;color:#fff;border-radius:20px;cursor:pointer'>📞 Luck</button><button onclick=\"toast('📞 Police...')\" style='padding:8px 12px;border:none;background:#ef4444;color:#fff;border-radius:20px;margin-left:4px;cursor:pointer'>🚓 Police</button>"; else if(app==="msg") c.innerHTML="<b>💬 Messages</b><br><div style='background:#f1f5f9;padding:8px;border-radius:10px;margin-top:6px'>Gudu: Bhai airport aa ja! ✈️ 747 ready hai!</div><input placeholder='Message...' style='width:100%;padding:8px;border:1px solid #ddd;border-radius:20px;margin-top:6px' onkeypress=\"if(event.key==='Enter'){toast('💬 Bhej diya!'); this.value='';}\">"; else if(app==="map") c.innerHTML="<b>🗺️ Map</b><br><div style='background:#dcfce7;padding:10px;border-radius:10px;margin-top:6px;text-align:center'>🏛️ Police • 🔫 Gun Shop<br>🍺 Bar • 🍕 Restaurant<br>✈️ Airport • 📱 Mobile Shop</div>"; else if(app==="music") c.innerHTML="<b>🎵 Music</b><br><button onclick=\"window.open('https://www.youtube.com/results?search_query=Baarishein','_blank')\" style='padding:8px 12px;border:none;background:#111;color:#fff;border-radius:20px;margin-top:6px;cursor:pointer'>🌧️ Baarishein</button>"; else if(app==="camera") c.innerHTML="<b>📷 Camera</b><br><div style='background:#111;color:#fff;padding:20px;border-radius:10px;text-align:center;margin-top:6px;font-size:30px'>📷</div>"; else if(app==="bank") c.innerHTML="<b>🏦 Bank</b><br>Balance: <b>₹"+window.money+"</b><br><button onclick=\"window.money+=1000;updateMoney();toast('💰 ₹1000 mile!')\" style='padding:8px 12px;border:none;background:#22c55e;color:#fff;border-radius:20px;margin-top:6px;cursor:pointer'>💰 ₹1000 Lo</button>"; else if(app==="police") c.innerHTML="<b>🚓 Police</b><br>Wanted: "+window.wanted+" Star<br><button onclick=\"reduceWanted();\" style='padding:8px 12px;border:none;background:#3b82f6;color:#fff;border-radius:20px;margin-top:6px;cursor:pointer'>🙏 Rishwat — Wanted Kam</button>"; else if(app==="gudu") c.innerHTML="<b>🎫 Gudu Card</b><br>No: <b>20102610</b><br>Discount: <b>20% OFF!</b><br><div style='background:#7c3aed;color:#fff;padding:10px;border-radius:10px;margin-top:6px;text-align:center'>🎫 GUDU CARD — 20102610</div>";}
+function openShop(type){var p=document.getElementById("shopPanel"); p.style.display="block"; var title=document.getElementById("shopTitle"); var desc=document.getElementById("shopDesc"); var btns=document.getElementById("shopBtns"); if(type==="gun"){title.innerText="🔫 GUN SHOP"; desc.innerText="Gun lo Boss! Paisa: ₹"+window.money; btns.innerHTML="<button class='shop-btn' style='background:#ef4444;color:#fff' onclick=\"buyGun('Pistol',1000)\">🔫 Pistol — ₹1000</button><button class='shop-btn' style='background:#111;color:#fff' onclick=\"buyGun('Rifle',2500)\">🔫 Rifle — ₹2500</button><button class='shop-btn' style='background:#facc15;color:#111' onclick=\"buyGun('AK-47',5000)\">🔫 AK-47 — ₹5000</button>";} else if(type==="bar"){title.innerText="🍺 GUDU BAR"; desc.innerText="Drink piyo!"; btns.innerHTML="<button class='shop-btn' style='background:#f97316;color:#fff' onclick=\"buyDrink()\">🍺 Drink — ₹200 — Health +10</button>";} else if(type==="restaurant"){title.innerText="🍕 RESTAURANT"; desc.innerText="Khaana khao!"; btns.innerHTML="<button class='shop-btn' style='background:#22c55e;color:#fff' onclick=\"buyFood('Pizza',300,30)\">🍕 Pizza — ₹300 — Health +30</button><button class='shop-btn' style='background:#f97316;color:#fff' onclick=\"buyFood('Burger',200,20)\">🍔 Burger — ₹200</button>";} else if(type==="mobile"){title.innerText="📱 MOBILE SHOP"; desc.innerText="Naya Mobile!"; btns.innerHTML="<button class='shop-btn' style='background:#111;color:#fff' onclick=\"buyPhone()\">📱 Gudu Phone Pro — ₹2000</button>";} else if(type==="laptop"){title.innerText="💻 LAPTOP SHOP"; desc.innerText="Laptop lo!"; btns.innerHTML="<button class='shop-btn' style='background:#7c3aed;color:#fff' onclick=\"buyLaptop()\">💻 Laptop — ₹5000</button>";}}
 function closeShop(){document.getElementById("shopPanel").style.display="none";}
-function buyGun(name,price){ if(window.money<price){toast("Paisa kam hai Boss! Bank se ₹1000 lo — Phone me Bank!"); return;} window.money-=price; window.hasGun=true; updateMoney(); closeShop(); toast("🔫 "+name+" kharid li! Ab police se daro mat!"); addWanted(0,""); }
-function buyDrink(){ if(window.money<200){toast("Paisa kam hai!"); return;} window.money-=200; window.health=Math.min(100,window.health+10); document.getElementById("healthFill").style.width=window.health+"%"; updateMoney(); closeShop(); toast("🍺 Drink pi li! Health +10! Wanted kam!"); reduceWanted(); }
-function buyFood(name,price,health){ if(window.money<price){toast("Paisa kam hai!"); return;} window.money-=price; window.health=Math.min(100,window.health+health); document.getElementById("healthFill").style.width=window.health+"%"; updateMoney(); closeShop(); toast(name+" kha liya! Health +"+health+"! 😋"); }
-function buyPhone(){ if(window.money<2000){toast("Paisa kam hai!"); return;} window.money-=2000; updateMoney(); closeShop(); toast("📱 Naya Gudu Phone Pro mil gaya! Phone aur fast!"); togglePhone(); }
-function buyLaptop(){ if(window.money<5000){toast("Paisa kam hai!"); return;} window.money-=5000; updateMoney(); closeShop(); toast("💻 Laptop mil gaya! Ab laptop pe kaam karo!"); }
+function buyGun(n,pr){ if(window.money<pr){toast("Paisa kam hai! Phone me Bank se lo!"); return;} window.money-=pr; window.hasGun=true; updateMoney(); closeShop(); toast("🔫 "+n+" kharid li!"); }
+function buyDrink(){ if(window.money<200){toast("Paisa kam!"); return;} window.money-=200; window.health=Math.min(100,window.health+10); document.getElementById("healthFill").style.width=window.health+"%"; updateMoney(); closeShop(); toast("🍺 Drink! Health +10!"); reduceWanted(); }
+function buyFood(n,pr,hl){ if(window.money<pr){toast("Paisa kam!"); return;} window.money-=pr; window.health=Math.min(100,window.health+hl); document.getElementById("healthFill").style.width=window.health+"%"; updateMoney(); closeShop(); toast(n+" kha liya! Health +"+hl); }
+function buyPhone(){ if(window.money<2000){toast("Paisa kam!"); return;} window.money-=2000; updateMoney(); closeShop(); toast("📱 Naya Phone mil gaya!"); togglePhone(); }
+function buyLaptop(){ if(window.money<5000){toast("Paisa kam!"); return;} window.money-=5000; updateMoney(); closeShop(); toast("💻 Laptop mil gaya!"); }
 </script>
 
 <script type="module">
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
-const scene=new THREE.Scene(); scene.background=new THREE.Color(0x87b5e0); scene.fog=new THREE.Fog(0x9db8d6,180,950);
-const camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.1,2500);
-const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:"high-performance"}); renderer.setSize(innerWidth,innerHeight); renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap; renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.28; document.body.appendChild(renderer.domElement);
-const sun=new THREE.DirectionalLight(0xffc07a,3.8); sun.position.set(140,110,90); sun.castShadow=true; sun.shadow.camera.left=-140; sun.shadow.camera.right=140; sun.shadow.camera.top=140; sun.shadow.camera.bottom=-140; sun.shadow.mapSize.set(2048,2048); scene.add(sun);
-scene.add(new THREE.HemisphereLight(0xbfd9ff,0x2e7d32,1.35));
-const sunMesh=new THREE.Mesh(new THREE.SphereGeometry(26,24,16),new THREE.MeshBasicMaterial({color:0xffd76e,fog:false})); sunMesh.position.set(380,140,-700); scene.add(sunMesh);
+const scene=new THREE.Scene();
+// REAL SKY - photo jesa blue!
+scene.background=new THREE.Color(0x8ec9f0);
+scene.fog=new THREE.Fog(0x9cc2e0,200,1100);
+const camera=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,3000);
+const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:"high-performance"});
+renderer.setSize(innerWidth,innerHeight); renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.3; renderer.outputColorSpace=THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+// SUN - bright, photo jesa!
+const sun=new THREE.DirectionalLight(0xfff2d0,3.6); sun.position.set(180,160,120); sun.castShadow=true; sun.shadow.camera.left=-160; sun.shadow.camera.right=160; sun.shadow.camera.top=160; sun.shadow.camera.bottom=-160; sun.shadow.mapSize.set(2048,2048); sun.shadow.bias=-0.0003; scene.add(sun);
+const fill=new THREE.DirectionalLight(0x88aaff,0.8); fill.position.set(-90,70,-70); scene.add(fill);
+scene.add(new THREE.HemisphereLight(0xcfe5ff,0x2e7d32,1.4));
+const sunMesh=new THREE.Mesh(new THREE.SphereGeometry(28,24,16),new THREE.MeshBasicMaterial({color:0xfff3a0,fog:false})); sunMesh.position.set(420,170,-750); scene.add(sunMesh);
+const glowMesh=new THREE.Mesh(new THREE.SphereGeometry(60,16,16),new THREE.MeshBasicMaterial({color:0xffd76e,transparent:true,opacity:.18,fog:false})); glowMesh.position.copy(sunMesh.position); scene.add(glowMesh);
+
 function mat(c,m=0,r=.5){return new THREE.MeshStandardMaterial({color:c,metalness:m,roughness:r});}
-function paintMat(c){return new THREE.MeshStandardMaterial({color:c,metalness:.92,roughness:.14});}
-function glassMat(){return new THREE.MeshStandardMaterial({color:0x0e1e2e,metalness:.85,roughness:.08});}
-const ground=new THREE.Mesh(new THREE.PlaneGeometry(2400,2400),new THREE.MeshStandardMaterial({color:0x3a7d44,roughness:1})); ground.rotation.x=-Math.PI/2; ground.receiveShadow=true; scene.add(ground);
+function paintMat(c){return new THREE.MeshStandardMaterial({color:c,metalness:.92,roughness:.13});}
+function glassMat(){return new THREE.MeshStandardMaterial({color:0x0e1e2e,metalness:.9,roughness:.06});}
+const ground=new THREE.Mesh(new THREE.PlaneGeometry(2600,2600),new THREE.MeshStandardMaterial({color:0x3a7d44,roughness:1})); ground.rotation.x=-Math.PI/2; ground.receiveShadow=true; scene.add(ground);
+for(let i=0;i<90;i++){const p=new THREE.Mesh(new THREE.CircleGeometry(8+Math.random()*12,12),mat(Math.random()>.5?0x4a9a55:0x2c6b34,0,1)); p.rotation.x=-Math.PI/2; p.position.set((Math.random()-.5)*1200,.02,-Math.random()*1400); scene.add(p);}
 const ROAD=3200;
-const road=new THREE.Mesh(new THREE.PlaneGeometry(22,ROAD),new THREE.MeshStandardMaterial({color:0x232323,roughness:.65,metalness:.25})); road.rotation.x=-Math.PI/2; road.position.set(0,.02,-ROAD/2); road.receiveShadow=true; scene.add(road);
-for(let z=10;z>-ROAD;z-=14){const line=new THREE.Mesh(new THREE.BoxGeometry(.38,.06,7),new THREE.MeshStandardMaterial({color:0xffffff,emissive:0xffffff,emissiveIntensity:.35}));line.position.set(0,.08,z);scene.add(line);}
+const road=new THREE.Mesh(new THREE.PlaneGeometry(22,ROAD),new THREE.MeshStandardMaterial({color:0x232323,roughness:.6,metalness:.3})); road.rotation.x=-Math.PI/2; road.position.set(0,.02,-ROAD/2); road.receiveShadow=true; scene.add(road);
+for(let z=10;z>-ROAD;z-=14){const line=new THREE.Mesh(new THREE.BoxGeometry(.38,.06,7),new THREE.MeshStandardMaterial({color:0xffffff,emissive:0xffffff,emissiveIntensity:.4}));line.position.set(0,.08,z);scene.add(line);}
 for(let z=0;z>-ROAD;z-=7){for(const x of [-12.2,12.2]){const curb=new THREE.Mesh(new THREE.BoxGeometry(1.1,.35,3.5),mat(Math.floor(-z/7)%2===0?0xf8fafc:0xdc2626));curb.position.set(x,.18,z);scene.add(curb);}}
 let colliders=[]; let shops=[];
-function tree(x,z){const trunk=new THREE.Mesh(new THREE.CylinderGeometry(.42,.6,3.6,10),mat(0x5d3a1a));trunk.position.set(x,1.8,z);trunk.castShadow=true;scene.add(trunk);const c1=new THREE.Mesh(new THREE.SphereGeometry(2.4,14,12),mat(0x14532d,0,.85));c1.position.set(x,4.6,z);c1.castShadow=true;scene.add(c1);colliders.push({x,z,r:2.3,type:"🌳 Ped"});}
-for(let i=0;i<130;i++){const side=Math.random()<.5?-1:1; tree(side*(19+Math.random()*44),-Math.random()*ROAD);}
-for(let i=0;i<28;i++){const h=16+Math.random()*30; const b=new THREE.Mesh(new THREE.BoxGeometry(15,h,15),mat([0x94a3b8,0xcbd5e1,0x64748b][i%3],.15,.75)); const side=i%2===0?-1:1; const bx=side*(42+Math.random()*28); const bz=-Math.random()*2900; b.position.set(bx,h/2,bz); b.castShadow=true; scene.add(b); colliders.push({x:bx,z:bz,r:9.5,type:"🏢 Building"});}
-// SHOPS - Gun, Bar, Restaurant, Mobile, Laptop - City me!
+function tree(x,z){const trunk=new THREE.Mesh(new THREE.CylinderGeometry(.42,.6,3.8,10),mat(0x5d3a1a,0,.95));trunk.position.set(x,1.9,z);trunk.castShadow=true;scene.add(trunk);const c1=new THREE.Mesh(new THREE.SphereGeometry(2.5,14,12),new THREE.MeshStandardMaterial({color:0x14532d,roughness:.8}));c1.position.set(x,4.8,z);c1.castShadow=true;scene.add(c1);const c2=new THREE.Mesh(new THREE.SphereGeometry(1.6,12,10),new THREE.MeshStandardMaterial({color:0x22c55e,roughness:.8}));c2.position.set(x+.9,5.7,z+.5);scene.add(c2);colliders.push({x,z,r:2.4,type:"🌳 Ped"});}
+for(let i=0;i<130;i++){const side=Math.random()<.5?-1:1; tree(side*(20+Math.random()*46),-Math.random()*ROAD);}
+
+// ===== REAL BUILDINGS - GLASS + SHOPS + ROOFTOP! =====
+function makeRealBuilding(x,z,w,h,d,style){
+  const g=new THREE.Group(); g.position.set(x,0,z);
+  // Main body - glass ya concrete!
+  let bodyMat;
+  if(style==="glass") bodyMat=new THREE.MeshStandardMaterial({color:0x9fb8c8,metalness:.85,roughness:.12});
+  else if(style==="brick") bodyMat=new THREE.MeshStandardMaterial({color:0xb45309,metalness:.05,roughness:.9});
+  else if(style==="white") bodyMat=new THREE.MeshStandardMaterial({color:0xe5e7eb,metalness:.15,roughness:.55});
+  else bodyMat=new THREE.MeshStandardMaterial({color:0x64748b,metalness:.3,roughness:.6});
+  const body=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),bodyMat); body.position.y=h/2; body.castShadow=true; body.receiveShadow=true; g.add(body);
+  // Windows - grid - real jese!
+  const winMat=new THREE.MeshStandardMaterial({color:0x1e293b,metalness:.9,roughness:.08,emissive:0x0f172a,emissiveIntensity:.3});
+  const winMatLit=new THREE.MeshStandardMaterial({color:0xfde68a,metalness:.7,roughness:.2,emissive:0xfde68a,emissiveIntensity:.8});
+  for(let wy=3;wy<h-1;wy+=3.2){
+    for(let wx=-w/2+2;wx<w/2-1;wx+=3){
+      const isLit=Math.random()>.65;
+      const win=new THREE.Mesh(new THREE.PlaneGeometry(2,2.1),isLit?winMatLit:winMat);
+      win.position.set(wx,wy,d/2+0.06); g.add(win);
+      const win2=win.clone(); win2.position.z=-d/2-0.06; win2.rotation.y=Math.PI; g.add(win2);
+    }
+  }
+  // Rooftop - AC + Tanki!
+  const roof=new THREE.Mesh(new THREE.BoxGeometry(w+0.8,0.8,d+0.8),mat(0x334155)); roof.position.y=h+0.4; g.add(roof);
+  const ac=new THREE.Mesh(new THREE.BoxGeometry(3,1.5,2),mat(0x94a3b8)); ac.position.set(-w/4,h+1.5,0); ac.castShadow=true; g.add(ac);
+  const tank=new THREE.Mesh(new THREE.CylinderGeometry(1.5,1.5,2.5,10),mat(0x64748b)); tank.position.set(w/4,h+1.8,0); tank.castShadow=true; g.add(tank);
+  const antenna=new THREE.Mesh(new THREE.CylinderGeometry(.12,.12,6,6),mat(0x111111)); antenna.position.set(0,h+3.5,0); g.add(antenna);
+  // Ground floor - shop!
+  const shopFront=new THREE.Mesh(new THREE.BoxGeometry(w-1,2.8,0.6),new THREE.MeshStandardMaterial({color:0x111827,metalness:.4,roughness:.4})); shopFront.position.set(0,1.4,d/2+0.3); g.add(shopFront);
+  scene.add(g);
+  colliders.push({x,z,r:Math.max(w,d)/2+1,type:"🏢 Building"});
+  return g;
+}
+// City - 30 real buildings - dono side!
+for(let i=0;i<30;i++){
+  const side=i%2===0?-1:1; const bx=side*(44+Math.random()*22); const bz=-80-i*95;
+  const h=18+Math.random()*42; const w=14+Math.random()*10; const d=14+Math.random()*8;
+  const style=["glass","brick","white","concrete"][i%4];
+  makeRealBuilding(bx,bz,w,h,d,style);
+}
+// Shops - buildings ke neeche!
 function makeShop(x,z,type,title,color){
   const g=new THREE.Group(); g.position.set(x,0,z);
-  const b=new THREE.Mesh(new THREE.BoxGeometry(22,12,16),new THREE.MeshStandardMaterial({color:0xf8fafc,metalness:.1,roughness:.6})); b.position.y=6; b.castShadow=true; g.add(b);
-  const sign=new THREE.Mesh(new THREE.BoxGeometry(20,4,1),new THREE.MeshStandardMaterial({color,emissive:color,emissiveIntensity:.7})); sign.position.set(0,10.5,-8.5); g.add(sign);
-  const door=new THREE.Mesh(new THREE.BoxGeometry(4,6,0.5),new THREE.MeshStandardMaterial({color:0x111111})); door.position.set(0,3,-8.2); g.add(door);
-  // Neon - bar ke liye!
-  if(type==="bar"){for(let i=0;i<5;i++){const neon=new THREE.Mesh(new THREE.SphereGeometry(.4,8,8),new THREE.MeshStandardMaterial({color:[0xff00ff,0x00ffff,0xffff00][i%3],emissive:[0xff00ff,0x00ffff,0xffff00][i%3],emissiveIntensity:3})); neon.position.set(-8+i*4,8,-8.6); g.add(neon);}}
-  if(type==="gun"){const gunSign=new THREE.Mesh(new THREE.BoxGeometry(3,.5,.5),mat(0x111111)); gunSign.position.set(0,7,-8.4); g.add(gunSign);}
-  scene.add(g);
-  shops.push({x,z,type,title});
-  colliders.push({x,z,r:12,type:title,shopType:type});
+  const b=new THREE.Mesh(new THREE.BoxGeometry(24,13,18),new THREE.MeshStandardMaterial({color:0xf8fafc,metalness:.1,roughness:.55})); b.position.y=6.5; b.castShadow=true; g.add(b);
+  const sign=new THREE.Mesh(new THREE.BoxGeometry(22,4.5,1),new THREE.MeshStandardMaterial({color,emissive:color,emissiveIntensity:.8})); sign.position.set(0,11,-9.5); g.add(sign);
+  const door=new THREE.Mesh(new THREE.BoxGeometry(4.5,6.5,.6),mat(0x111111)); door.position.set(0,3.2,-9.2); g.add(door);
+  const glass=new THREE.Mesh(new THREE.BoxGeometry(18,4,0.5),new THREE.MeshStandardMaterial({color:0x7dd3fc,metalness:.9,roughness:.05})); glass.position.set(0,4,-9.2); g.add(glass);
+  if(type==="bar"){for(let i=0;i<5;i++){const neon=new THREE.Mesh(new THREE.SphereGeometry(.45,8,8),new THREE.MeshStandardMaterial({color:[0xff00ff,0x00ffff,0xffff00][i%3],emissive:[0xff00ff,0x00ffff,0xffff00][i%3],emissiveIntensity:3})); neon.position.set(-9+i*4.5,8.5,-9.6); g.add(neon);}}
+  scene.add(g); shops.push({x,z,type,title}); colliders.push({x,z,r:13,type:title,shopType:type});
 }
-makeShop(-32,-180,"gun","🔫 GUN SHOP",0xef4444);
-makeShop(34,-320,"bar","🍺 GUDU BAR",0xff00ff);
-makeShop(-34,-480,"restaurant","🍕 RESTAURANT",0xf97316);
-makeShop(34,-650,"mobile","📱 MOBILE SHOP",0x3b82f6);
-makeShop(-34,-820,"laptop","💻 LAPTOP SHOP",0x7c3aed);
-makeShop(36,-1000,"bar","🍺 BAR 2",0x00ffff);
+makeShop(-34,-180,"gun","🔫 GUN SHOP",0xef4444);
+makeShop(36,-320,"bar","🍺 GUDU BAR",0xff00ff);
+makeShop(-36,-480,"restaurant","🍕 RESTAURANT",0xf97316);
+makeShop(36,-650,"mobile","📱 MOBILE SHOP",0x3b82f6);
+makeShop(-36,-820,"laptop","💻 LAPTOP SHOP",0x7c3aed);
 
-let airport={x:78,z:-550};
+let airport={x:82,z:-550};
 function makeAirport(){
-  const runway=new THREE.Mesh(new THREE.PlaneGeometry(38,580),new THREE.MeshStandardMaterial({color:0x1f2937,roughness:.45,metalness:.3})); runway.rotation.x=-Math.PI/2; runway.position.set(airport.x,.05,airport.z); runway.receiveShadow=true; scene.add(runway);
-  for(let z=airport.z-260;z<airport.z+260;z+=28){const l=new THREE.Mesh(new THREE.BoxGeometry(2.8,.06,15),new THREE.MeshStandardMaterial({color:0xffffff,emissive:0xffffff,emissiveIntensity:.5}));l.position.set(airport.x,.1,z);scene.add(l);}
-  for(let z=airport.z-260;z<airport.z+260;z+=28){for(const sx of [-20,20]){const light=new THREE.Mesh(new THREE.SphereGeometry(.6,10,8),new THREE.MeshStandardMaterial({color:0xff9f00,emissive:0xff9f00,emissiveIntensity:3}));light.position.set(airport.x+sx,.45,z);scene.add(light);}}
-  const term=new THREE.Mesh(new THREE.BoxGeometry(84,26,36),mat(0xe2e8f0,.25,.45)); term.position.set(airport.x+64,13,airport.z); term.castShadow=true; scene.add(term);
-  const glass=new THREE.Mesh(new THREE.BoxGeometry(80,14,1),new THREE.MeshStandardMaterial({color:0x7dd3fc,metalness:.95,roughness:.05})); glass.position.set(airport.x+64,14,airport.z-18.5); scene.add(glass);
-  const roof=new THREE.Mesh(new THREE.BoxGeometry(88,2.5,40),mat(0x1e40af,.4,.4)); roof.position.set(airport.x+64,27,airport.z); scene.add(roof);
-  const tower=new THREE.Mesh(new THREE.CylinderGeometry(4.5,5.5,38,12),mat(0xf8fafc)); tower.position.set(airport.x-34,19,airport.z-135); tower.castShadow=true; scene.add(tower);
-  const towerTop=new THREE.Mesh(new THREE.CylinderGeometry(7.5,7.5,6,12),mat(0x1e40af)); towerTop.position.set(airport.x-34,40,airport.z-135); scene.add(towerTop);
-  colliders.push({x:airport.x+64,z:airport.z,r:32,type:"✈️ Airport"});
+  const runway=new THREE.Mesh(new THREE.PlaneGeometry(42,600),new THREE.MeshStandardMaterial({color:0x1f2937,roughness:.4,metalness:.35})); runway.rotation.x=-Math.PI/2; runway.position.set(airport.x,.05,airport.z); runway.receiveShadow=true; scene.add(runway);
+  for(let z=airport.z-270;z<airport.z+270;z+=28){const l=new THREE.Mesh(new THREE.BoxGeometry(3,.06,16),new THREE.MeshStandardMaterial({color:0xffffff,emissive:0xffffff,emissiveIntensity:.6}));l.position.set(airport.x,.1,z);scene.add(l);}
+  for(let z=airport.z-270;z<airport.z+270;z+=28){for(const sx of [-22,22]){const light=new THREE.Mesh(new THREE.SphereGeometry(.65,10,8),new THREE.MeshStandardMaterial({color:0xff9f00,emissive:0xff9f00,emissiveIntensity:3.2}));light.position.set(airport.x+sx,.45,z);scene.add(light);}}
+  const term=new THREE.Mesh(new THREE.BoxGeometry(88,28,38),new THREE.MeshStandardMaterial({color:0xe2e8f0,metalness:.3,roughness:.4})); term.position.set(airport.x+66,14,airport.z); term.castShadow=true; scene.add(term);
+  const glass=new THREE.Mesh(new THREE.BoxGeometry(84,15,1),new THREE.MeshStandardMaterial({color:0x7dd3fc,metalness:.95,roughness:.04})); glass.position.set(airport.x+66,15,airport.z-19.5); scene.add(glass);
+  const roof=new THREE.Mesh(new THREE.BoxGeometry(92,2.5,42),new THREE.MeshStandardMaterial({color:0x1e40af,metalness:.4,roughness:.4})); roof.position.set(airport.x+66,29,airport.z); scene.add(roof);
+  const tower=new THREE.Mesh(new THREE.CylinderGeometry(4.5,5.5,40,12),mat(0xf8fafc)); tower.position.set(airport.x-36,20,airport.z-140); tower.castShadow=true; scene.add(tower);
+  const towerTop=new THREE.Mesh(new THREE.CylinderGeometry(8,8,6,12),new THREE.MeshStandardMaterial({color:0x1e40af,metalness:.6,roughness:.3})); towerTop.position.set(airport.x-36,42,airport.z-140); scene.add(towerTop);
+  colliders.push({x:airport.x+66,z:airport.z,r:34,type:"✈️ Airport"});
 }
 makeAirport();
-let policeStation={x:-72,z:-350};
+let policeStation={x:-74,z:-350};
 function makePoliceStation(){
-  const b=new THREE.Mesh(new THREE.BoxGeometry(54,20,32),mat(0x1e40af,.2,.6)); b.position.set(policeStation.x,10,policeStation.z); b.castShadow=true; scene.add(b);
-  const stripe=new THREE.Mesh(new THREE.BoxGeometry(56,4.5,33),mat(0xffffff)); stripe.position.set(policeStation.x,11,policeStation.z); scene.add(stripe);
-  colliders.push({x:policeStation.x,z:policeStation.z,r:24,type:"🏛️ Police Station"});
+  const b=new THREE.Mesh(new THREE.BoxGeometry(56,21,34),new THREE.MeshStandardMaterial({color:0x1e40af,metalness:.2,roughness:.55})); b.position.set(policeStation.x,10.5,policeStation.z); b.castShadow=true; scene.add(b);
+  const stripe=new THREE.Mesh(new THREE.BoxGeometry(58,4.5,35),mat(0xffffff)); stripe.position.set(policeStation.x,11.5,policeStation.z); scene.add(stripe);
+  const glass=new THREE.Mesh(new THREE.BoxGeometry(42,6,1),new THREE.MeshStandardMaterial({color:0x7dd3fc,metalness:.9,roughness:.05})); glass.position.set(policeStation.x,13,policeStation.z-17.5); scene.add(glass);
+  colliders.push({x:policeStation.x,z:policeStation.z,r:25,type:"🏛️ Police Station"});
 }
 makePoliceStation();
 
+// ===== LUFTHANSA 747 - PHOTO JESA! =====
 let jets=[]; let allVehicles=[];
-function makePlane(x,z,rot,color,isFlyable=true){
+function make747(x,z,rot,isFlyable=true){
   const g=new THREE.Group(); g.position.set(x,0,z); g.rotation.y=rot;
-  const white=new THREE.MeshStandardMaterial({color:0xffffff,metalness:.55,roughness:.22}); const bodyMat=paintMat(color); const dark=mat(0x111111,.3,.6);
-  const fus=new THREE.Mesh(new THREE.CylinderGeometry(1.6,1.6,24,18),white); fus.rotation.x=Math.PI/2; fus.position.y=2.8; fus.castShadow=true; g.add(fus);
-  const nose=new THREE.Mesh(new THREE.SphereGeometry(1.6,18,14),white); nose.position.set(0,2.8,-12.5); g.add(nose);
-  const tailCone=new THREE.Mesh(new THREE.CylinderGeometry(.5,1.5,5.5,14),white); tailCone.rotation.x=Math.PI/2; tailCone.position.set(0,2.8,14); g.add(tailCone);
-  const cock=new THREE.Mesh(new THREE.SphereGeometry(1.5,14,10),glassMat()); cock.position.set(0,3.3,-11); cock.scale.set(1,.62,.7); g.add(cock);
-  for(let i=0;i<6;i++){for(const sx of [-1.62,1.62]){const w=new THREE.Mesh(new THREE.PlaneGeometry(.7,.7),glassMat()); w.position.set(sx,3.1,-6+i*2.2); w.rotation.y=sx>0?Math.PI/2:-Math.PI/2; g.add(w);}}
-  // REAL WINGS - swept, flex!
-  const wingL=new THREE.Group(); wingL.position.set(-6.5,2.6,1); wingL.rotation.z=.06; const wl=new THREE.Mesh(new THREE.BoxGeometry(12,.32,3.4),bodyMat); wl.castShadow=true; wingL.add(wl); g.add(wingL);
-  const wingR=new THREE.Group(); wingR.position.set(6.5,2.6,1); wingR.rotation.z=-.06; const wr=new THREE.Mesh(new THREE.BoxGeometry(12,.32,3.4),bodyMat); wr.castShadow=true; wingR.add(wr); g.add(wingR);
-  const tailWing=new THREE.Mesh(new THREE.BoxGeometry(10,.28,2.2),bodyMat); tailWing.position.set(0,3.9,14.5); g.add(tailWing);
-  const fin=new THREE.Mesh(new THREE.BoxGeometry(.35,5,3.2),bodyMat); fin.position.set(0,5,14.5); g.add(fin);
-  for(const ex of [-3.8,3.8]){
-    const eng=new THREE.Mesh(new THREE.CylinderGeometry(1.15,1.15,4.2,14),dark); eng.rotation.x=Math.PI/2; eng.position.set(ex,1.8,1); eng.castShadow=true; g.add(eng);
-    const glow=new THREE.Mesh(new THREE.SphereGeometry(.9,12,10),new THREE.MeshBasicMaterial({color:0xff9f00})); glow.position.set(ex,1.8,3.4); glow.name="glow"; g.add(glow);
-    const flame=new THREE.Mesh(new THREE.ConeGeometry(.65,3,10),new THREE.MeshBasicMaterial({color:0xfb923c,transparent:true,opacity:.9})); flame.rotation.x=Math.PI/2; flame.position.set(ex,1.8,4.6); flame.name="flame"; flame.visible=false; g.add(flame);
+  // Colors - photo jese!
+  const white=new THREE.MeshStandardMaterial({color:0xffffff,metalness:.5,roughness:.22,envMapIntensity:1.2});
+  const lufthansaBlue=new THREE.MeshStandardMaterial({color:0x05164d,metalness:.6,roughness:.35}); // Tail blue - photo jesa dark blue!
+  const bellyBlue=new THREE.MeshStandardMaterial({color:0x1e3a8a,metalness:.6,roughness:.35}); // Belly blue stripe!
+  const dark=mat(0x111111,.3,.6);
+  const yellow=new THREE.MeshStandardMaterial({color:0xffcc00,metalness:.4,roughness:.4,emissive:0xffcc00,emissiveIntensity:.4}); // Yellow circle - photo jesa!
+  // Fuselage - main - white!
+  const fus=new THREE.Mesh(new THREE.CylinderGeometry(2.1,2.1,32,20),white); fus.rotation.x=Math.PI/2; fus.position.y=3.4; fus.castShadow=true; g.add(fus);
+  // Belly - blue stripe neeche - photo jesa!
+  const belly=new THREE.Mesh(new THREE.CylinderGeometry(2.12,2.12,31,20, true, 0, Math.PI),bellyBlue); belly.rotation.x=Math.PI/2; belly.rotation.z=Math.PI; belly.position.y=3.35; g.add(belly);
+  // Nose - gol!
+  const nose=new THREE.Mesh(new THREE.SphereGeometry(2.1,20,14),white); nose.position.set(0,3.4,-16.5); nose.castShadow=true; g.add(nose);
+  // Upper deck hump - 747 ki pehchan - aage ubhra hua!
+  const hump=new THREE.Mesh(new THREE.BoxGeometry(3.2,1.8,10),white); hump.position.set(0,5.2,-11); hump.castShadow=true; g.add(hump);
+  const humpFront=new THREE.Mesh(new THREE.SphereGeometry(1.6,14,10),white); humpFront.position.set(0,5.2,-16); humpFront.scale.set(1,.8,1); g.add(humpFront);
+  // Cockpit windows - photo jese black!
+  const cock=new THREE.Mesh(new THREE.SphereGeometry(1.7,14,10),glassMat()); cock.position.set(0,4.2,-16.2); cock.scale.set(1,.55,.6); g.add(cock);
+  // Tail cone!
+  const tailCone=new THREE.Mesh(new THREE.CylinderGeometry(.7,2,6,14),white); tailCone.rotation.x=Math.PI/2; tailCone.position.set(0,3.4,18.5); g.add(tailCone);
+  // Windows - side me chhote chhote - 2 rows (747 me 2 deck)!
+  for(let i=0;i<12;i++){for(const sx of [-2.12,2.12]){const w=new THREE.Mesh(new THREE.PlaneGeometry(.65,.65),glassMat()); w.position.set(sx,3.7,-12+i*2.4); w.rotation.y=sx>0?Math.PI/2:-Math.PI/2; g.add(w);}}
+  // Upper deck windows!
+  for(let i=0;i<5;i++){for(const sx of [-1.62,1.62]){const w=new THREE.Mesh(new THREE.PlaneGeometry(.6,.6),glassMat()); w.position.set(sx,5.6,-12+i*1.8); w.rotation.y=sx>0?Math.PI/2:-Math.PI/2; g.add(w);}}
+  // WINGS - 747 ke bade wings - swept!
+  const wingL=new THREE.Group(); wingL.position.set(-9,3.2,2); wingL.rotation.z=.05; const wl=new THREE.Mesh(new THREE.BoxGeometry(18,.4,4.2),white); wl.castShadow=true; wingL.add(wl); g.add(wingL);
+  const wingR=new THREE.Group(); wingR.position.set(9,3.2,2); wingR.rotation.z=-.05; const wr=new THREE.Mesh(new THREE.BoxGeometry(18,.4,4.2),white); wr.castShadow=true; wingR.add(wr); g.add(wingR);
+  // Wing tips - blue!
+  const tipL=new THREE.Mesh(new THREE.BoxGeometry(.5,1.6,3),lufthansaBlue); tipL.position.set(-18.2,3.8,2); g.add(tipL);
+  const tipR=new THREE.Mesh(new THREE.BoxGeometry(.5,1.6,3),lufthansaBlue); tipR.position.set(18.2,3.8,2); g.add(tipR);
+  // Tail wings!
+  const tailWing=new THREE.Mesh(new THREE.BoxGeometry(13,.35,2.8),white); tailWing.position.set(0,4.8,19); tailWing.castShadow=true; g.add(tailWing);
+  // TAIL - BLUE + YELLOW CIRCLE - PHOTO JESA!
+  const fin=new THREE.Mesh(new THREE.BoxGeometry(.5,7,4.5),lufthansaBlue); fin.position.set(0,7,19); fin.castShadow=true; g.add(fin);
+  // Yellow circle - Lufthansa logo - dono side!
+  for(const sx of [-0.28,0.28]){
+    const circle=new THREE.Mesh(new THREE.CircleGeometry(1.7,24),yellow); circle.position.set(sx,7.5,19); circle.rotation.y=sx>0?Math.PI/2:-Math.PI/2; g.add(circle);
+    // Circle ke andar blue bird jesa - chhota!
+    const inner=new THREE.Mesh(new THREE.CircleGeometry(1.1,20),lufthansaBlue); inner.position.set(sx+ (sx>0?0.02:-0.02),7.5,19); inner.rotation.y=sx>0?Math.PI/2:-Math.PI/2; g.add(inner);
   }
-  for(const wx of [-2.2,2.2]){const w=new THREE.Mesh(new THREE.CylinderGeometry(.75,.75,.55,14),dark); w.rotation.z=Math.PI/2; w.position.set(wx,.75,0); g.add(w);}
-  const w2=new THREE.Mesh(new THREE.CylinderGeometry(.65,.65,.55,14),dark); w2.rotation.z=Math.PI/2; w2.position.set(0,.65,-8.5); g.add(w2);
-  const stripe=new THREE.Mesh(new THREE.BoxGeometry(.18,.5,22),paintMat(0x1e40af)); stripe.position.set(1.62,2.8,0); g.add(stripe);
-  const stripe2=stripe.clone(); stripe2.position.x=-1.62; g.add(stripe2);
+  // Lufthansa text - side me - blue!
+  for(const sx of [-2.13,2.13]){
+    const txt=new THREE.Mesh(new THREE.BoxGeometry(.1,1.1,9),lufthansaBlue); txt.position.set(sx,3.4,2); g.add(txt);
+  }
+  // 4 ENGINES - 747 me 4 hote hai!
+  for(const ex of [-12,-5.5,5.5,12]){
+    const eng=new THREE.Mesh(new THREE.CylinderGeometry(1.25,1.25,4.5,14),dark); eng.rotation.x=Math.PI/2; eng.position.set(ex,2.2,2); eng.castShadow=true; g.add(eng);
+    const engFront=new THREE.Mesh(new THREE.CylinderGeometry(1.1,1.1,.4,14),new THREE.MeshStandardMaterial({color:0x334155,metalness:.9,roughness:.2})); engFront.rotation.x=Math.PI/2; engFront.position.set(ex,2.2,-0.4); g.add(engFront);
+    const glow=new THREE.Mesh(new THREE.SphereGeometry(1,12,10),new THREE.MeshBasicMaterial({color:0xff9f00})); glow.position.set(ex,2.2,4.4); glow.name="glow"; g.add(glow);
+    const flame=new THREE.Mesh(new THREE.ConeGeometry(.7,3.2,10),new THREE.MeshBasicMaterial({color:0xfb923c,transparent:true,opacity:.92})); flame.rotation.x=Math.PI/2; flame.position.set(ex,2.2,5.8); flame.name="flame"; flame.visible=false; g.add(flame);
+  }
+  // Landing gear - 747 ke bade wheels!
+  for(const wx of [-3,3]){for(const wz of [-2,2]){const w=new THREE.Mesh(new THREE.CylinderGeometry(.85,.85,.6,14),dark); w.rotation.z=Math.PI/2; w.position.set(wx,.85,wz); w.castShadow=true; g.add(w);}}
+  const wNose=new THREE.Mesh(new THREE.CylinderGeometry(.7,.7,.6,14),dark); wNose.rotation.z=Math.PI/2; wNose.position.set(0,.7,-12); g.add(wNose);
   scene.add(g);
-  let v={group:g,type:"plane",speed:0,flyable:isFlyable,altitude:0,pitch:0,wingL,wingR};
-  jets.push(v); allVehicles.push(v); colliders.push({x,z,r:12,type:"🛩️ Private Jet",vehicle:v});
+  let v={group:g,type:"plane",speed:0,flyable:isFlyable,altitude:0,pitch:0,wingL,wingR,flaps:0};
+  jets.push(v); allVehicles.push(v); colliders.push({x,z,r:16,type:"✈️ Lufthansa 747",vehicle:v});
   return v;
 }
-let plane1=makePlane(airport.x-8,airport.z-90,0,0x1e40af);
-let plane2=makePlane(airport.x+14,airport.z+30,Math.PI,0xdc2626);
-let plane3=makePlane(airport.x-10,airport.z+145,0,0x059669);
+let plane1=make747(airport.x-10,airport.z-95,0,true);
+let plane2=make747(airport.x+16,airport.z+35,Math.PI,true);
+let plane3=make747(airport.x-12,airport.z+150,0,true);
 let flyingPlanes=[];
-for(let i=0;i<3;i++){let fp=makePlane(-250+i*200,0,Math.PI/2,0xffffff,false); fp.group.position.set(-250+i*200,120+i*28,-750-i*200); fp.group.scale.set(1.5,1.5,1.5); flyingPlanes.push({v:fp,speed:42+i*10}); colliders.pop(); allVehicles.pop();}
+for(let i=0;i<3;i++){let fp=make747(-300+i*220,0,Math.PI/2,false); fp.group.position.set(-300+i*220,140+i*30,-850-i*220); fp.group.scale.set(1.4,1.4,1.4); flyingPlanes.push({v:fp,speed:48+i*10}); colliders.pop(); allVehicles.pop();}
 
 function createCar(color,type="car",isPolice=false){
   const car=new THREE.Group(); let w=2.5,h=.48,l=4.7; if(type==="bus"){w=2.9;h=1.35;l=7.2;} if(type==="truck"){w=2.9;h=1.1;l=6.8;}
@@ -326,7 +391,6 @@ for(let i=0;i<18;i++){
   if(i<11){const lane=i%2===0?-5:5; car.position.set(lane,0,-120-i*180); car.rotation.y=i%2===0?0:Math.PI; scene.add(car); let v={group:car,type:"car"}; allVehicles.push(v); traffic.push({car,speed:55+Math.random()*45,lane,dir:i%2===0?-1:1,vehicle:v});}
   else{let px,pz; if(i<14){px=airport.x+22+(i-11)*6; pz=airport.z+52;} else if(i<16){px=policeStation.x-22+(i-14)*7; pz=policeStation.z+26;} else{px=(i%2===0?-14:14); pz=-250-(i-16)*280;} car.position.set(px,0,pz); car.rotation.y=Math.random()*Math.PI; scene.add(car); let v={group:car,type:"car",parked:true}; allVehicles.push(v); colliders.push({x:px,z:pz,r:3.6,type:"🚗 Parked Car",vehicle:v});}
 }
-// Police Chase Cars - Wanted pe aayengi!
 let policeChase=[];
 for(let i=0;i<4;i++){let car=createCar(0xffffff,"car",true); car.position.set(-20+i*10,0,-200-i*80); car.visible=false; scene.add(car); policeChase.push({car,speed:140+i*10,active:false});}
 for(let i=0;i<3;i++){let car=createCar(0xffffff,"car",true); car.position.set(policeStation.x-12+i*8,0,policeStation.z+24); scene.add(car); let v={group:car,type:"car",parked:true,police:true}; allVehicles.push(v); colliders.push({x:policeStation.x-12+i*8,z:policeStation.z+24,r:3.6,type:"🚓 Police Car",vehicle:v});}
@@ -344,22 +408,17 @@ function makeNPC(x,z,isArmed=false,isPolice=false){
   const legR=new THREE.Mesh(new THREE.BoxGeometry(.26,.72,.26),mat(0x1f2937)); legR.position.set(.19,.36,0); g.add(legR);
   const armL=new THREE.Mesh(new THREE.BoxGeometry(.2,.8,.2),new THREE.MeshStandardMaterial({color:skin,roughness:.7})); armL.position.set(-.48,1.05,0); g.add(armL);
   const armR=new THREE.Mesh(new THREE.BoxGeometry(.2,.8,.2),new THREE.MeshStandardMaterial({color:skin,roughness:.7})); armR.position.set(.48,1.05,0); g.add(armR);
-  // Phone - NPC phone chalayega!
   if(!isArmed && Math.random()<.4){const phone=new THREE.Mesh(new THREE.BoxGeometry(.18,.3,.05),mat(0x111111)); phone.position.set(.3,1.25,-.35); g.add(phone);}
-  if(isArmed){
-    const gun=new THREE.Mesh(new THREE.BoxGeometry(.13,.2,.6),new THREE.MeshStandardMaterial({color:0x111111,metalness:.8,roughness:.3})); gun.position.set(.5,1.18,-.45); g.add(gun);
-    const vest=new THREE.Mesh(new THREE.BoxGeometry(.78,.72,.48),mat(0x111111)); vest.position.set(0,1.08,0); g.add(vest);
-  }
+  if(isArmed){const gun=new THREE.Mesh(new THREE.BoxGeometry(.13,.2,.6),new THREE.MeshStandardMaterial({color:0x111111,metalness:.8,roughness:.3})); gun.position.set(.5,1.18,-.45); g.add(gun); const vest=new THREE.Mesh(new THREE.BoxGeometry(.78,.72,.48),mat(0x111111)); vest.position.set(0,1.08,0); g.add(vest);}
   scene.add(g);
-  let npc={g,dir:Math.random()*Math.PI*2,speed:isArmed?0:.7+Math.random()*.9,phase:Math.random()*10,x,z,isArmed,isPolice,legL,legR,armL,armR,panic:false,talkTimer:Math.random()*5};
+  let npc={g,dir:Math.random()*Math.PI*2,speed:isArmed?0:.7+Math.random()*.9,phase:Math.random()*10,x,z,isArmed,isPolice,legL,legR,armL,armR,panic:false};
   npcs.push(npc); colliders.push({x,z,r:1.2,type:isPolice?"👮 Police + Gun":isArmed?"🔫 Guard + Gun":"🧍 NPC",npcRef:npc});
   return npc;
 }
 for(let i=0;i<24;i++){const side=Math.random()<.5?-1:1; makeNPC(side*(13+Math.random()*6),-Math.random()*2800,false,false);}
 for(let i=0;i<5;i++) makeNPC(airport.x+18+i*6,airport.z-32,true,false);
 for(let i=0;i<5;i++) makeNPC(policeStation.x-14+i*6,policeStation.z+20,true,true);
-for(let i=0;i<6;i++) makeNPC(-28+i*4,-170+i*3,false,false); // Gun shop ke paas!
-for(let i=0;i<4;i++) makeNPC(30+i*4,-310,false,false); // Bar ke paas!
+for(let i=0;i<6;i++) makeNPC(-28+i*4,-170+i*3,false,false);
 
 function makePlayerMan(){
   const g=new THREE.Group();
@@ -372,15 +431,19 @@ function makePlayerMan(){
   const armR=new THREE.Mesh(new THREE.BoxGeometry(.22,.85,.22),new THREE.MeshStandardMaterial({color:0xfbbf24,roughness:.6})); armR.position.set(.52,1.06,0); g.add(armR);
   const gun=new THREE.Mesh(new THREE.BoxGeometry(.13,.2,.65),new THREE.MeshStandardMaterial({color:0x111111,metalness:.8,roughness:.3})); gun.position.set(.55,1.22,-.45); gun.name="playerGun"; gun.visible=false; g.add(gun);
   g.visible=false; scene.add(g);
-  return {g,legL,legR,armL,armR,phase:0,x:0,z:0,gun};
+  return {g,legL,legR,armL,armR,phase:0,x:0,z:0,gun,rot:0};
 }
 let playerMan=makePlayerMan(); let onFoot=false; let nearestVehicle=null; let nearestShop=null;
 let clouds=[];
-for(let i=0;i<14;i++){const g=new THREE.Group(); for(let j=0;j<5;j++){const s=new THREE.Mesh(new THREE.SphereGeometry(16+Math.random()*10,12,10),new THREE.MeshStandardMaterial({color:0xffffff,transparent:true,opacity:.92})); s.position.set(j*16-32,Math.random()*4,0); g.add(s);} g.position.set((Math.random()-.5)*900,140+Math.random()*60,-Math.random()*900); scene.add(g); clouds.push(g);}
+for(let i=0;i<16;i++){const g=new THREE.Group(); for(let j=0;j<5;j++){const s=new THREE.Mesh(new THREE.SphereGeometry(18+Math.random()*12,12,10),new THREE.MeshStandardMaterial({color:0xffffff,transparent:true,opacity:.94,roughness:1})); s.position.set(j*18-36,Math.random()*4,Math.random()*6); g.add(s);} g.position.set((Math.random()-.5)*1000,150+Math.random()*70,-Math.random()*1000); scene.add(g); clouds.push(g);}
 
-let speed=0, fuel=100, distance=0, lap=1, playerX=0, steering=0, accelerate=false, brake=false, nitro=false, wheelAngle=0, lastCrashTime=0, shake=0, score=0, planePitch=0, planeAlt=0, planeThrottle=0;
+let speed=0, fuel=100, distance=0, lap=1, playerX=0, steering=0, accelerate=false, brake=false, nitro=false, wheelAngle=0, lastCrashTime=0, shake=0, score=0, planePitch=0, planeAlt=0, planeThrottle=0, planeYaw=0, flaps=0;
 const keys={};
-window.addEventListener("keydown",e=>{keys[e.key.toLowerCase()]=true; if(e.key.toLowerCase()==="e"){ if(onFoot){ if(nearestShop) openShop(nearestShop.shopType); else enterNearest(); } else exitVehicle(); }});
+window.addEventListener("keydown",e=>{
+  keys[e.key.toLowerCase()]=true;
+  if(e.key.toLowerCase()==="e"){ if(onFoot){ if(nearestShop) openShop(nearestShop.shopType); else enterNearest(); } else exitVehicle(); }
+  if(e.key.toLowerCase()==="f" && window.mode==="plane"){ flaps=flaps===0?1:0; document.getElementById("flapTxt").innerText=flaps?"DOWN":"UP"; toast(flaps?"✈️ Flaps DOWN — Landing ke liye!":"✈️ Flaps UP — Tez udao!"); }
+});
 window.addEventListener("keyup",e=>{keys[e.key.toLowerCase()]=false;});
 function holdButton(el,cb){const down=e=>{e.preventDefault();cb(true)};const up=e=>{e.preventDefault();cb(false)};el.addEventListener("touchstart",down,{passive:false});el.addEventListener("touchend",up,{passive:false});el.addEventListener("touchcancel",up,{passive:false});el.addEventListener("mousedown",down);el.addEventListener("mouseup",up);el.addEventListener("mouseleave",up);}
 holdButton(document.getElementById("accelerate"),v=>accelerate=v);
@@ -392,68 +455,57 @@ wheel.addEventListener("touchmove",e=>{if(!touching)return;e.preventDefault();co
 wheel.addEventListener("touchend",()=>{touching=false;steering=0});
 function updateModeBadge(){
   const b=document.getElementById("modeBadge"); const mt=document.getElementById("modeTxt");
-  if(onFoot){b.innerText="🚶 PAIDAL — Shop / Gadi ke paas jao + E!"; b.style.background="#f97316"; if(mt)mt.innerText="WALK";}
-  else if(window.mode==="plane"){b.innerText="✈️ PLANE — Uda Rahe Ho!"; b.style.background="#1e40af"; b.style.color="#fff"; if(mt)mt.innerText="PLANE";}
+  if(onFoot){b.innerText="🚶 PAIDAL — Mouse Se Mudo! Shop / Gadi + E!"; b.style.background="#f97316"; if(mt)mt.innerText="WALK";}
+  else if(window.mode==="plane"){b.innerText="✈️ LUFTHANSA 747 — Uda Rahe Ho!"; b.style.background="#05164d"; b.style.color="#ffcc00"; if(mt)mt.innerText="747";}
   else{b.innerText="🚗 CAR — E = Utro"; b.style.background="#00d9ff"; b.style.color="#000"; if(mt)mt.innerText="CAR";}
   document.getElementById("flyHint").style.display=window.mode==="plane"?"block":"none";
+  document.getElementById("planePanel").style.display=window.mode==="plane"?"block":"none";
   document.getElementById("exitBtn").style.display=onFoot?"none":"block";
+  document.getElementById("crosshair").style.display=onFoot?"block":"none";
 }
 function exitVehicle(){
   if(onFoot) return; onFoot=true; window.mode="walk";
-  let px=currentVehicle.group.position.x+3.2; let pz=currentVehicle.group.position.z+2.2;
+  let px=currentVehicle.group.position.x+3.5; let pz=currentVehicle.group.position.z+2.5;
   playerMan.g.position.set(px,0,pz); playerMan.g.visible=true; playerMan.x=px; playerMan.z=pz; speed=0;
-  // Agar parked gadi churai to Wanted!
-  if(currentVehicle.parked){ addWanted(2,"Gadi churai! Police a rahi hai!"); }
-  updateModeBadge(); toast("🚶 Utar Gaye! Shop / Gadi ke paas jao + E dabao!");
+  if(currentVehicle.parked) addWanted(2,"Gadi churai!");
+  updateModeBadge(); toast("🚶 Utar Gaye! Mouse ghumao — Character mudega! Shop / Gadi + E!");
 }
 function enterNearest(){
-  if(!nearestVehicle){toast("Paas me koi gadi / plane nahi! Aur paas jao!"); return;}
+  if(!nearestVehicle){toast("Paas me koi gadi / plane nahi!"); return;}
   let v=nearestVehicle; onFoot=false; playerMan.g.visible=false; currentVehicle=v;
-  if(v.type==="plane"){window.mode="plane"; planeAlt=0; planePitch=0; planeThrottle=0; toast("✈️ PLANE ME BETH GAYE! W dabao — Udo!");}
-  else{
-    window.mode="car";
-    if(v.parked){ addWanted(1,"Gadi me bethe — Police ko shaq!"); toast("🚗 Is gadi me beth gaye! Police ko shaq ho gaya!"); }
-    else toast("🚗 Is gadi me beth gaye!");
-  }
+  if(v.type==="plane"){window.mode="plane"; planeAlt=0; planePitch=0; planeThrottle=0; planeYaw=v.group.rotation.y; flaps=0; toast("✈️ LUFTHANSA 747 ME BETH GAYE! W dabao — Runway pe daudo — Udo! F = Flaps!");}
+  else{window.mode="car"; if(v.parked) addWanted(1,"Gadi me bethe — Shaq!"); toast("🚗 Is gadi me beth gaye!");}
   playerCarGroup=v.group; speed=0; updateModeBadge(); document.getElementById("enterBtn").style.display="none";
 }
 function findNearest(){
   if(!onFoot) return; let best=null; let bestDist=999; let bestShop=null; let bestShopDist=999;
-  for(let v of allVehicles){
-    const dx=v.group.position.x-playerMan.x; const dz=v.group.position.z-playerMan.z; const d=Math.sqrt(dx*dx+dz*dz);
-    const range=v.type==="plane"?14:6.5;
-    if(d<range && d<bestDist){best=v; bestDist=d;}
-  }
-  for(let s of shops){const dx=s.x-playerMan.x; const dz=s.z-playerMan.z; const d=Math.sqrt(dx*dx+dz*dz); if(d<14 && d<bestShopDist){bestShop=s; bestShopDist=d;}}
+  for(let v of allVehicles){const dx=v.group.position.x-playerMan.x; const dz=v.group.position.z-playerMan.z; const d=Math.sqrt(dx*dx+dz*dz); const range=v.type==="plane"?18:6.5; if(d<range && d<bestDist){best=v; bestDist=d;}}
+  for(let s of shops){const dx=s.x-playerMan.x; const dz=s.z-playerMan.z; const d=Math.sqrt(dx*dx+dz*dz); if(d<15 && d<bestShopDist){bestShop=s; bestShopDist=d;}}
   nearestVehicle=best; nearestShop=bestShop;
   const btn=document.getElementById("enterBtn");
   if(bestShop){btn.style.display="block"; btn.innerText="🏪 E — "+bestShop.title+" ME JAO!";}
-  else if(best){btn.style.display="block"; btn.innerText=best.type==="plane"?"✈️ E — PLANE ME BETHO!":"🚗 E — IS GADI ME BETHO!";}
+  else if(best){btn.style.display="block"; btn.innerText=best.type==="plane"?"✈️ E — 747 ME BETHO!":"🚗 E — IS GADI ME BETHO!";}
   else btn.style.display="none";
 }
 function doCrash(reason,damage){
   const now=Date.now(); if(now-lastCrashTime<900) return; lastCrashTime=now;
-  window.health-=damage; shake=1.4;
+  window.health-=damage; shake=1.5;
   if(navigator.vibrate) navigator.vibrate([120,50,120]);
   document.getElementById("healthFill").style.width=Math.max(0,window.health)+"%";
   if(window.health<=0 && !window.crashed){window.crashed=true; speed=0; document.getElementById("crashScreen").style.display="flex"; document.getElementById("crashReason").innerText="Takra gaye — "+reason+" se!";}
-  else{
-    toast("💥 CRASH! "+reason+" — Health -"+damage+"%");
-    if(reason.includes("NPC")){ addWanted(1,"NPC ko takkar! Police a rahi hai!"); npcs.forEach(n=>{if(Math.abs(n.x-currentVehicle.group.position.x)<20) n.panic=true;}); }
-    speed*=0.22;
-  }
+  else{toast("💥 CRASH! "+reason+" — Health -"+damage+"%"); if(reason.includes("NPC")){addWanted(1,"NPC ko takkar!"); npcs.forEach(n=>{if(Math.abs(n.x-currentVehicle.group.position.x)<20) n.panic=true;});} speed*=0.22;}
 }
 function checkCollision(){
   if(window.crashed||onFoot) return;
   let px=currentVehicle.group.position.x; let pz=currentVehicle.group.position.z;
-  if(window.mode==="plane" && planeAlt>9) return;
+  if(window.mode==="plane" && planeAlt>10) return;
   for(let c of colliders){
     if(c.vehicle && c.vehicle===currentVehicle) continue;
     if(c.npcRef){c.x=c.npcRef.x; c.z=c.npcRef.z;}
     const dx=px-c.x; const dz=pz-c.z; const dist=Math.sqrt(dx*dx+dz*dz);
-    const r=c.r+(window.mode==="plane"?10:1.7);
+    const r=c.r+(window.mode==="plane"?14:1.7);
     if(dist<r){
-      if(c.shopType) return; // Shop se takkar nahi - andar jao!
+      if(c.shopType) return;
       let dmg=speed>85?38:speed>45?22:11;
       if(speed>14) doCrash(c.type,dmg);
       if(currentVehicle.group){currentVehicle.group.position.x+=dx*.09; currentVehicle.group.position.z+=dz*.09;}
@@ -466,63 +518,112 @@ function animate(){
   const dt=Math.min(clock.getDelta(),.05); const time=Date.now()*.001;
   if(window.gameStarted && !window.crashed){
     const gas=accelerate||keys.w||keys.arrowup; const braking=brake||keys.s||keys.arrowdown; const boost=nitro||keys.shift;
-    // Police Chase - Wanted hai to police peeche aayegi!
     if(window.wanted>0){
       policeChase.forEach((p,i)=>{
-        if(!p.active && Math.random()<.01) {p.active=true; p.car.visible=true; p.car.position.set(currentVehicle.group.position.x+20+i*8,0,currentVehicle.group.position.z+40+i*10);}
+        if(!p.active && Math.random()<.012){p.active=true; p.car.visible=true; p.car.position.set(currentVehicle.group.position.x+20+i*8,0,currentVehicle.group.position.z+40+i*10);}
         if(p.active){
-          // Police player ke peeche bhagegi!
-          let target=onFoot?playerMan:currentVehicle.group.position;
-          let tx=onFoot?playerMan.x:target.x; let tz=onFoot?playerMan.z:target.z;
+          let tx=onFoot?playerMan.x:currentVehicle.group.position.x; let tz=onFoot?playerMan.z:currentVehicle.group.position.z;
           let dx=tx-p.car.position.x; let dz=tz-p.car.position.z; let dist=Math.sqrt(dx*dx+dz*dz);
           if(dist>6){p.car.position.x+=dx/dist*p.speed*dt*.075; p.car.position.z+=dz/dist*p.speed*dt*.075; p.car.rotation.y=Math.atan2(dx,dz);}
-          // Police light blink!
           p.car.traverse(o=>{if(o.name==="policeLight") o.material.emissiveIntensity=2+Math.sin(time*12+i)*2;});
-          if(dist<5 && Math.random()<.01){ window.health-=2; document.getElementById("healthFill").style.width=window.health+"%"; toast("🚓 Police ne takkar maari!"); }
         }
       });
-      // Agar Bar / Restaurant me chhup gaye to Wanted kam!
-      if(onFoot && nearestShop && (nearestShop.shopType==="bar"||nearestShop.shopType==="restaurant")){ if(Math.random()<.005) reduceWanted(); }
-    } else { policeChase.forEach(p=>{p.active=false; p.car.visible=false;}); }
+      if(onFoot && nearestShop && (nearestShop.shopType==="bar"||nearestShop.shopType==="restaurant")){if(Math.random()<.005) reduceWanted();}
+    } else {policeChase.forEach(p=>{p.active=false; p.car.visible=false;});}
 
     if(onFoot){
-      let mx=0,mz=0; if(keys.w||keys.arrowup) mz=-1; if(keys.s||keys.arrowdown) mz=1; if(keys.a||keys.arrowleft) mx=-1; if(keys.d||keys.arrowright) mx=1; if(Math.abs(steering)>.2) mx=steering; if(accelerate) mz=-1;
-      if(mx!==0||mz!==0){playerMan.x+=mx*7.5*dt; playerMan.z+=mz*7.5*dt; playerMan.phase+=dt*11; playerMan.g.position.set(playerMan.x,Math.abs(Math.sin(playerMan.phase))*.09,playerMan.z); playerMan.g.rotation.y=Math.atan2(mx,-mz); playerMan.legL.position.z=Math.sin(playerMan.phase)*.28; playerMan.legR.position.z=-Math.sin(playerMan.phase)*.28; playerMan.armL.position.z=-Math.sin(playerMan.phase)*.18; playerMan.armR.position.z=Math.sin(playerMan.phase)*.18;}
-      // Gun dikhao agar hai to!
+      // MOUSE CONTROL - Mouse ghumao = Character mudega!
+      // Mouse X se rotation!
+      let mouseTurn=window.mouseX*1.5; // -1.5 to 1.5
+      // Agar mouse right hai to right mudo, left hai to left!
+      // Character ka rotation mouse se!
+      let targetRot=mouseTurn;
+      // A/D bhi kaam karega!
+      if(keys.a||keys.arrowleft) targetRot-=1;
+      if(keys.d||keys.arrowright) targetRot+=1;
+      playerMan.rot=THREE.MathUtils.lerp(playerMan.rot,targetRot,.12);
+      playerMan.g.rotation.y=playerMan.rot;
+      // Move - W ya Mouse Click se aage!
+      let moveForward=0;
+      if(keys.w||keys.arrowup||window.mouseDown) moveForward=1;
+      if(keys.s||keys.arrowdown) moveForward=-1;
+      // Mouse Y se bhi speed - mouse upar to tez!
+      let speedMul=1+Math.max(0,-window.mouseY)*0.5;
+      if(moveForward!==0){
+        // Mouse direction me chalo!
+        let dirX=Math.sin(playerMan.rot); let dirZ=Math.cos(playerMan.rot);
+        // Actually character aage -Z me jata hai - isliye sin/cos ulta!
+        playerMan.x+=Math.sin(playerMan.g.rotation.y)*moveForward*7.5*speedMul*dt;
+        playerMan.z+=Math.cos(playerMan.g.rotation.y)*moveForward*7.5*speedMul*dt;
+        playerMan.phase+=dt*11;
+        playerMan.g.position.set(playerMan.x,Math.abs(Math.sin(playerMan.phase))*.09,playerMan.z);
+        playerMan.legL.position.z=Math.sin(playerMan.phase)*.28; playerMan.legR.position.z=-Math.sin(playerMan.phase)*.28;
+        playerMan.armL.position.z=-Math.sin(playerMan.phase)*.18; playerMan.armR.position.z=Math.sin(playerMan.phase)*.18;
+      }
       playerMan.gun.visible=window.hasGun;
       findNearest();
-      camera.position.x=THREE.MathUtils.lerp(camera.position.x,playerMan.x,0.16); camera.position.y=THREE.MathUtils.lerp(camera.position.y,4.6,0.16); camera.position.z=THREE.MathUtils.lerp(camera.position.z,playerMan.z+9.5,0.16); camera.lookAt(playerMan.x,1.2,playerMan.z); camera.fov=62; camera.updateProjectionMatrix();
-      document.getElementById("speed").innerHTML="🚶 <small>WALK</small>";
-      // NPC se paas jao to baat karega!
-      npcs.forEach(n=>{ if(Math.abs(n.x-playerMan.x)<3 && Math.abs(n.z-playerMan.z)<3 && Math.random()<.005){ toast("🧍 NPC: Hello Boss! Kya haal hai?"); }});
+      // Camera - Mouse se orbit - character ke peeche, mouse angle se!
+      let camDist=10; let camAngle=playerMan.g.rotation.y+window.camYaw*0.6;
+      let camX=playerMan.x+Math.sin(camAngle)*camDist;
+      let camZ=playerMan.z+Math.cos(camAngle)*camDist;
+      camera.position.x=THREE.MathUtils.lerp(camera.position.x,camX,0.14);
+      camera.position.y=THREE.MathUtils.lerp(camera.position.y,4.8+window.camPitch*2,0.14);
+      camera.position.z=THREE.MathUtils.lerp(camera.position.z,camZ,0.14);
+      camera.lookAt(playerMan.x,1.4,playerMan.z); camera.fov=62; camera.updateProjectionMatrix();
+      document.getElementById("speed").innerHTML="🚶 <small>WALK • MOUSE</small>";
+      npcs.forEach(n=>{if(Math.abs(n.x-playerMan.x)<3 && Math.abs(n.z-playerMan.z)<3 && Math.random()<.005){toast("🧍 NPC: Hello Boss!");}});
     }
     else if(window.mode==="plane"){
-      if(gas) planeThrottle+=62*dt; else planeThrottle-=22*dt; if(braking) planeThrottle-=85*dt;
-      planeThrottle=THREE.MathUtils.clamp(planeThrottle,0,190); speed=planeThrottle;
-      if(keys.arrowup) planePitch-=0.45*dt; if(keys.arrowdown) planePitch+=0.45*dt;
+      // 747 CONTROLS - REAL JESA - SMOOTH!
+      // Throttle - W se badhega, S se kam!
+      if(gas) planeThrottle+=38*dt; else planeThrottle-=10*dt;
+      if(braking) planeThrottle-=55*dt;
+      planeThrottle=THREE.MathUtils.clamp(planeThrottle,0,210); speed=planeThrottle;
+      // Pitch - ArrowUp/Down + Mouse Y!
+      let pitchInput=0;
+      if(keys.arrowup) pitchInput-=1;
+      if(keys.arrowdown) pitchInput+=1;
+      // Mouse Y se bhi pitch - mouse upar to upar!
+      pitchInput+= -window.mouseY*0.8;
+      planePitch=THREE.MathUtils.lerp(planePitch,pitchInput*.35,.08);
+      // Yaw - A/D + Mouse X - smooth turn!
       let steer=steering; if(keys.a||keys.arrowleft) steer=-1; if(keys.d||keys.arrowright) steer=1;
-      currentVehicle.group.rotation.y-=steer*0.85*dt;
-      let dir=currentVehicle.group.rotation.y;
-      // SMOOTH PLANE - real physics - dheere turn!
-      currentVehicle.group.position.x+=Math.sin(dir)*speed*dt*.13;
-      currentVehicle.group.position.z+=Math.cos(dir)*speed*dt*.13;
-      // Lift - smooth!
+      steer+=window.mouseX*0.9; // Mouse se mudo!
+      steer=THREE.MathUtils.clamp(steer,-1.2,1.2);
+      planeYaw-=steer*0.55*dt*(speed>30?1:0.3); // Dheere turn - 747 bhari hai!
+      currentVehicle.group.rotation.y=planeYaw;
+      let dir=planeYaw;
+      // Forward - smooth!
+      currentVehicle.group.position.x+=Math.sin(dir)*speed*dt*.14;
+      currentVehicle.group.position.z+=Math.cos(dir)*speed*dt*.14;
+      // Lift - Flaps down to jaldi udega!
+      let liftSpeed=flaps?78:98;
       let targetAlt=planeAlt;
-      if(speed>92) targetAlt+= (speed-92)*dt*.16 - planePitch*24*dt; else targetAlt-=9*dt;
-      planeAlt=THREE.MathUtils.lerp(planeAlt,Math.max(0,targetAlt),.6);
+      if(speed>liftSpeed) targetAlt+=(speed-liftSpeed)*dt*.18 - planePitch*28*dt;
+      else targetAlt-=10*dt;
+      // Landing - Flaps down + slow to neeche!
+      if(flaps && speed<90) targetAlt-=12*dt;
+      planeAlt=THREE.MathUtils.lerp(planeAlt,Math.max(0,targetAlt),.5);
       currentVehicle.group.position.y=planeAlt;
-      currentVehicle.group.rotation.x=THREE.MathUtils.lerp(currentVehicle.group.rotation.x,-planePitch*2-(speed>92?-.16:0),.08);
-      currentVehicle.group.rotation.z=THREE.MathUtils.lerp(currentVehicle.group.rotation.z,-steer*.28,.08);
-      // Wings flex - udega to hilenge!
-      if(currentVehicle.wingL){currentVehicle.wingL.rotation.z=.06+Math.sin(time*8)*.01*(speed/150); currentVehicle.wingR.rotation.z=-.06-Math.sin(time*8)*.01*(speed/150);}
-      currentVehicle.group.traverse(o=>{if(o.name==="glow") o.scale.setScalar(1+speed/70); if(o.name==="flame") o.visible=speed>115;});
-      camera.position.lerp(new THREE.Vector3(currentVehicle.group.position.x-Math.sin(dir)*18,currentVehicle.group.position.y+8,currentVehicle.group.position.z-Math.cos(dir)*18),.08);
-      camera.lookAt(currentVehicle.group.position.x,currentVehicle.group.position.y+2,currentVehicle.group.position.z);
-      camera.fov=THREE.MathUtils.lerp(camera.fov,76,.1); camera.updateProjectionMatrix();
-      document.getElementById("speed").innerHTML=Math.floor(speed)+' <small>KM/H ✈️</small>';
+      // Plane tilt - real!
+      currentVehicle.group.rotation.x=THREE.MathUtils.lerp(currentVehicle.group.rotation.x,-planePitch*1.8-(speed>liftSpeed?-.14:0),.07);
+      currentVehicle.group.rotation.z=THREE.MathUtils.lerp(currentVehicle.group.rotation.z,-steer*.22,.07);
+      // Wings flex!
+      if(currentVehicle.wingL){currentVehicle.wingL.rotation.z=.05+Math.sin(time*7)*.012*(speed/160); currentVehicle.wingR.rotation.z=-.05-Math.sin(time*7)*.012*(speed/160);}
+      currentVehicle.group.traverse(o=>{if(o.name==="glow") o.scale.setScalar(1+speed/65); if(o.name==="flame") o.visible=speed>125;});
+      // Camera - 747 ke peeche - cinematic!
+      let camX=currentVehicle.group.position.x-Math.sin(dir)*26;
+      let camZ=currentVehicle.group.position.z-Math.cos(dir)*26;
+      let camY=currentVehicle.group.position.y+9+window.camPitch*3;
+      camera.position.lerp(new THREE.Vector3(camX,camY,camZ),.07);
+      camera.lookAt(currentVehicle.group.position.x,currentVehicle.group.position.y+3,currentVehicle.group.position.z);
+      camera.fov=THREE.MathUtils.lerp(camera.fov,74,.1); camera.updateProjectionMatrix();
+      document.getElementById("speed").innerHTML=Math.floor(speed)+' <small>KM/H ✈️ 747</small>';
       document.getElementById("speedBig").innerText=Math.floor(speed);
-      if(planeAlt===0 && speed>125) doCrash("✈️ Plane Crash!",32);
-      if(planeAlt>5 && Math.random()<.002) toast("✈️ Uda rahe ho Boss! Neeche sheher dekho!");
+      document.getElementById("altTxt").innerText=Math.floor(planeAlt*2);
+      document.getElementById("planeSpeedTxt").innerText=Math.floor(speed);
+      if(planeAlt===0 && speed>130) doCrash("✈️ 747 Crash!",32);
+      if(planeAlt>8 && Math.random()<.002) toast("✈️ 747 Uda Rahe Ho! Neeche sheher dekho! Lufthansa!");
     }
     else{
       if(gas) speed+=118*dt; else speed-=22*dt; if(braking) speed-=160*dt;
@@ -530,6 +631,8 @@ function animate(){
       fuel=THREE.MathUtils.clamp(fuel,0,100);
       const maxSpeed=boost&&fuel>0?460:255; speed=THREE.MathUtils.clamp(speed,0,maxSpeed);
       let steer=steering; if(keys.a||keys.arrowleft) steer=-1; if(keys.d||keys.arrowright) steer=1;
+      // Car bhi mouse se thoda mudegi!
+      steer+=window.mouseX*0.3;
       playerX+=steer*(8+speed*.025)*dt; playerX=THREE.MathUtils.clamp(playerX,-10,115);
       let cur=currentVehicle.group;
       cur.position.x=THREE.MathUtils.lerp(cur.position.x,playerX,.32);
@@ -543,30 +646,25 @@ function animate(){
       cur.rotation.z=THREE.MathUtils.lerp(cur.rotation.z,-steer*.11,.15);
       if(cur.userData.tailLights) cur.userData.tailLights.forEach(l=>{l.material.emissiveIntensity=braking?6:2.8;});
       if(window.isCockpit){const cp=new THREE.Vector3(0,1.5,-.55); cp.applyMatrix4(cur.matrixWorld); camera.position.lerp(cp,.28); camera.lookAt(new THREE.Vector3(cur.position.x,1.1,cur.position.z-30)); camera.fov=THREE.MathUtils.lerp(camera.fov,boost?86:68,.1);}
-      else{camera.position.x=THREE.MathUtils.lerp(camera.position.x,cur.position.x,.11); camera.position.y=THREE.MathUtils.lerp(camera.position.y,5.3,.11); camera.position.z=THREE.MathUtils.lerp(camera.position.z,cur.position.z+12.5,.14); camera.lookAt(cur.position.x,.7,cur.position.z-20); camera.fov=THREE.MathUtils.lerp(camera.fov,boost?79:65,.1);}
+      else{
+        // Car camera bhi mouse se thoda move!
+        camera.position.x=THREE.MathUtils.lerp(camera.position.x,cur.position.x+window.camYaw*3,.11);
+        camera.position.y=THREE.MathUtils.lerp(camera.position.y,5.3+window.camPitch*1.5,.11);
+        camera.position.z=THREE.MathUtils.lerp(camera.position.z,cur.position.z+12.5,.14);
+        camera.lookAt(cur.position.x,.7,cur.position.z-20); camera.fov=THREE.MathUtils.lerp(camera.fov,boost?79:65,.1);
+      }
       if(shake>0){camera.position.x+=(Math.random()-.5)*shake; camera.position.y+=(Math.random()-.5)*shake;}
       camera.updateProjectionMatrix();
       const kmh=Math.floor(speed);
       document.getElementById("speed").innerHTML=kmh+' <small>KM/H</small>';
       document.getElementById("speedBig").innerText=kmh;
       document.getElementById("nitroFill").style.width=fuel+"%";
-      // Overspeed pe Wanted!
-      if(speed>220 && Math.random()<.002) addWanted(1,"Overspeed! Police peeche!");
+      if(speed>220 && Math.random()<.002) addWanted(1,"Overspeed!");
     }
     if(shake>0) shake-=dt*2;
-    // NPC - panic, walk, talk!
     npcs.forEach(n=>{
-      n.talkTimer-=dt;
-      if(n.panic){
-        // Bhaago!
-        n.x+=Math.cos(n.dir)*6*dt; n.z+=Math.sin(n.dir)*6*dt; n.phase+=dt*14;
-        n.g.position.set(n.x,Math.abs(Math.sin(n.phase))*.15,n.z);
-        n.g.rotation.y=-n.dir+Math.PI/2;
-        n.legL.position.z=Math.sin(n.phase)*.4; n.legR.position.z=-Math.sin(n.phase)*.4;
-        if(Math.random()<.01) n.panic=false;
-        return;
-      }
-      if(n.isArmed) {n.g.rotation.y=Math.sin(time*.8+n.phase)*.4; return;}
+      if(n.panic){n.x+=Math.cos(n.dir)*6*dt; n.z+=Math.sin(n.dir)*6*dt; n.phase+=dt*14; n.g.position.set(n.x,Math.abs(Math.sin(n.phase))*.15,n.z); n.g.rotation.y=-n.dir+Math.PI/2; n.legL.position.z=Math.sin(n.phase)*.4; n.legR.position.z=-Math.sin(n.phase)*.4; if(Math.random()<.01) n.panic=false; return;}
+      if(n.isArmed){n.g.rotation.y=Math.sin(time*.8+n.phase)*.4; return;}
       n.phase+=dt; n.x+=Math.cos(n.dir)*n.speed*dt; n.z+=Math.sin(n.dir)*n.speed*dt;
       if(Math.random()<.005) n.dir=Math.random()*Math.PI*2;
       if(Math.abs(n.x)<13){n.dir+=Math.PI; n.x+=Math.cos(n.dir)*2;}
@@ -582,15 +680,15 @@ function animate(){
       if(t.car.position.z<refP-420) t.car.position.z=refP+420;
       if(t.car.position.z>refP+420) t.car.position.z=refP-420;
     });
-    ai.forEach(op=>{ if(op.car===currentVehicle.group) return; op.car.position.z-=op.speed*dt*.075; const refP=onFoot?playerMan.z:currentVehicle.group.position.z; if(op.car.position.z<refP-220){op.car.position.z=refP+350+Math.random()*100; op.car.position.x=Math.random()*15-7.5;}});
-    flyingPlanes.forEach((fp,i)=>{fp.v.group.position.x+=fp.speed*dt; fp.v.group.position.y=120+i*28+Math.sin(time+i)*4; if(fp.v.group.position.x>650){fp.v.group.position.x=-650;}});
+    ai.forEach(op=>{if(op.car===currentVehicle.group) return; op.car.position.z-=op.speed*dt*.075; const refP=onFoot?playerMan.z:currentVehicle.group.position.z; if(op.car.position.z<refP-220){op.car.position.z=refP+350+Math.random()*100; op.car.position.x=Math.random()*15-7.5;}});
+    flyingPlanes.forEach((fp,i)=>{fp.v.group.position.x+=fp.speed*dt; fp.v.group.position.y=140+i*30+Math.sin(time+i)*4; if(fp.v.group.position.x>700){fp.v.group.position.x=-700;}});
     jets.forEach((j,i)=>{if(j.group!==currentVehicle.group) j.group.position.y=Math.sin(time*1.2+i)*.06;});
-    clouds.forEach((c,i)=>{c.position.x+=dt*2.2; if(c.position.x>550) c.position.x=-550;});
+    clouds.forEach((c,i)=>{c.position.x+=dt*2.4; if(c.position.x>600) c.position.x=-600;});
     if(distance>=500){distance=0; lap++; if(lap>3){window.gameStarted=false; alert("🏁 RACE FINISHED! Score: "+score); location.reload();}}
     checkCollision();
     if(!onFoot && window.mode!=="plane"){document.getElementById("lap").textContent=lap; document.getElementById("lap2").innerText=lap; let position=1; ai.forEach(op=>{if(op.car.position.z>currentVehicle.group.position.z) position++;}); document.getElementById("position").textContent=position; document.getElementById("pos2").innerText=position; document.getElementById("speedBig").innerText=Math.floor(speed);}
     const refX=onFoot?playerMan.x:currentVehicle.group.position.x; const refZ=onFoot?playerMan.z:currentVehicle.group.position.z;
-    if(Math.abs(refX-airport.x)<62 && Math.abs(refZ-airport.z)<130 && !window.airportToasted){window.airportToasted=true; toast("✈️ GUDU AIRPORT! Jet ke paas jao + E — Plane udao!"); setTimeout(()=>window.airportToasted=false,15000);}
+    if(Math.abs(refX-airport.x)<65 && Math.abs(refZ-airport.z)<140 && !window.airportToasted){window.airportToasted=true; toast("✈️ LUFTHANSA 747 AIRPORT! 747 ke paas jao + E — 747 udao!"); setTimeout(()=>window.airportToasted=false,15000);}
   }
   renderer.render(scene,camera);
 }
